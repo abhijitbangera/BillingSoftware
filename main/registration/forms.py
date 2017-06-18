@@ -6,4 +6,4 @@ class gymDetailsForm(forms.ModelForm):
 	class Meta:
 		model= gymDetails
 		fields = '__all__'
-		exclude = []
+		exclude = ['gymRegistrationDate','gymNumber']
