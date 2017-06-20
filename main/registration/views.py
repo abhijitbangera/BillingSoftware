@@ -13,12 +13,17 @@ def test(request):
 
 def clientRegistration(request):
 	form = gymDetailsForm(request.POST or None)
+
+	x=gymDetails.objects.all().values('gymNumber')
+	for getLatestGymNum in x:
+		latestGymNum=getLatestGymNum
+
 	if request.POST:
 		form= gymDetailsForm(request.POST)
 		if form.is_valid():
 			save_it=form.save(commit = False)
 			save_it.gymRegistrationDate = datetime.datetime.now()
-			save_it.gymNumber= 1
+			save_it.gymNumber= int(latestGymNum['gymNumber'])+1
 			form.save()
-			return HttpResponseRedirect("/weighttracker/")
+			return HttpResponseRedirect("/client/register/")
 	return render(request,'registerClient.html',context={'form':form})

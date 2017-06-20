@@ -7,7 +7,9 @@ class gymDetails(models.Model):
 	gymAddress=models.TextField()
 	gymPincode=models.IntegerField(max_length=9)
 	gymRegistrationDate=models.DateTimeField('Registration Date')
-	gymNumber=models.IntegerField(max_length=9)
+	gymNumber=models.IntegerField(max_length=9,primary_key=True, null=False)
+	gymUsername=models.CharField(max_length=100)
+	gymPassword=models.CharField(max_length=100)
 
-	def __unicode__(self):
-		return self.gymNumber
+	def __str__(self):
+		return str(self.gymNumber)
