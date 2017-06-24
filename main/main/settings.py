@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'appRegistration',
     'registration',
 
 ]
@@ -127,3 +128,5 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "static","media_root")
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, "static", "static_dirs"),
     )
+
+ACCOUNT_ACTIVATION_DAYS = 0
