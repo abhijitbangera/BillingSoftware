@@ -30,8 +30,23 @@ def clientRegistration(request):
 			return HttpResponseRedirect("/client/register/")
 	return render(request,'registerClient.html',context={'form':form})
 
+@login_required
 def memberRegistration(request):
 	form = memberDetailsForm(request.POST or None)
+	# x=gymDetails.objects.all().values('gymNumber')
+	# for getLatestGymNum in x:
+	# 	latestGymNum=getLatestGymNum
+
+	if request.POST:
+		form= memberDetailsForm(request.POST)
+		print ('inside post')
+		if form.is_valid():
+			print ('inside form')
+			save_it=form.save(commit = False)
+			save_it.memberRegistrationDate = datetime.datetime.now()
+			save_it.memberNumber= 1 #int(latestGymNum['gymNumber'])+1
+			form.save()
+			return HttpResponseRedirect("/hello/")
 	return render(request,'registerMembers.html',context={'form':form})
 
 def clientLogin(request):

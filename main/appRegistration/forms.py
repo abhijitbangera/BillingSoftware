@@ -13,4 +13,4 @@ class memberDetailsForm(forms.ModelForm):
 	class Meta:
 		model= memberDetails
 		fields = '__all__'
-		exclude = []
+		exclude = ['memberStatus','memberNumber','memberRegistrationDate']

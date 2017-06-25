@@ -24,6 +24,7 @@ class memberDetails(models.Model):
 	memberEmail=models.CharField(max_length=100)
 	memberRegistrationDate=models.DateTimeField('Registration Date')
 	memberNumber=models.IntegerField(max_length=9,primary_key=True, null=False)
+	memberStatus=models.BooleanField(default=True)
 
 	def __str__(self):
 		return str(self.memberNumber)
