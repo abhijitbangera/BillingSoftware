@@ -3,7 +3,7 @@ from django.shortcuts import render_to_response
 from appRegistration.forms import gymDetailsForm,memberDetailsForm
 from django.http import HttpResponseRedirect
 import datetime
-from appRegistration.models import gymDetails
+from appRegistration.models import gymDetails, memberDetails
 from django.contrib.auth.decorators import login_required
 # Create your views here.
 def test(request):
@@ -15,9 +15,10 @@ def test(request):
 @login_required
 def clientRegistration(request):
 	form = gymDetailsForm(request.POST or None)
-
+	emptyDB=True
 	x=gymDetails.objects.all().values('gymNumber')
 	for getLatestGymNum in x:
+		emptyDB=False
 		latestGymNum=getLatestGymNum
 
 	if request.POST:
@@ -25,7 +26,10 @@ def clientRegistration(request):
 		if form.is_valid():
 			save_it=form.save(commit = False)
 			save_it.gymRegistrationDate = datetime.datetime.now()
-			save_it.gymNumber= int(latestGymNum['gymNumber'])+1
+			if emptyDB:
+				save_it.gymNumber=1
+			else:
+				save_it.gymNumber= int(latestGymNum['gymNumber'])+1
 			form.save()
 			return HttpResponseRedirect("/client/register/")
 	return render(request,'registerClient.html',context={'form':form})
@@ -33,9 +37,9 @@ def clientRegistration(request):
 @login_required
 def memberRegistration(request):
 	form = memberDetailsForm(request.POST or None)
-	# x=gymDetails.objects.all().values('gymNumber')
-	# for getLatestGymNum in x:
-	# 	latestGymNum=getLatestGymNum
+	x=memberDetails.objects.all().values('memberNumber')
+	for getMemberGymNum in x:
+		latestMemberNum=getMemberGymNum
 
 	if request.POST:
 		form= memberDetailsForm(request.POST)
@@ -44,7 +48,7 @@ def memberRegistration(request):
 			print ('inside form')
 			save_it=form.save(commit = False)
 			save_it.memberRegistrationDate = datetime.datetime.now()
-			save_it.memberNumber= 1 #int(latestGymNum['gymNumber'])+1
+			save_it.memberNumber= int(latestMemberNum['memberNumber'])+1
 			form.save()
 			return HttpResponseRedirect("/hello/")
 	return render(request,'registerMembers.html',context={'form':form})
