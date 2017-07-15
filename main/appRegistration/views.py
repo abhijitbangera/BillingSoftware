@@ -1,20 +1,18 @@
 from django.shortcuts import render
 from django.shortcuts import render_to_response
-from appRegistration.forms import gymDetailsForm,memberDetailsForm
+from appRegistration.forms import gymDetailsForm,memberDetailsForm,gymPlansForm
 from django.http import HttpResponseRedirect
 import datetime
-from appRegistration.models import gymDetails, memberDetails
+from appRegistration.models import gymDetails, memberDetails,gymPlans
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import get_user_model
 from main.views import commonDisplay
 # Create your views here.
-# def dashboard(request):
-# 	# obj=gymDetails.objects.filter(gymCity='Chennai')
-# 	# print ('------')
-# 	# print (obj.gymName)
-# 	common=commonDisplay(request)
-# 	print (common)
-# 	return render(request,'base.html',context={})
+def dashboard(request):
+	common=commonDisplay(request)
+	context={}
+	finalContext={**common, **context} #append the dictionaries
+	return render(request,'base.html',context=finalContext)
 	
 @login_required
 def clientRegistration(request):
@@ -41,10 +39,11 @@ def clientRegistration(request):
 	common=commonDisplay(request)
 	context={'form':form}
 	finalContext={**common, **context} #append the dictionaries
-	return render(request,'registerClient.html',context=finalContext)
+	return render(request,'registerClient.html',context=finalContext)	
 
 @login_required
 def memberRegistration(request):
+	# Start: Ensure Gym is registered first
 	User = get_user_model()
 	userId=User.id
 	gymRegistered= False
@@ -57,7 +56,7 @@ def memberRegistration(request):
 			gymRegistered=True
 	if not gymRegistered:
 		return HttpResponseRedirect("/client/register/")
-
+	# End
 	form = memberDetailsForm(request.POST or None)
 	emptyDB=True
 	x=memberDetails.objects.all().values('memberNumber')
@@ -89,4 +88,32 @@ def memberRegistration(request):
 	return render(request,'registerMembers.html',context=finalContext)
 
 def clientPlans(request):
-	pass
+	# Start: Ensure Gym is registered first
+	User = get_user_model()
+	userId=User.id
+	gymRegistered= False
+	allGymNumbers=gymDetails.objects.all().values('gymUser_id')
+	for i in allGymNumbers:
+		print ('---------')
+		print (i['gymUser_id'])
+		print (request.user.id)
+		if i['gymUser_id']==request.user.id:
+			gymRegistered=True
+	if not gymRegistered:
+		return HttpResponseRedirect("/client/register/")
+	# End
+	common=commonDisplay(request)
+	form = gymPlansForm(request.POST or None)
+	if request.POST:
+		if form.is_valid():
+			save_it=form.save(commit = False)
+			gymObj=gymDetails.objects.filter(gymUser_id=request.user.id).values()
+			for elements in gymObj:
+				gymNumber=elements['gymNumber']
+				save_it.planGymNumber_id= gymNumber
+			form.save()
+			return HttpResponseRedirect("/client/plans/")
+	common=commonDisplay(request)
+	context={'form':form}
+	finalContext={**common, **context} #append the dictionaries
+	return render(request,'gymPlans.html',context=finalContext)

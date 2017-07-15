@@ -1,5 +1,5 @@
 from django import forms
-from appRegistration.models import gymDetails,memberDetails
+from appRegistration.models import gymDetails,memberDetails,gymPlans
 
 class gymDetailsForm(forms.ModelForm):
 
@@ -14,3 +14,9 @@ class memberDetailsForm(forms.ModelForm):
 		model= memberDetails
 		fields = '__all__'
 		exclude = ['memberStatus','memberNumber','memberRegistrationDate','memberGymNumber']
+
+class gymPlansForm(forms.ModelForm):
+	class Meta:
+		model= gymPlans
+		fields = '__all__'
+		exclude=['planGymNumber']
