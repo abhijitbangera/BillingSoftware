@@ -31,3 +31,13 @@ class gymDetails(models.Model):
 
 	def __str__(self):
 		return str(self.gymNumber)
+
+class gymPlans(models.Model):
+	planName=models.CharField(max_length=100)
+	planDuration=models.IntegerField(max_length=4,blank=False, null=False)
+	planPrice=models.IntegerField(max_length=9,blank=False, null=False)
+	planDescription=models.CharField(max_length=300)
+	planGymNumber=models.ForeignKey('gymDetails')
+
+	def __str__(self):
+		return str(self.planName+self.planGymNumber)
