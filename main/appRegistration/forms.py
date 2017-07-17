@@ -20,3 +20,12 @@ class gymPlansForm(forms.ModelForm):
 		model= gymPlans
 		fields = '__all__'
 		exclude=['planGymNumber']
+
+class memberActivatePlanForm(forms.Form):
+    searchUser = forms.CharField(required=True)
+
+class memberDetailsForm(forms.Form):
+	memberName = forms.CharField(required=True)
+	memberContactNumber = forms.CharField(required=True)
+	
+  

@@ -5,9 +5,22 @@
 {% endblock %}
 
 {% block content %}
+<div>
+	<form action="/client/activateplan/" method="post">{% csrf_token %}
+		{{form.as_p}}
+		<input type="submit" value="submit">
+	</form>
+</div>
 
-<form action="/client/plans/" method="post">{% csrf_token %}
-{{form.as_p}}
-<input type="submit" value="submit">
+<div><br>
+	{% if name %}
+		Name: {{name}}<br>
+		Email: {{memberEmail}}<br>
+		Registration Date: {{registrationDate}}<br>
+		Status: {% if status %} Active {% else %} Inactive{% endif %}<br>
+		Member Id: {{memberId}}<br>
+	{% endif %}
+
+</div>
       
 {% endblock %}

@@ -1,12 +1,14 @@
 from django.shortcuts import render
 from django.shortcuts import render_to_response
-from appRegistration.forms import gymDetailsForm,memberDetailsForm,gymPlansForm
+from appRegistration.forms import gymDetailsForm,memberDetailsForm,gymPlansForm,\
+								memberActivatePlanForm, memberDetailsForm
 from django.http import HttpResponseRedirect
 import datetime
 from appRegistration.models import gymDetails, memberDetails,gymPlans
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import get_user_model
 from main.views import commonDisplay
+from django.db.models import Q
 # Create your views here.
 def dashboard(request):
 	common=commonDisplay(request)
@@ -107,7 +109,7 @@ def clientPlans(request):
 	if request.POST:
 		if form.is_valid():
 			save_it=form.save(commit = False)
-			gymObj=gymDetails.objects.filter(gymUser_id=request.user.id).values()
+			gymObj=memberDetails.objects.filter(gymUser_id=request.user.id).values()
 			for elements in gymObj:
 				gymNumber=elements['gymNumber']
 				save_it.planGymNumber_id= gymNumber
@@ -115,5 +117,40 @@ def clientPlans(request):
 			return HttpResponseRedirect("/client/plans/")
 	common=commonDisplay(request)
 	context={'form':form}
+	finalContext={**common, **context} #append the dictionaries
+	return render(request,'gymPlans.html',context=finalContext)
+
+def clientActivatePlan(request):
+	form = memberActivatePlanForm(request.POST or None)
+	context={'form':form}
+
+	if form.is_valid():
+		print ('******')
+		input=form.cleaned_data['searchUser']
+		print (input)
+		member=memberDetails.objects.filter(memberContactNumber=input).values()
+		for i in member:
+			name=i['memberName']
+			memberEmail=i['memberEmail']
+			registrationDate=i['memberRegistrationDate']
+			status=i['memberStatus']
+			memberId=i['memberGymNumber_id']
+			context={'form':form,'name':name,'memberEmail':memberEmail,'registrationDate':registrationDate,
+					'status':status,'memberId':memberId}
+			gymObj=gymDetails.objects.filter(gymUser_id=request.user.id).values()
+			for i in gymObj:
+				gymNumber= i['gymNumber']
+		
+			Plans=gymPlans.objects.filter(planGymNumber_id=gymNumber).values()
+			print ('gymplans:', Plans)
+		# save_it=form.save(commit = False)
+		# gymObj=gymDetails.objects.filter(Q(memberContactNumber=owner) | Q(moderated=False)).values()
+		# for elements in gymObj:
+		# 	gymNumber=elements['gymNumber']
+		# 	save_it.planGymNumber_id= gymNumber
+		# form.save()
+		#return HttpResponseRedirect("/client/activateplan/")
+	common=commonDisplay(request)
+	
 	finalContext={**common, **context} #append the dictionaries
 	return render(request,'gymPlans.html',context=finalContext)
