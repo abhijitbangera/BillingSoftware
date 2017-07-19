@@ -24,8 +24,8 @@ class gymPlansForm(forms.ModelForm):
 class memberActivatePlanForm(forms.Form):
     searchUser = forms.CharField(required=True)
 
-class memberDetailsForm(forms.Form):
-	memberName = forms.CharField(required=True)
-	memberContactNumber = forms.CharField(required=True)
+# class memberDetailsForm(forms.Form):
+# 	memberName = forms.CharField(required=True)
+# 	memberContactNumber = forms.CharField(required=True)
 	
   
