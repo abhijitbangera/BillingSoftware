@@ -135,14 +135,19 @@ def clientActivatePlan(request):
 			registrationDate=i['memberRegistrationDate']
 			status=i['memberStatus']
 			memberId=i['memberGymNumber_id']
-			context={'form':form,'name':name,'memberEmail':memberEmail,'registrationDate':registrationDate,
-					'status':status,'memberId':memberId}
+			
 			gymObj=gymDetails.objects.filter(gymUser_id=request.user.id).values()
 			for i in gymObj:
 				gymNumber= i['gymNumber']
 		
 			Plans=gymPlans.objects.filter(planGymNumber_id=gymNumber).values()
-			print ('gymplans:', Plans)
+			planNames=[]
+			for names in Plans:
+				planNames.append(names['planName'])
+			print ('gymplans:', planNames)
+
+			context={'form':form,'name':name,'memberEmail':memberEmail,'registrationDate':registrationDate,
+					'status':status,'memberId':memberId,'plans':planNames}
 		# save_it=form.save(commit = False)
 		# gymObj=gymDetails.objects.filter(Q(memberContactNumber=owner) | Q(moderated=False)).values()
 		# for elements in gymObj:

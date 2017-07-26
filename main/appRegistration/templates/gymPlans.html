@@ -19,6 +19,12 @@
 		Registration Date: {{registrationDate}}<br>
 		Status: {% if status %} Active {% else %} Inactive{% endif %}<br>
 		Member Id: {{memberId}}<br>
+		<label>Plans:<label>
+		<select id="the-id">
+		    {% for i in plans %}
+		    <option value="{{ i }}">{{ i }}</option>
+		    {% endfor %}
+		</select>
 	{% endif %}
 
 </div>
