@@ -1,13 +1,14 @@
 from django.shortcuts import render
 from django.shortcuts import render_to_response
 from appRegistration.forms import gymDetailsForm,memberDetailsForm,gymPlansForm,\
-								memberActivatePlanForm, memberDetailsForm
+								memberActivatePlanForm, memberDetailsForm,staffDetailsForm
 from django.http import HttpResponseRedirect
 import datetime
-from appRegistration.models import gymDetails, memberDetails,gymPlans
+from appRegistration.models import gymDetails, memberDetails,gymPlans,staffDetails
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import get_user_model
 from main.views import commonDisplay
+from django.contrib import messages
 from django.db.models import Q
 # Create your views here.
 def dashboard(request):
@@ -36,7 +37,11 @@ def clientRegistration(request):
 				save_it.gymNumber=1
 			else:
 				save_it.gymNumber= int(latestGymNum['gymNumber'])+1
-			form.save()
+			try:
+				form.save()
+				messages.success(request,'SUCCESS! Business Successfully Registered', extra_tags='success')
+			except:
+				messages.error(request,'ERROR! Your have already registered a business in our system',extra_tags='warning')
 			return HttpResponseRedirect("/client/register/")
 	common=commonDisplay(request)
 	context={'form':form}
@@ -65,10 +70,11 @@ def memberRegistration(request):
 	gymObj=gymDetails.objects.filter(gymUser_id=request.user.id).values()
 	for elements in gymObj:
 		gymNumber=elements['gymNumber']
-	
+	latestMemberNum=0
 	for getMemberGymNum in x:
+		print ('getMemberGymNum is:',getMemberGymNum)
 		emptyDB=False
-		latestMemberNum=getMemberGymNum
+		latestMemberNum=latestMemberNum+1
 
 	if request.POST:
 		form= memberDetailsForm(request.POST)
@@ -81,13 +87,66 @@ def memberRegistration(request):
 			if emptyDB:
 				save_it.memberNumber=1
 			else:
-				save_it.memberNumber= int(latestMemberNum['memberNumber'])+1
+				print ('---')
+				print (latestMemberNum)
+				save_it.memberNumber= latestMemberNum+1
 			form.save()
-			return HttpResponseRedirect("/hello/")
+			messages.success(request,'Member Registration Successful')
+			return HttpResponseRedirect("/member/register/")
 	common=commonDisplay(request)
 	context={'form':form}
 	finalContext={**common, **context} #append the dictionaries
 	return render(request,'registerMembers.html',context=finalContext)
+
+@login_required
+def staffRegistration(request):
+	# Start: Ensure Gym is registered first
+	User = get_user_model()
+	userId=User.id
+	gymRegistered= False
+	allGymNumbers=gymDetails.objects.all().values('gymUser_id')
+	for i in allGymNumbers:
+		print ('---------')
+		print (i['gymUser_id'])
+		print (request.user.id)
+		if i['gymUser_id']==request.user.id:
+			gymRegistered=True
+	if not gymRegistered:
+		return HttpResponseRedirect("/client/register/")
+	# End
+	form = staffDetailsForm(request.POST or None)
+	emptyDB=True
+	x=staffDetails.objects.all().values('staffNumber')
+	gymObj=gymDetails.objects.filter(gymUser_id=request.user.id).values()
+	for elements in gymObj:
+		gymNumber=elements['gymNumber']
+	latestMemberNum=0
+	for getMemberGymNum in x:
+		print ('getMemberGymNum is:',getMemberGymNum)
+		emptyDB=False
+		latestMemberNum=latestMemberNum+1
+
+	if request.POST:
+		form= staffDetailsForm(request.POST)
+		print ('inside post')
+		if form.is_valid():
+			print ('inside form')
+			save_it=form.save(commit = False)
+			save_it.staffRegistrationDate = datetime.datetime.now()
+			save_it.staffGymNumber_id=gymNumber
+			if emptyDB:
+				save_it.staffNumber=1
+			else:
+				print ('---')
+				print (latestMemberNum)
+				save_it.staffNumber= latestMemberNum+1
+			form.save()
+			messages.success(request,'Staff Registration Successful')
+			return HttpResponseRedirect("/staff/register/")
+	common=commonDisplay(request)
+	context={'form':form}
+	finalContext={**common, **context} #append the dictionaries
+	return render(request,'registerStaffs.html',context=finalContext)
 
 def clientPlans(request):
 	# Start: Ensure Gym is registered first
@@ -141,13 +200,24 @@ def clientActivatePlan(request):
 				gymNumber= i['gymNumber']
 		
 			Plans=gymPlans.objects.filter(planGymNumber_id=gymNumber).values()
-			planNames=[]
+			planNames=['None']
+			planDuration=['None']
+			planPrice=['None']
+			planDescription=['None']
 			for names in Plans:
 				planNames.append(names['planName'])
-			print ('gymplans:', planNames)
+				planDuration.append(names['planDuration'])
+				planPrice.append(names['planPrice'])
+				planDescription.append(names['planDescription'])
+			print ('planNames:', planNames)
+			print ('planDuration:', planDuration)
+			print ('planPrice:', planPrice)
+			print ('planDescription:', planDescription)
+			messages.success(request,'Thank you')
 
 			context={'form':form,'name':name,'memberEmail':memberEmail,'registrationDate':registrationDate,
-					'status':status,'memberId':memberId,'plans':planNames}
+					'status':status,'memberId':memberId,'planNames':planNames,'planDuration':planDuration,
+					'planPrice':planPrice,'planDescription':planDescription}
 		# save_it=form.save(commit = False)
 		# gymObj=gymDetails.objects.filter(Q(memberContactNumber=owner) | Q(moderated=False)).values()
 		# for elements in gymObj:
@@ -159,3 +229,4 @@ def clientActivatePlan(request):
 	
 	finalContext={**common, **context} #append the dictionaries
 	return render(request,'gymPlans.html',context=finalContext)
+

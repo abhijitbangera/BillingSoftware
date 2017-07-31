@@ -20,13 +20,27 @@
 		Status: {% if status %} Active {% else %} Inactive{% endif %}<br>
 		Member Id: {{memberId}}<br>
 		<label>Plans:<label>
-		<select id="the-id">
-		    {% for i in plans %}
+		<select id="getPlanDetails">
+		    {% for i in planNames %}
 		    <option value="{{ i }}">{{ i }}</option>
 		    {% endfor %}
 		</select>
+		
+		<div id="results"></div>
+		<div>
+			<form action="." method="post" id="test">{% csrf_token %}
+				<input type="submit" value="Get Details">
+			</form>
+		</div>
 	{% endif %}
 
 </div>
-      
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script>
+  $("#getPlanDetails").on("change", function(){
+    var selected =  $(this).val();
+    $("#results").html("You selected: " + selected);
+  })
+</script>      
 {% endblock %}
+

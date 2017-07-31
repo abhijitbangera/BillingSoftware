@@ -10,6 +10,7 @@ urlpatterns = [
 				url(r'^client/plans/$', views.clientPlans, name='clientPlans'),
 				url(r'^client/activateplan/$', views.clientActivatePlan, name='clientActivatePlan'),
 				url(r'^member/register/$', views.memberRegistration, name='memberRegistration'),
+				url(r'^staff/register/$', views.staffRegistration, name='staffRegistration'),
 
 
 			   ]

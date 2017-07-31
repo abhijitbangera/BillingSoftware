@@ -41,3 +41,20 @@ class gymPlans(models.Model):
 
 	def __str__(self):
 		return str(self.planName+self.planGymNumber)
+
+
+class staffDetails(models.Model):
+	staffName=models.CharField(max_length=100)
+	staffCity=models.CharField(max_length=100)
+	staffAddress=models.TextField(blank=True)
+	staffPincode=models.IntegerField(max_length=9,blank=True)
+	staffContactNumber=models.IntegerField(max_length=14)
+	staffEmergencyNumber=models.IntegerField(max_length=14,blank=True)
+	staffEmail=models.CharField(max_length=100)
+	staffRegistrationDate=models.DateTimeField('Registration Date')
+	staffNumber=models.IntegerField(max_length=9,primary_key=True, null=False)
+	staffStatus=models.BooleanField(default=True)
+	staffGymNumber=models.ForeignKey('gymDetails')
+
+	def __str__(self):
+		return str(self.staffNumber)

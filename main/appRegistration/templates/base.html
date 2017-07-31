@@ -92,7 +92,8 @@
               <div class="menu_section">
                 <h3>Admin Controls</h3>
                 <ul class="nav side-menu">                                  
-                  <li><a href="/client/register/"><i class="fa fa-laptop"></i> Register Client </a></li>
+                  <li><a href="/client/register/"><i class="fa fa-line-chart"></i> Register Business </a></li>
+                  <li><a href="/staff/register/"><i class="fa fa-male"></i> Register Staff </a></li>
                   <li><a href="/client/plans/"><i class="fa fa-sitemap"></i> Plans </a>
                   </li>  
                 </ul>
@@ -147,6 +148,10 @@
             
           </div>
           <!-- /top tiles -->
+          
+            {% block message %}
+            {% endblock %}
+
 
          
           <br />
