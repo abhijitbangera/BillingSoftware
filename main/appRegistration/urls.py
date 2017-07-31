@@ -11,6 +11,7 @@ urlpatterns = [
 				url(r'^client/activateplan/$', views.clientActivatePlan, name='clientActivatePlan'),
 				url(r'^member/register/$', views.memberRegistration, name='memberRegistration'),
 				url(r'^staff/register/$', views.staffRegistration, name='staffRegistration'),
+				url(r'^$', views.dashboard),
 
 
 			   ]

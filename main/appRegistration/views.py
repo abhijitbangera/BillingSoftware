@@ -3,6 +3,7 @@ from django.shortcuts import render_to_response
 from appRegistration.forms import gymDetailsForm,memberDetailsForm,gymPlansForm,\
 								memberActivatePlanForm, memberDetailsForm,staffDetailsForm
 from django.http import HttpResponseRedirect
+from datetime import datetime, timedelta
 import datetime
 from appRegistration.models import gymDetails, memberDetails,gymPlans,staffDetails
 from django.contrib.auth.decorators import login_required
@@ -12,10 +13,15 @@ from django.contrib import messages
 from django.db.models import Q
 # Create your views here.
 def dashboard(request):
+	gymObj=gymDetails.objects.filter(gymUser_id=request.user.id).values()
+	for elements in gymObj:
+		gymNumber=elements['gymNumber']
+	totalNumberOfMembers=memberDetails.objects.filter(memberGymNumber_id=gymNumber).count()
+	newMembers=memberDetails.objects.filter(memberRegistrationDate__gte=datetime.datetime.now()-timedelta(days=30)).count()
 	common=commonDisplay(request)
-	context={}
+	context={'totalNumberOfMembers':totalNumberOfMembers,'newMembers':newMembers}
 	finalContext={**common, **context} #append the dictionaries
-	return render(request,'base.html',context=finalContext)
+	return render(request,'dashboard.html',context=finalContext)
 	
 @login_required
 def clientRegistration(request):
