@@ -17,9 +17,21 @@ def dashboard(request):
 	for elements in gymObj:
 		gymNumber=elements['gymNumber']
 	totalNumberOfMembers=memberDetails.objects.filter(memberGymNumber_id=gymNumber).count()
-	newMembers=memberDetails.objects.filter(memberRegistrationDate__gte=datetime.datetime.now()-timedelta(days=30)).count()
+	totalActiveMembers=memberDetails.objects.filter(memberGymNumber_id=gymNumber, memberStatus=1).count()
+	newMembers=memberDetails.objects.filter(memberGymNumber_id=gymNumber, memberRegistrationDate__gte=datetime.datetime.now()-timedelta(days=30)).count()
+	maleCount=memberDetails.objects.filter(memberGender='M',memberGymNumber_id=gymNumber).count()
+	femaleCount=memberDetails.objects.filter(memberGender='F',memberGymNumber_id=gymNumber).count()
+
+	# Start: Today's Stats calculation
+	midnight=datetime.datetime.combine(datetime.datetime.today(), datetime.time(0))
+	totalActiveStaff=staffDetails.objects.filter(staffGymNumber_id=gymNumber,staffStatus=1).count()
+	today_newMembers=memberDetails.objects.filter(memberRegistrationDate__gte=(midnight),memberGymNumber_id=gymNumber,).count()
+	today_maleCount=memberDetails.objects.filter(memberRegistrationDate__gte=(midnight),memberGender='M',memberGymNumber_id=gymNumber).count()
+	today_femaleCount=memberDetails.objects.filter(memberRegistrationDate__gte=(midnight),memberGender='F',memberGymNumber_id=gymNumber).count()
 	common=commonDisplay(request)
-	context={'totalNumberOfMembers':totalNumberOfMembers,'newMembers':newMembers}
+	context={'totalNumberOfMembers':totalNumberOfMembers,'totalActiveMembers':totalActiveMembers,
+			'newMembers':newMembers,'maleCount':maleCount,'femaleCount':femaleCount,'totalActiveStaff':totalActiveStaff,
+			'today_newMembers':today_newMembers,'today_maleCount':today_maleCount,'today_femaleCount':today_femaleCount}
 	finalContext={**common, **context} #append the dictionaries
 	return render(request,'dashboard.html',context=finalContext)
 	

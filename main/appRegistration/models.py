@@ -4,6 +4,8 @@ from django.contrib.auth.models import User
 # Create your models here.
 class memberDetails(models.Model):
 	memberName=models.CharField(max_length=100)
+	GENDER_CHOICES = (('M', 'Male'),('F', 'Female'),)
+	memberGender = models.CharField(max_length=1, choices=GENDER_CHOICES)
 	memberCity=models.CharField(max_length=100)
 	memberAddress=models.TextField(blank=True)
 	memberPincode=models.IntegerField(max_length=9,blank=True)
@@ -45,6 +47,8 @@ class gymPlans(models.Model):
 
 class staffDetails(models.Model):
 	staffName=models.CharField(max_length=100)
+	GENDER_CHOICES = (('M', 'Male'),('F', 'Female'),)
+	staffGender = models.CharField(max_length=1, choices=GENDER_CHOICES)
 	staffCity=models.CharField(max_length=100)
 	staffAddress=models.TextField(blank=True)
 	staffPincode=models.IntegerField(max_length=9,blank=True)

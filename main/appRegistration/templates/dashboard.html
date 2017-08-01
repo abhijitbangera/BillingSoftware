@@ -6,36 +6,90 @@
 
 
 {% block content %}
-<div class="row tile_count">
-	<div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
-	  <span class="count_top"><i class="fa fa-user"></i> Total No. Of Members</span>
-	  <div class="count">{{totalNumberOfMembers}}</div>
-	  <span class="count_bottom"><i class="green">4% </i> From last Week</span>
-	</div>
-	<div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
-	  <span class="count_top"><i class="fa fa-clock-o"></i> New Members (last 30 days)</span>
-	  <div class="count">{{newMembers}}</div>
-	  <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>3% </i> From last Week</span>
-	</div>
-	<div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
-	  <span class="count_top"><i class="fa fa-user"></i> Total Males</span>
-	  <div class="count green">2,500</div>
-	  <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>34% </i> From last Week</span>
-	</div>
-	<div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
-	  <span class="count_top"><i class="fa fa-user"></i> Total Females</span>
-	  <div class="count">4,567</div>
-	  <span class="count_bottom"><i class="red"><i class="fa fa-sort-desc"></i>12% </i> From last Week</span>
-	</div>
-	<div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
-	  <span class="count_top"><i class="fa fa-user"></i> Total Collections</span>
-	  <div class="count">2,315</div>
-	  <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>34% </i> From last Week</span>
-	</div>
-	<div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
-	  <span class="count_top"><i class="fa fa-user"></i> Total Connections</span>
-	  <div class="count">7,325</div>
-	  <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>34% </i> From last Week</span>
+<div class="x_panel tile overflow_hidden">
+	<div class="row tile_count" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc"> 
+	    <div class="x_title">
+	      <h2>General Stats</h2>
+	      <ul class="nav navbar-right panel_toolbox">
+	        <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+	        </li>
+	  
+	        <li><a class="close-link"><i class="fa fa-close"></i></a>
+	        </li>
+	      </ul>
+	      <div class="clearfix"></div>
+	    </div>
+		<div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+		  <span class="count_top"><i class="fa fa-user"></i> Total No. Of Members</span>
+		  <div class="count">{{totalNumberOfMembers}}</div>
+		  <span class="count_bottom"><i class="green">4% </i> From last Week</span>
+		</div>
+		<div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+		  <span class="count_top"><i class="fa fa-user"></i> Total Active Members</span>
+		  <div class="count">{{totalActiveMembers}}</div>
+		  <span class="count_bottom"><i class="green">4% </i> From last Week</span>
+		</div>
+		<div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+		  <span class="count_top"><i class="fa fa-clock-o"></i> New Members (last 30 days)</span>
+		  <div class="count">{{newMembers}}</div>
+		  <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>3% </i> From last Week</span>
+		</div>
+		<div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+		  <span class="count_top"><i class="fa fa-male"></i> Total Males</span>
+		  <div class="count green">{{maleCount}}</div>
+		  <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>34% </i> From last Week</span>
+		</div>
+		<div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+		  <span class="count_top"><i class="fa fa-female"></i> Total Females</span>
+		  <div class="count">{{femaleCount}}</div>
+		  <span class="count_bottom"><i class="red"><i class="fa fa-sort-desc"></i>12% </i> From last Week</span>
+		</div>
+		<div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+		  <span class="count_top"><i class="fa fa-user"></i> Total Collections (last 30 days)</span>
+		  <div class="count">2,315</div>
+		  <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>34% </i> From last Week</span>
+		</div>
+	</div>	
+</div>
+
+<div class="x_panel tile  overflow_hidden">
+	<div class="row tile_count" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc"> 
+	    <div class="x_title">
+	      <h2>Today's Stats</h2>
+	      <ul class="nav navbar-right panel_toolbox">
+	        <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+	        </li>
+	  
+	        <li><a class="close-link"><i class="fa fa-close"></i></a>
+	        </li>
+	      </ul>
+	      <div class="clearfix"></div>
+	    </div>
+		<div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+		  <span class="count_top"><i class="fa fa-user"></i> Active Staff Member</span>
+		  <div class="count">{{totalActiveStaff}}</div>
+		  <span class="count_bottom"><i class="green">4% </i> From last Week</span>
+		</div>
+		<div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+		  <span class="count_top"><i class="fa fa-clock-o"></i> New Members today</span>
+		  <div class="count">{{today_newMembers}}</div>
+		  <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>3% </i> From last Week</span>
+		</div>
+		<div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+		  <span class="count_top"><i class="fa fa-male"></i> Males</span>
+		  <div class="count green">{{today_maleCount}}</div>
+		  <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>34% </i> From last Week</span>
+		</div>
+		<div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+		  <span class="count_top"><i class="fa fa-female"></i> Females</span>
+		  <div class="count">{{today_femaleCount}}</div>
+		  <span class="count_bottom"><i class="red"><i class="fa fa-sort-desc"></i>12% </i> From last Week</span>
+		</div>
+		<div class="col-md-4 col-sm-8 col-xs-12 tile_stats_count">
+		  <span class="count_top"><i class="fa fa-user"></i> Today's Collections </span>
+		  <div class="count">2,315</div>
+		  <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>34% </i> From last Week</span>
+		</div>
 	</div>
 </div>
 
