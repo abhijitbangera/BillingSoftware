@@ -15,6 +15,9 @@ class memberDetails(models.Model):
 	memberRegistrationDate=models.DateTimeField('Registration Date')
 	memberNumber=models.IntegerField(max_length=9,primary_key=True, null=False)
 	memberStatus=models.BooleanField(default=True)
+	memberPlan=models.CharField(max_length=100)
+	memberPlanActivationDate=models.DateTimeField('Plan Activation Date')
+	memberPlandExpiryDate=models.DateTimeField('Plan Expiry Date')
 	memberGymNumber=models.ForeignKey('gymDetails')
 
 	def __str__(self):
