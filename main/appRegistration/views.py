@@ -14,7 +14,10 @@ from django.contrib import messages
 from django.db.models import Q
 import simplejson
 # Create your views here.
+@login_required
 def dashboard(request):
+	last30Days=datetime.datetime.now() + datetime.timedelta(days=-30)
+	print ('last30days is:',last30Days)
 	gymObj=gymDetails.objects.filter(gymUser_id=request.user.id).values()
 	for elements in gymObj:
 		gymNumber=elements['gymNumber']
@@ -23,6 +26,15 @@ def dashboard(request):
 	newMembers=memberDetails.objects.filter(memberGymNumber_id=gymNumber, memberRegistrationDate__gte=datetime.datetime.now()-timedelta(days=30)).count()
 	maleCount=memberDetails.objects.filter(memberGender='M',memberGymNumber_id=gymNumber).count()
 	femaleCount=memberDetails.objects.filter(memberGender='F',memberGymNumber_id=gymNumber).count()
+	total_Subscriptions=memberDetails.objects.filter(memberPlanActivationDate__gte=last30Days,memberGymNumber_id=gymNumber).values()
+	totalCollection=0
+	for items in total_Subscriptions:
+		print (items['memberPlan'])
+		obj=gymPlans.objects.filter(planName=items['memberPlan'],planGymNumber_id=gymNumber).values()
+		for i in obj:
+			price=i['planPrice']
+			totalCollection=totalCollection+price
+
 
 	# Start: Today's Stats calculation
 	midnight=datetime.datetime.combine(datetime.datetime.today(), datetime.time(0))
@@ -30,10 +42,43 @@ def dashboard(request):
 	today_newMembers=memberDetails.objects.filter(memberRegistrationDate__gte=(midnight),memberGymNumber_id=gymNumber,).count()
 	today_maleCount=memberDetails.objects.filter(memberRegistrationDate__gte=(midnight),memberGender='M',memberGymNumber_id=gymNumber).count()
 	today_femaleCount=memberDetails.objects.filter(memberRegistrationDate__gte=(midnight),memberGender='F',memberGymNumber_id=gymNumber).count()
+	today_Subscriptions=memberDetails.objects.filter(memberPlanActivationDate__gte=(midnight),memberGymNumber_id=gymNumber).values()
+	todaysCollection=0
+	for items in today_Subscriptions:
+		print (items['memberPlan'])
+		obj=gymPlans.objects.filter(planName=items['memberPlan'],planGymNumber_id=gymNumber).values()
+		for i in obj:
+			price=i['planPrice']
+			print (price)
+			todaysCollection=todaysCollection+price
+
+	last30daysExpired=memberDetails.objects.filter(memberPlandExpiryDate__range=(last30Days,datetime.datetime.now()),memberGymNumber_id=gymNumber).values()
+	print ('LLLLLLLLLL')
+	memberNames=['None']
+	memberContactNumber=['None']
+	memberEmail=['None']
+	memberPlan=['None']
+	memberPlanActivationDate=['None']
+	memberPlandExpiryDate=['None']
+	expired_as_dict=[]
+	for names in last30daysExpired:
+		# memberNames.append(names['memberName'])
+		# memberContactNumber.append(names['memberContactNumber'])
+		my_dict = {
+		            'memberNames' : names['memberName'],
+		            'memberContactNumber' : names['memberContactNumber'],
+		            'memberEmail':names['memberEmail'],
+		            'memberPlan':names['memberPlan'],
+		            'memberPlanActivationDate': names['memberPlanActivationDate'],
+		            'memberPlandExpiryDate': names['memberPlandExpiryDate']
+			        }
+		expired_as_dict.append(my_dict)
+	print (expired_as_dict)
 	common=commonDisplay(request)
 	context={'totalNumberOfMembers':totalNumberOfMembers,'totalActiveMembers':totalActiveMembers,
 			'newMembers':newMembers,'maleCount':maleCount,'femaleCount':femaleCount,'totalActiveStaff':totalActiveStaff,
-			'today_newMembers':today_newMembers,'today_maleCount':today_maleCount,'today_femaleCount':today_femaleCount}
+			'today_newMembers':today_newMembers,'today_maleCount':today_maleCount,'today_femaleCount':today_femaleCount,
+			'todaysCollection':todaysCollection,'totalCollection':totalCollection,'expired_as_dict':expired_as_dict}
 	finalContext={**common, **context} #append the dictionaries
 	return render(request,'dashboard.html',context=finalContext)
 	
@@ -189,6 +234,7 @@ def staffRegistration(request):
 	finalContext={**common, **context} #append the dictionaries
 	return render(request,'registerStaffs.html',context=finalContext)
 
+@login_required
 def clientPlans(request):
 	# Start: Ensure Gym is registered first
 	User = get_user_model()
@@ -221,13 +267,13 @@ def clientPlans(request):
 	finalContext={**common, **context} #append the dictionaries
 	return render(request,'clientPlans.html',context=finalContext)
 
+@login_required
 def clientActivatePlan(request):
 	
 	form = memberActivatePlanForm(request.POST or None)
 	context={'form':form,'buttontext':'Submit'}
 
 	if form.is_valid():
-		print ('******')
 		input=form.cleaned_data['searchUser']
 		print (input)
 		gymObj=gymDetails.objects.filter(gymUser_id=request.user.id).values()
@@ -237,7 +283,6 @@ def clientActivatePlan(request):
 		if not member:
 			messages.error(request,'ERROR! Number not registered in system. Please check the number entered.')
 		if 'selectedPlanName' in request.POST:
-				print ('lllllllllllllll')
 				print (request.POST['selectedPlanName'])
 				gymObj=gymDetails.objects.filter(gymUser_id=request.user.id).values()
 				for elements in gymObj:
