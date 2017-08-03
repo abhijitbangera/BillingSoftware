@@ -1,7 +1,8 @@
 from django.shortcuts import render
 from django.shortcuts import render_to_response
 from appRegistration.forms import gymDetailsForm,memberDetailsForm,gymPlansForm,\
-								memberActivatePlanForm, memberDetailsForm,staffDetailsForm
+								memberActivatePlanForm, memberDetailsForm,staffDetailsForm,\
+								UserDetailsForm
 from django.http import HttpResponseRedirect
 from datetime import datetime, timedelta
 import datetime
@@ -208,74 +209,71 @@ def clientPlans(request):
 	if request.POST:
 		if form.is_valid():
 			save_it=form.save(commit = False)
-			gymObj=memberDetails.objects.filter(gymUser_id=request.user.id).values()
+			gymObj=gymDetails.objects.filter(gymUser_id=request.user.id).values()
 			for elements in gymObj:
 				gymNumber=elements['gymNumber']
 				save_it.planGymNumber_id= gymNumber
 			form.save()
+			print ('SAVED!!!!!!!!!')
 			return HttpResponseRedirect("/client/plans/")
 	common=commonDisplay(request)
 	context={'form':form}
 	finalContext={**common, **context} #append the dictionaries
-	return render(request,'gymPlans.html',context=finalContext)
+	return render(request,'clientPlans.html',context=finalContext)
 
 def clientActivatePlan(request):
+	
 	form = memberActivatePlanForm(request.POST or None)
-	context={'form':form}
+	context={'form':form,'buttontext':'Submit'}
 
 	if form.is_valid():
 		print ('******')
 		input=form.cleaned_data['searchUser']
 		print (input)
-		member=memberDetails.objects.filter(memberContactNumber=input).values()
+		gymObj=gymDetails.objects.filter(gymUser_id=request.user.id).values()
+		for i in gymObj:
+			gymNumber= i['gymNumber']
+		member=memberDetails.objects.filter(memberContactNumber=input, memberGymNumber_id=gymNumber).values()
+		if not member:
+			messages.error(request,'ERROR! Number not registered in system. Please check the number entered.')
+		if 'selectedPlanName' in request.POST:
+				print ('lllllllllllllll')
+				print (request.POST['selectedPlanName'])
+				gymObj=gymDetails.objects.filter(gymUser_id=request.user.id).values()
+				for elements in gymObj:
+					gymNumber=elements['gymNumber']
+				Plans=gymPlans.objects.filter(planGymNumber_id=gymNumber,planName=request.POST['selectedPlanName']).values()
+				print ('****')
+				print (Plans)
+				for i in Plans:
+					expiryDuration=i['planDuration']
+					print ('.............')
+					print (expiryDuration)
+				
+				userData=memberDetails.objects.filter(memberContactNumber=input,
+													 memberGymNumber_id=gymNumber).update(
+													 memberPlanActivationDate=datetime.datetime.now(),
+													 memberPlan=request.POST['selectedPlanName'],
+													 memberPlandExpiryDate=datetime.datetime.now() + timedelta(days=expiryDuration))
+				messages.success(request,'Updated successfully')
 		for i in member:
 			name=i['memberName']
 			memberEmail=i['memberEmail']
 			registrationDate=i['memberRegistrationDate']
 			status=i['memberStatus']
 			memberId=i['memberGymNumber_id']
-			
-			gymObj=gymDetails.objects.filter(gymUser_id=request.user.id).values()
-			for i in gymObj:
-				gymNumber= i['gymNumber']
-		
-			Plans=gymPlans.objects.filter(planGymNumber_id=gymNumber).values()
-			planNames=['None']
-			planDuration=['None']
-			planPrice=['None']
-			planDescription=['None']
-			plans_as_dict=[]
-			for names in Plans:
-				planNames.append(names['planName'])
-				planDuration.append(names['planDuration'])
-				planPrice.append(names['planPrice'])
-				planDescription.append(names['planDescription'])
-				song_as_dict = {
-					            'planNames' : names['planName'],
-					            'planDuration' : names['planDuration'],
-					            'planPrice' : names['planPrice'],
-					            'planDescription':names['planDescription']}
-				plans_as_dict.append(song_as_dict)
-			# simplejson.dumps(plans_as_dict)
-			print ('planNames:', planNames)
-			print ('planDuration:', planDuration)
-			print ('planPrice:', planPrice)
-			print ('planDescription:', planDescription)
-			messages.success(request,'Thank you')
-			print ('-----------')
-			plans_as_dict=(plans_as_dict)
-			# print (simplejson.dumps(plans_as_dict))
+			activeMemberPlan=i['memberPlan']
+			memberPlanActivationDate=i['memberPlanActivationDate']
+			memberPlandExpiryDate=i['memberPlandExpiryDate']	
+			buttontext='Update'		
+
 			context={'form':form,'name':name,'memberEmail':memberEmail,'registrationDate':registrationDate,
-					'status':status,'memberId':memberId,'plans_as_dict':plans_as_dict}
-		# save_it=form.save(commit = False)
-		# gymObj=gymDetails.objects.filter(Q(memberContactNumber=owner) | Q(moderated=False)).values()
-		# for elements in gymObj:
-		# 	gymNumber=elements['gymNumber']
-		# 	save_it.planGymNumber_id= gymNumber
-		# form.save()
-		#return HttpResponseRedirect("/client/activateplan/")
+					'status':status,'memberId':memberId,'activeMemberPlan':activeMemberPlan,'memberPlanActivationDate':memberPlanActivationDate,
+					'memberPlandExpiryDate':memberPlandExpiryDate,'buttontext':buttontext}
+
 	common=commonDisplay(request)
-	
-	finalContext={**common, **context} #append the dictionaries
+	activePlans=activaPlans(request)
+
+	finalContext={**common, **context,**activePlans} #append the dictionaries
 	return render(request,'gymPlans.html',context=finalContext)
 

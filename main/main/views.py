@@ -41,11 +41,11 @@ def activaPlans(request):
 			            'planDescription':names['planDescription']}
 		plans_as_dict.append(song_as_dict)
 	# simplejson.dumps(plans_as_dict)
-	print ('planNames:', planNames)
-	print ('planDuration:', planDuration)
-	print ('planPrice:', planPrice)
-	print ('planDescription:', planDescription)
-	print ('-----------')
+	# print ('planNames:', planNames)
+	# print ('planDuration:', planDuration)
+	# print ('planPrice:', planPrice)
+	# print ('planDescription:', planDescription)
+	# print ('-----------')
 	plans_as_dict=(plans_as_dict)
 	context={'plans_as_dict':plans_as_dict}
 	return context

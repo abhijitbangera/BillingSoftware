@@ -4,35 +4,47 @@
 <span class="count_top"><i class="fa fa-user"> Gym Subscription Plans </i> </span>
 {% endblock %}
 
+{% block message %}
+	{% if messages %}
+		<div class="alert alert-warning alert-dismissible fade in" role="alert">
+	        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
+	        </button>
+			<ul class="messages">
+			    {% for message in messages %}
+			    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+			    {% endfor %}
+			</ul>
+	</div>
+	{% endif %}
+{% endblock %}
+
 {% block content %}
 <div>
 	<form action="/client/activateplan/" method="post">{% csrf_token %}
 		{{form.as_p}}
-		<input type="submit" value="submit">
+		{% if name %}
+			
+			Name: {{name}}<br>
+			Email: {{memberEmail}}<br>
+			Registration Date: {{registrationDate}}<br>
+			Status: {% if status %} Active {% else %} Inactive{% endif %}<br>
+			Member Id: {{memberId}}<br>
+			Active Plan: {{activeMemberPlan}}<br>
+			memberPlanActivationDate: {{memberPlanActivationDate}}<br>
+			memberPlandExpiryDate: {{memberPlandExpiryDate}}<br>
+		<div>
+			<label>Renew/Update Plan:</label>
+			<select id="selectedPlanName" name='selectedPlanName'>
+			{% for i in plans_as_dict %}
+		    	<option value="{{ i.planNames }}">{{ i.planNames }}</option>
+		    {% endfor %}
+		    </select>
+		</div>
+		{% endif %}
+		<input type="submit" value={{buttontext}}>
 	</form>
 </div>
-
-<div><br>
-	{% if name %}
-		Name: {{name}}<br>
-		Email: {{memberEmail}}<br>
-		Registration Date: {{registrationDate}}<br>
-		Status: {% if status %} Active {% else %} Inactive{% endif %}<br>
-		Member Id: {{memberId}}<br>
-		<label>Plans:<label>
-		<select id="getPlanDetails">
-		    {% for i in plans_as_dict %}
-		    <option value="{{ i.planNames }}">{{ i.planNames }}</option>
-		    {% endfor %}
-		</select>
-		
-		<div id="results"></div>
-		
-</div>	
-
-
-
-
+{% if name %}
 <div class="col-md-12 col-sm-12 col-xs-12">
 	<div class="x_panel">
 	  <div class="x_title">
@@ -75,22 +87,9 @@
 	    </table>
 	  </div>
 	</div>
-	{% endif %}
+	
 </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+{% endif %}
 
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <script>
@@ -98,6 +97,7 @@
     var selected =  $(this).val();
     $("#results").html("You selected: " + selected);
   })
-</script>      
+</script>   
+   
 {% endblock %}
 

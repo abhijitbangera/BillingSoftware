@@ -33,3 +33,8 @@ class staffDetailsForm(forms.ModelForm):
 		model= staffDetails
 		fields = '__all__'
 		exclude = ['staffStatus','staffNumber','staffRegistrationDate','staffGymNumber']
+
+
+class UserDetailsForm(forms.Form):
+    name = forms.CharField(max_length=300)
+    email = forms.CharField(max_length=300)
