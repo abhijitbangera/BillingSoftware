@@ -12,6 +12,13 @@ urlpatterns = [
 				url(r'^member/register/$', views.memberRegistration, name='memberRegistration'),
 				url(r'^staff/register/$', views.staffRegistration, name='staffRegistration'),
 				url(r'^$', views.dashboard),
+				url(r'^export/csv/$', views.export_users_csv, name='export_users_csv'),
+				url(r'^export/csv2/$', views.export_monthly_report, name='export_monthly_report'),
+				url(r'^export/csv3/$', views.current_month_income, name='current_month_income'),
+				url(r'^export/csv4/$', views.last_month_income, name='last_month_income'),
+				url(r'^export/csv5/$', views.total_income, name='total_income'),
+				url(r'^usersearch/$',views.usersearch,name='usersearch'),
+				url(r'^staffsearch/$',views.staffsearch,name='staffsearch')
 
 
 			   ]

@@ -6,49 +6,7 @@
 
 
 {% block content %}
-<div class="col-md-12 col-sm-12 col-xs-12">
-	<div class="x_panel">
-	  <div class="x_title">
-	    <h2>General Stats </h2>
-	    <ul class="nav navbar-right panel_toolbox">
-	      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-	      </li>
-	     
-	      <li><a class="close-link"><i class="fa fa-close"></i></a>
-	      </li>
-	    </ul>
-	    <div class="clearfix"></div>
-	  </div>
-		<div class="x_content">
-		    <div class="row tile_count" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc"> 
-			    <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
-				  <span class="count_top"><i class="fa fa-user"></i> Total No. Of Members</span>
-				  <div class="count">{{totalNumberOfMembers}}</div>
-				</div>
-				<div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
-				  <span class="count_top"><i class="fa fa-user"></i> Total Active Members</span>
-				  <div class="count green">{{totalActiveMembers}}</div>
-				</div>
-				<div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
-				  <span class="count_top"><i class="fa fa-clock-o"></i> New Members (last 30 days)</span>
-				  <div class="count">{{newMembers}}</div>
-				</div>
-				<div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
-				  <span class="count_top"><i class="fa fa-male"></i> Total Males</span>
-				  <div class="count">{{maleCount}}</div>
-				</div>
-				<div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
-				  <span class="count_top"><i class="fa fa-female"></i> Total Females</span>
-				  <div class="count">{{femaleCount}}</div>
-				</div>
-				<div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
-				  <span class="count_top"><i class="fa fa-user"></i> Total Collections (last 30 days)</span>
-				  <div class="count">{{totalCollection}}</div>
-				</div>
-			</div>
-	  </div>
-	</div>
-</div>
+
 
 <div class="col-md-12 col-sm-12 col-xs-12">
 	<div class="x_panel">
@@ -136,9 +94,49 @@
 	</div>
 </div>
 
-
-
-
+<div class="col-md-12 col-sm-12 col-xs-12">
+	<div class="x_panel">
+	  <div class="x_title">
+	    <h2>General Stats </h2>
+	    <ul class="nav navbar-right panel_toolbox">
+	      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+	      </li>
+	     
+	      <li><a class="close-link"><i class="fa fa-close"></i></a>
+	      </li>
+	    </ul>
+	    <div class="clearfix"></div>
+	  </div>
+		<div class="x_content">
+		    <div class="row tile_count" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc"> 
+			    <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+				  <span class="count_top"><i class="fa fa-user"></i> Total No. Of Members</span>
+				  <div class="count">{{totalNumberOfMembers}}</div>
+				</div>
+				<div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+				  <span class="count_top"><i class="fa fa-user"></i> Total Active Members</span>
+				  <div class="count green">{{totalActiveMembers}}</div>
+				</div>
+				<div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+				  <span class="count_top"><i class="fa fa-clock-o"></i> New Members (last 30 days)</span>
+				  <div class="count">{{newMembers}}</div>
+				</div>
+				<div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+				  <span class="count_top"><i class="fa fa-male"></i> Total Males</span>
+				  <div class="count">{{maleCount}}</div>
+				</div>
+				<div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+				  <span class="count_top"><i class="fa fa-female"></i> Total Females</span>
+				  <div class="count">{{femaleCount}}</div>
+				</div>
+				<div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+				  <span class="count_top"><i class="fa fa-user"></i> Total Collections (last 30 days)</span>
+				  <div class="count">{{totalCollection}}</div>
+				</div>
+			</div>
+	  </div>
+	</div>
+</div>
       
 {% endblock %}
 

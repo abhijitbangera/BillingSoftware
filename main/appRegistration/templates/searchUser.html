@@ -1,0 +1,120 @@
+{% extends "base.html" %}
+
+{% block message %}
+	{% if messages %}
+		<div class="alert alert-warning alert-dismissible fade in" role="alert">
+	        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
+	        </button>
+			<ul class="messages">
+			    {% for message in messages %}
+			    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+			    {% endfor %}
+			</ul>
+	</div>
+	{% endif %}
+{% endblock %}
+
+{% block content %}
+<div class="col-md-6 col-sm-6 col-xs-12">
+	<div class="x_panel">
+	  <div class="x_title">
+	    <h2>Member Search</h2>
+	    
+	    <div class="clearfix"></div>
+	  </div>
+	  <div class="x_content">
+	    <br /> 
+	    <p class="font-gray-dark">
+	      Enter contact number below.
+	    </p>
+	    <form action="/usersearch/" method="post">{% csrf_token %}
+	      <div class="form-group">
+	        <div class="col-md-7">
+	          {{form.as_p}}
+			<input type="submit" value="submit">
+	        </div>
+	      </div>  
+	    </form>                             
+	  </div>
+	</div>
+	{% if name %}
+	<div class="col-md-6 col-sm-6 col-xs-12 x_panel">
+		<div class=" profile_view">
+		  <div class="col-sm-12">
+		    <h4 class="brief"><i>{{name}}</i></h4>
+		    <div class="left col-xs-7">
+		      <!-- <h2><strong>Name: </strong>{{name}}</h2> -->
+		      <!-- <p><strong>Email: </strong> {{memberEmail}} </p>
+		      <p><strong>Registration Date: </strong> {{registrationDate}} </p> -->
+		      <ul class="list-unstyled">
+		        <li><i class="fa fa-home"></i><strong> Address:</strong> {{memberAddress}}  </li>
+		        <li><i class="fa fa-map-marker"></i><strong> City:</strong> {{memberCity}}  </li>
+		        <li><i class="fa fa-info"></i><strong> Pincode:</strong> {{memberPincode}}  </li>
+		        <li><i class="fa fa-users"></i><strong> Gender:</strong> {{memberGender}}  </li>
+		        <li><i class="fa fa-phone-square"></i><strong> Contact Number: </strong>{{memberContactNumber}}  </li>
+		        <li><i class="fa fa-phone"></i><strong> Emergency Number:</strong> {{memberEmergencyNumber}}  </li>
+		        <li><i class="fa fa-envelope"></i><strong> Email:</strong> {{memberEmail}} </li>
+		        <li><i class="fa fa-check"></i><strong> Member ID:</strong> {{memberId}}  </li>
+		      </ul>
+		    </div>
+		    <div class="right col-xs-5 ">
+		     <ul class="list-unstyled">
+		     	
+		     	<li><i class="fa fa-star"></i><strong> Registration Date:</strong>  {{registrationDate}}  </li>
+		        <li><i class="fa fa-clock-o"></i><strong> Last Plan Activation Date:</strong> {{memberPlanActivationDate}}  </li>
+		        <li><i class="fa fa-thumbs-down"></i><strong> Last Plan Expiry Date: </strong> {{memberPlandExpiryDate}}  </li>
+		        <li><i class="fa fa-eye"></i><strong> Status:</strong> {% if status %} Active {% else %} Inactive{% endif %} </li>
+		        <li><i class="fa fa-book"></i><strong> Plan:</strong> {{activeMemberPlan}}  </li>
+		      </ul>
+
+		    </div>
+		  </div>
+		  
+		</div>
+	</div>
+	{% endif %}
+</div>
+
+<div class="col-md-6 col-sm-6 col-xs-12">
+	<div class="x_panel">
+	  <div class="x_title">
+	    <h2>Staff Stats </h2>
+	    <!-- <ul class="nav navbar-right panel_toolbox">
+	      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+	      </li>
+	     
+	      <li><a class="close-link"><i class="fa fa-close"></i></a>
+	      </li>
+	    </ul> -->
+	    <div class="clearfix"></div>
+	  </div>
+		<div class="x_content">
+		<table class="countries_list table table-striped">
+            <tbody>
+              <tr>
+                <td>Total Registered Members</td>
+                <td class="fs15 fw700 text-right">{{totalNumberOfMembers}}</td>
+              </tr>
+              <tr>
+                <td>Active Members</td>
+                <td class="fs15 fw700 text-right">{{totalActiveMembers}}</td>
+              </tr>
+              <tr>
+                <td>Total Male</td>
+                <td class="fs15 fw700 text-right">{{maleCount}}</td>
+              </tr>
+              <tr>
+                <td>Total Female</td>
+                <td class="fs15 fw700 text-right">{{femaleCount}}</td>
+              </tr>
+              <tr>
+                <td>New Members (last 30 days)</td>
+                <td class="fs15 fw700 text-right">{{newMembers}}</td>
+              </tr>
+            </tbody>
+          </table>
+	  </div>
+	</div>
+
+</div>      
+{% endblock %}

@@ -1,10 +1,5 @@
 {% extends "base.html" %}
 
-
-{% block title %}
-	<span class="count_top"><i class="fa fa-user"> Staff Registration</i> </span>	
-{% endblock %}
-
 {% block message %}
 	{% if messages %}
 		<div class="alert alert-warning alert-dismissible fade in" role="alert">
@@ -20,10 +15,23 @@
 {% endblock %}
 
 {% block content %}
-
-<form action="/staff/register/" method="post">{% csrf_token %}
-{{form.as_p}}
-<input type="submit" value="submit">
+<div class="x_panel">
+  <div class="x_title">
+    <h2>Register Staff</h2>
+    
+    <div class="clearfix"></div>
+  </div>
+  <div class="x_content">
+    <br />
+    <form action="/staff/register/" method="post">{% csrf_token %}
+      <div class="form-group">
+        <div class="col-md-7">
+          {{form.as_p}}
+          <input type="submit" value='Register'>
+        </div>
+      </div>                               
+  </div>
+</div>
 
       
 {% endblock %}

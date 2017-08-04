@@ -1,10 +1,5 @@
 {% extends "base.html" %}
 
-
-{% block title %}
-	<span class="count_top"><i class="fa fa-user"> Member Registration</i> </span>	
-{% endblock %}
-
 {% block message %}
 	{% if messages %}
 		<div class="alert alert-warning alert-dismissible fade in" role="alert">
@@ -20,32 +15,50 @@
 {% endblock %}
 
 {% block content %}
-
-<form action="/member/register/" method="post">{% csrf_token %}
-{{form.as_p}}
-<div>
-	<label>Plans:</label>
-	<select id="selectedPlanName" name='selectedPlanName'>
-	{% for i in plans_as_dict %}
-    	<option value="{{ i.planNames }}">{{ i.planNames }}</option>
-    {% endfor %}
-    </select>
+<div class="col-md-6 col-sm-6 col-xs-12">
+<div class="x_panel">
+  <div class="x_title">
+    <h2>Member Registration</h2>
+    
+    <div class="clearfix"></div>
+  </div>
+  <div class="x_content">
+    <br /> 
+    <p class="font-gray-dark">
+      Please ensure to provide correct and unique contact number in the form below.
+    </p>
+    <form action="/member/register/" method="post">{% csrf_token %}
+      <div class="form-group">
+        <div class="col-md-7">
+          {{form.as_p}}
+			<div>
+				<label>Plans:</label>
+				<select id="selectedPlanName" name='selectedPlanName'>
+				{% for i in plans_as_dict %}
+			    	<option value="{{ i.planNames }}">{{ i.planNames }}</option>
+			    {% endfor %}
+			    </select>
+			</div>
+			<input type="submit" value="submit">
+        </div>
+      </div>  
+    </form>                             
+  </div>
 </div>
-<input type="submit" value="submit">
-</form>
+</div>
 
 
-<div class="col-md-12 col-sm-12 col-xs-12">
+<div class="col-md-6 col-sm-6 col-xs-12">
 	<div class="x_panel">
 	  <div class="x_title">
 	    <h2>Active Plans </h2>
-	    <ul class="nav navbar-right panel_toolbox">
+	    <!-- <ul class="nav navbar-right panel_toolbox">
 	      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
 	      </li>
 	     
 	      <li><a class="close-link"><i class="fa fa-close"></i></a>
 	      </li>
-	    </ul>
+	    </ul> -->
 	    <div class="clearfix"></div>
 	  </div>
 		<div class="x_content">

@@ -71,19 +71,19 @@
                   <li><a href="/client/activateplan/"><i class="fa fa-desktop"></i> Plan Renew/Upgrade </a>
 
                   </li>
-                  <li><a><i class="fa fa-table"></i> Tables <span class="fa fa-chevron-down"></span></a>
+                  <li><a><i class="fa fa-table"></i> Reports <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                      <li><a href="tables.html">Tables</a></li>
-                      <li><a href="tables_dynamic.html">Table Dynamic</a></li>
+                      <li><a href="{% url 'export_users_csv' %}"> Member Details</a></li>
+                      <li><a href="{% url 'export_monthly_report' %}">Current Month Report</a></li>
+                      <li><a href="{% url 'current_month_income' %}">Current Month Income</a></li>
+                      <li><a href="{% url 'last_month_income' %}">Last Month Income</a></li>
+                      <li><a href="{% url 'total_income' %}">Total Income</a></li>
                     </ul>
                   </li>
-                  <li><a><i class="fa fa-bar-chart-o"></i> Data Presentation <span class="fa fa-chevron-down"></span></a>
+                  <li><a><i class="fa fa-bar-chart-o"></i> Search <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                      <li><a href="chartjs.html">Chart JS</a></li>
-                      <li><a href="chartjs2.html">Chart JS2</a></li>
-                      <li><a href="morisjs.html">Moris JS</a></li>
-                      <li><a href="echarts.html">ECharts</a></li>
-                      <li><a href="other_charts.html">Other Charts</a></li>
+                      <li><a href="{% url 'usersearch' %}">Search User</a></li>
+                      <li><a href="{% url 'staffsearch' %}">Search Staff</a></li>
                     </ul>
                   </li>
 
@@ -107,7 +107,7 @@
               <a data-toggle="tooltip" data-placement="top" title="Settings">
                 <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
               </a>
-              <a data-toggle="tooltip" data-placement="top" title="FullScreen">
+              <a data-toggle="tooltip" data-placement="top" title="FullScreen" href="javascript: void(0)" onclick="popup('/')">
                 <span class="glyphicon glyphicon-fullscreen" aria-hidden="true"></span>
               </a>
               <a data-toggle="tooltip" data-placement="top" title="Lock">
@@ -220,6 +220,23 @@
 
     <!-- Custom Theme Scripts -->
     <script src="{% static '/build/js/custom.min.js' %}"></script>
+
+
+    <script type="text/javascript">
+      <!--
+      function popup(url) 
+      {
+       params  = 'width='+screen.width;
+       params += ', height='+screen.height;
+       params += ', top=0, left=0'
+       params += ', fullscreen=yes';
+
+       newwin=window.open(url,'windowname4', params);
+       if (window.focus) {newwin.focus()}
+       return false;
+      }
+      // -->
+      </script>
 	
   </body>
 </html>

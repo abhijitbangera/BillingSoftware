@@ -3,7 +3,7 @@ from django.shortcuts import render_to_response
 from appRegistration.forms import gymDetailsForm,memberDetailsForm,gymPlansForm,\
 								memberActivatePlanForm, memberDetailsForm,staffDetailsForm,\
 								UserDetailsForm
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect,HttpResponse
 from datetime import datetime, timedelta
 import datetime
 from appRegistration.models import gymDetails, memberDetails,gymPlans,staffDetails
@@ -12,10 +12,23 @@ from django.contrib.auth import get_user_model
 from main.views import commonDisplay,activaPlans
 from django.contrib import messages
 from django.db.models import Q
-import simplejson
+import simplejson, csv
+
+
 # Create your views here.
 @login_required
 def dashboard(request):
+	# Start: Ensure Gym is registered first
+	User = get_user_model()
+	userId=User.id
+	gymRegistered= False
+	allGymNumbers=gymDetails.objects.all().values('gymUser_id')
+	for i in allGymNumbers:
+		if i['gymUser_id']==request.user.id:
+			gymRegistered=True
+	if not gymRegistered:
+		return HttpResponseRedirect("/client/register/")
+	# End
 	last30Days=datetime.datetime.now() + datetime.timedelta(days=-30)
 	print ('last30days is:',last30Days)
 	gymObj=gymDetails.objects.filter(gymUser_id=request.user.id).values()
@@ -105,6 +118,7 @@ def clientRegistration(request):
 			try:
 				form.save()
 				messages.success(request,'SUCCESS! Business Successfully Registered', extra_tags='success')
+				return HttpResponseRedirect("/")
 			except:
 				messages.error(request,'ERROR! Your have already registered a business in our system',extra_tags='warning')
 			return HttpResponseRedirect("/client/register/")
@@ -263,12 +277,24 @@ def clientPlans(request):
 			print ('SAVED!!!!!!!!!')
 			return HttpResponseRedirect("/client/plans/")
 	common=commonDisplay(request)
+	activePlans=activaPlans(request)
 	context={'form':form}
-	finalContext={**common, **context} #append the dictionaries
+	finalContext={**common, **context,**activePlans} #append the dictionaries
 	return render(request,'clientPlans.html',context=finalContext)
 
 @login_required
 def clientActivatePlan(request):
+	# Start: Ensure Gym is registered first
+	User = get_user_model()
+	userId=User.id
+	gymRegistered= False
+	allGymNumbers=gymDetails.objects.all().values('gymUser_id')
+	for i in allGymNumbers:
+		if i['gymUser_id']==request.user.id:
+			gymRegistered=True
+	if not gymRegistered:
+		return HttpResponseRedirect("/client/register/")
+	# End
 	
 	form = memberActivatePlanForm(request.POST or None)
 	context={'form':form,'buttontext':'Submit'}
@@ -279,9 +305,7 @@ def clientActivatePlan(request):
 		gymObj=gymDetails.objects.filter(gymUser_id=request.user.id).values()
 		for i in gymObj:
 			gymNumber= i['gymNumber']
-		member=memberDetails.objects.filter(memberContactNumber=input, memberGymNumber_id=gymNumber).values()
-		if not member:
-			messages.error(request,'ERROR! Number not registered in system. Please check the number entered.')
+		
 		if 'selectedPlanName' in request.POST:
 				print (request.POST['selectedPlanName'])
 				gymObj=gymDetails.objects.filter(gymUser_id=request.user.id).values()
@@ -301,6 +325,9 @@ def clientActivatePlan(request):
 													 memberPlan=request.POST['selectedPlanName'],
 													 memberPlandExpiryDate=datetime.datetime.now() + timedelta(days=expiryDuration))
 				messages.success(request,'Updated successfully')
+		member=memberDetails.objects.filter(memberContactNumber=input, memberGymNumber_id=gymNumber).values()
+		if not member:
+			messages.error(request,'ERROR! Number not registered in system. Please check the entered number.')
 		for i in member:
 			name=i['memberName']
 			memberEmail=i['memberEmail']
@@ -322,3 +349,333 @@ def clientActivatePlan(request):
 	finalContext={**common, **context,**activePlans} #append the dictionaries
 	return render(request,'gymPlans.html',context=finalContext)
 
+
+def export_users_csv(request):
+	# Start: Ensure Gym is registered first
+	User = get_user_model()
+	userId=User.id
+	gymRegistered= False
+	allGymNumbers=gymDetails.objects.all().values('gymUser_id')
+	for i in allGymNumbers:
+		if i['gymUser_id']==request.user.id:
+			gymRegistered=True
+	if not gymRegistered:
+		return HttpResponseRedirect("/client/register/")
+	# End
+	User = get_user_model()
+	response = HttpResponse(content_type='text/csv')
+	gymObj=gymDetails.objects.filter(gymUser_id=request.user.id).values()
+	for elements in gymObj:
+		gymNumber=elements['gymNumber']
+	response['Content-Disposition'] = 'attachment; filename="users.csv"'
+
+	writer = csv.writer(response)
+	writer.writerow(['Name', 'Address', 'City', 'Pincode','Contact Number',
+					'Emergency Contact', 'Email', 'Registration Date','Member Number',
+					'Status', 'Gender','Subscription Plan', 'Last Plan Activation Date', 'Plan Expiry Date'])
+
+	users = memberDetails.objects.filter(memberGymNumber_id=gymNumber).values_list('memberName', 'memberAddress', 'memberCity',\
+													'memberPincode', 'memberContactNumber', 'memberEmergencyNumber',\
+													'memberEmail','memberRegistrationDate', 'memberNumber',\
+													'memberStatus','memberGender','memberPlan','memberPlanActivationDate',\
+													'memberPlandExpiryDate')
+	for user in users:
+	    writer.writerow(user)
+	return response
+
+def export_monthly_report(request):
+	# Start: Ensure Gym is registered first
+	User = get_user_model()
+	userId=User.id
+	gymRegistered= False
+	allGymNumbers=gymDetails.objects.all().values('gymUser_id')
+	for i in allGymNumbers:
+		if i['gymUser_id']==request.user.id:
+			gymRegistered=True
+	if not gymRegistered:
+		return HttpResponseRedirect("/client/register/")
+	# End
+	User = get_user_model()
+	currentMonthStarting=datetime.date.today().replace(day=1)
+	gymObj=gymDetails.objects.filter(gymUser_id=request.user.id).values()
+	for elements in gymObj:
+		gymNumber=elements['gymNumber']
+	response = HttpResponse(content_type='text/csv')
+	response['Content-Disposition'] = 'attachment; filename="users.csv"'
+
+	writer = csv.writer(response)
+	writer.writerow(['Name', 'Address', 'City', 'Pincode','Contact Number',
+					'Emergency Contact', 'Email', 'Registration Date','Member Number',
+					'Status', 'Gender','Subscription Plan', 'Last Plan Activation Date', 'Plan Expiry Date'])
+
+	users = memberDetails.objects.filter(memberPlanActivationDate__gte=(currentMonthStarting),memberGymNumber_id=gymNumber).values_list('memberName', 'memberAddress', 'memberCity',\
+													'memberPincode', 'memberContactNumber', 'memberEmergencyNumber',\
+													'memberEmail','memberRegistrationDate', 'memberNumber',\
+													'memberStatus','memberGender','memberPlan','memberPlanActivationDate',\
+													'memberPlandExpiryDate')
+	for user in users:
+	    writer.writerow(user)
+
+	return response
+
+def current_month_income(request):
+	# Start: Ensure Gym is registered first
+	User = get_user_model()
+	userId=User.id
+	gymRegistered= False
+	allGymNumbers=gymDetails.objects.all().values('gymUser_id')
+	for i in allGymNumbers:
+		if i['gymUser_id']==request.user.id:
+			gymRegistered=True
+	if not gymRegistered:
+		return HttpResponseRedirect("/client/register/")
+	# End
+	User = get_user_model()
+	currentMonthStarting=datetime.date.today().replace(day=1)
+	gymObj=gymDetails.objects.filter(gymUser_id=request.user.id).values()
+	for elements in gymObj:
+		gymNumber=elements['gymNumber']
+	response = HttpResponse(content_type='text/csv')
+	response['Content-Disposition'] = 'attachment; filename="users.csv"'
+
+	writer = csv.writer(response)
+	writer.writerow(['Name', 'Contact Number','Email', 'Registration Date','Member Number',
+					'Subscription Plan', 'Last Plan Activation Date', 'Plan Expiry Date'])
+
+	users = memberDetails.objects.filter(memberPlanActivationDate__gte=(currentMonthStarting),memberGymNumber_id=gymNumber).values_list('memberName',\
+													'memberContactNumber','memberEmail','memberRegistrationDate',\
+													'memberNumber','memberPlan','memberPlanActivationDate','memberPlandExpiryDate')
+	for user in users:
+	    writer.writerow(user)
+
+	thisMonth_Subscriptions=memberDetails.objects.filter(memberPlanActivationDate__gte=(currentMonthStarting),memberGymNumber_id=gymNumber).values()
+	thisMonthCollection=0
+	for items in thisMonth_Subscriptions:
+		print (items['memberPlan'])
+		obj=gymPlans.objects.filter(planName=items['memberPlan'],planGymNumber_id=gymNumber).values()
+		for i in obj:
+			price=i['planPrice']
+			print (price)
+			thisMonthCollection=thisMonthCollection+price
+	writer.writerow(['', '','', ' ',' ',
+					'Total Income= ' + str(thisMonthCollection), '', ''])
+
+	return response
+
+def last_month_income(request):
+	# Start: Ensure Gym is registered first
+	User = get_user_model()
+	userId=User.id
+	gymRegistered= False
+	allGymNumbers=gymDetails.objects.all().values('gymUser_id')
+	for i in allGymNumbers:
+		if i['gymUser_id']==request.user.id:
+			gymRegistered=True
+	if not gymRegistered:
+		return HttpResponseRedirect("/client/register/")
+	# End
+	User = get_user_model()
+	currentMonthStarting=datetime.date.today().replace(day=1)
+	lastMonthSameday=datetime.datetime.now() + datetime.timedelta(days=-30)
+	lastMonth=lastMonthSameday.replace(day=1)
+	gymObj=gymDetails.objects.filter(gymUser_id=request.user.id).values()
+	for elements in gymObj:
+		gymNumber=elements['gymNumber']
+	response = HttpResponse(content_type='text/csv')
+	response['Content-Disposition'] = 'attachment; filename="users.csv"'
+
+	writer = csv.writer(response)
+	writer.writerow(['Name', 'Contact Number','Email', 'Registration Date','Member Number',
+					'Subscription Plan', 'Last Plan Activation Date', 'Plan Expiry Date'])
+
+	users = memberDetails.objects.filter(memberPlanActivationDate__gte=(lastMonth),memberPlanActivationDate__lte=(currentMonthStarting),memberGymNumber_id=gymNumber).values_list('memberName',\
+													'memberContactNumber','memberEmail','memberRegistrationDate',\
+													'memberNumber','memberPlan','memberPlanActivationDate','memberPlandExpiryDate')
+	for user in users:
+	    writer.writerow(user)
+
+	thisMonth_Subscriptions=memberDetails.objects.filter(memberPlanActivationDate__gte=(lastMonth),memberPlanActivationDate__lte=(currentMonthStarting),memberGymNumber_id=gymNumber).values()
+	thisMonthCollection=0
+	for items in thisMonth_Subscriptions:
+		print (items['memberPlan'])
+		obj=gymPlans.objects.filter(planName=items['memberPlan'],planGymNumber_id=gymNumber).values()
+		for i in obj:
+			price=i['planPrice']
+			print (price)
+			thisMonthCollection=thisMonthCollection+price
+	writer.writerow(['', '','', ' ',' ',
+					'Total Income= ' + str(thisMonthCollection), '', ''])
+	return response
+
+def total_income(request):
+	# Start: Ensure Gym is registered first
+	User = get_user_model()
+	userId=User.id
+	gymRegistered= False
+	allGymNumbers=gymDetails.objects.all().values('gymUser_id')
+	for i in allGymNumbers:
+		if i['gymUser_id']==request.user.id:
+			gymRegistered=True
+	if not gymRegistered:
+		return HttpResponseRedirect("/client/register/")
+	# End
+	User = get_user_model()
+	gymObj=gymDetails.objects.filter(gymUser_id=request.user.id).values()
+	for elements in gymObj:
+		gymNumber=elements['gymNumber']
+	response = HttpResponse(content_type='text/csv')
+	response['Content-Disposition'] = 'attachment; filename="users.csv"'
+
+	writer = csv.writer(response)
+	writer.writerow(['Name', 'Contact Number','Email', 'Registration Date','Member Number',
+					'Subscription Plan', 'Last Plan Activation Date', 'Plan Expiry Date'])
+
+	users = memberDetails.objects.filter(memberGymNumber_id=gymNumber).values_list('memberName',\
+													'memberContactNumber','memberEmail','memberRegistrationDate',\
+													'memberNumber','memberPlan','memberPlanActivationDate','memberPlandExpiryDate')
+	for user in users:
+	    writer.writerow(user)
+
+	thisMonth_Subscriptions=memberDetails.objects.filter(memberGymNumber_id=gymNumber).values()
+	thisMonthCollection=0
+	for items in thisMonth_Subscriptions:
+		print (items['memberPlan'])
+		obj=gymPlans.objects.filter(planName=items['memberPlan'],planGymNumber_id=gymNumber).values()
+		for i in obj:
+			price=i['planPrice']
+			print (price)
+			thisMonthCollection=thisMonthCollection+price
+	writer.writerow(['', '','', ' ',' ',
+					'Total Income= ' + str(thisMonthCollection), '', ''])
+	return respons
+
+def usersearch(request):
+	# Start: Ensure Gym is registered first
+	User = get_user_model()
+	userId=User.id
+	gymRegistered= False
+	allGymNumbers=gymDetails.objects.all().values('gymUser_id')
+	for i in allGymNumbers:
+		if i['gymUser_id']==request.user.id:
+			gymRegistered=True
+	if not gymRegistered:
+		return HttpResponseRedirect("/client/register/")
+	# End
+
+	last30Days=datetime.datetime.now() + datetime.timedelta(days=-30)
+	print ('last30days is:',last30Days)
+	gymObj=gymDetails.objects.filter(gymUser_id=request.user.id).values()
+	for elements in gymObj:
+		gymNumber=elements['gymNumber']
+	totalNumberOfMembers=memberDetails.objects.filter(memberGymNumber_id=gymNumber).count()
+	totalActiveMembers=memberDetails.objects.filter(memberGymNumber_id=gymNumber, memberStatus=1).count()
+	newMembers=memberDetails.objects.filter(memberGymNumber_id=gymNumber, memberRegistrationDate__gte=datetime.datetime.now()-timedelta(days=30)).count()
+	maleCount=memberDetails.objects.filter(memberGender='M',memberGymNumber_id=gymNumber).count()
+	femaleCount=memberDetails.objects.filter(memberGender='F',memberGymNumber_id=gymNumber).count()
+	
+	form = memberActivatePlanForm(request.POST or None)
+	context={'form':form,'totalNumberOfMembers':totalNumberOfMembers,'totalActiveMembers':totalActiveMembers,
+			'maleCount':maleCount,'femaleCount':femaleCount,'newMembers':newMembers}
+
+	if form.is_valid():
+		input=form.cleaned_data['searchUser']
+		print (input)
+		gymObj=gymDetails.objects.filter(gymUser_id=request.user.id).values()
+		for i in gymObj:
+			gymNumber= i['gymNumber']
+		member=memberDetails.objects.filter(memberContactNumber=input, memberGymNumber_id=gymNumber).values()
+		if not member:
+			messages.error(request,'ERROR! Number not registered in system. Please check the entered number.')
+		for i in member:
+			name=i['memberName']
+			memberEmail=i['memberEmail']
+			memberAddress=i['memberAddress']
+			memberCity=i['memberCity']
+			memberPincode=i['memberPincode']
+			memberContactNumber=i['memberContactNumber']
+			memberEmergencyNumber=i['memberEmergencyNumber']
+			registrationDate=i['memberRegistrationDate']
+			status=i['memberStatus']
+			memberId=i['memberNumber']
+			memberGender=i['memberGender']
+			activeMemberPlan=i['memberPlan']
+			memberPlanActivationDate=i['memberPlanActivationDate']
+			memberPlandExpiryDate=i['memberPlandExpiryDate']	
+			buttontext='Update'		
+
+			context={'form':form,'name':name,'memberEmail':memberEmail,'registrationDate':registrationDate,
+					'status':status,'memberId':memberId,'activeMemberPlan':activeMemberPlan,'memberPlanActivationDate':memberPlanActivationDate,
+					'memberAddress':memberAddress,'memberCity':memberCity,'memberPincode':memberPincode,'memberContactNumber':memberContactNumber,
+					'memberEmergencyNumber':memberEmergencyNumber,'memberGender':memberGender,
+					'memberPlandExpiryDate':memberPlandExpiryDate,'buttontext':buttontext,
+					'totalNumberOfMembers':totalNumberOfMembers,'totalActiveMembers':totalActiveMembers,
+					'maleCount':maleCount,'femaleCount':femaleCount,'newMembers':newMembers}
+
+	common=commonDisplay(request)
+	activePlans=activaPlans(request)
+
+	finalContext={**common, **context,**activePlans} #append the dictionaries
+	return render(request,'searchUser.html',context=finalContext)
+
+def staffsearch(request):
+	# Start: Ensure Gym is registered first
+	User = get_user_model()
+	userId=User.id
+	gymRegistered= False
+	allGymNumbers=gymDetails.objects.all().values('gymUser_id')
+	for i in allGymNumbers:
+		if i['gymUser_id']==request.user.id:
+			gymRegistered=True
+	if not gymRegistered:
+		return HttpResponseRedirect("/client/register/")
+	# End
+
+	last30Days=datetime.datetime.now() + datetime.timedelta(days=-30)
+	print ('last30days is:',last30Days)
+	gymObj=gymDetails.objects.filter(gymUser_id=request.user.id).values()
+	for elements in gymObj:
+		gymNumber=elements['gymNumber']
+	totalNumberOfstaffs=staffDetails.objects.filter(staffGymNumber_id=gymNumber).count()
+	totalActivestaffs=staffDetails.objects.filter(staffGymNumber_id=gymNumber, staffStatus=1).count()
+	newstaffs=staffDetails.objects.filter(staffGymNumber_id=gymNumber, staffRegistrationDate__gte=datetime.datetime.now()-timedelta(days=30)).count()
+	maleCount=staffDetails.objects.filter(staffGender='M',staffGymNumber_id=gymNumber).count()
+	femaleCount=staffDetails.objects.filter(staffGender='F',staffGymNumber_id=gymNumber).count()
+	
+	form = memberActivatePlanForm(request.POST or None)
+	context={'form':form,'totalNumberOfstaffs':totalNumberOfstaffs,'totalActivestaffs':totalActivestaffs,
+			'maleCount':maleCount,'femaleCount':femaleCount,'newstaffs':newstaffs}
+
+	if form.is_valid():
+		input=form.cleaned_data['searchUser']
+		print (input)
+		gymObj=gymDetails.objects.filter(gymUser_id=request.user.id).values()
+		for i in gymObj:
+			gymNumber= i['gymNumber']
+		staff=staffDetails.objects.filter(staffContactNumber=input, staffGymNumber_id=gymNumber).values()
+		if not staff:
+			messages.error(request,'ERROR! Number not registered in system. Please check the entered number.')
+		for i in staff:
+			name=i['staffName']
+			staffEmail=i['staffEmail']
+			staffAddress=i['staffAddress']
+			staffCity=i['staffCity']
+			staffPincode=i['staffPincode']
+			staffContactNumber=i['staffContactNumber']
+			staffEmergencyNumber=i['staffEmergencyNumber']
+			registrationDate=i['staffRegistrationDate']
+			status=i['staffStatus']
+			staffId=i['staffNumber']
+			staffGender=i['staffGender']
+
+			context={'form':form,'name':name,'staffEmail':staffEmail,'registrationDate':registrationDate,
+					'status':status,'staffId':staffId,
+					'staffAddress':staffAddress,'staffCity':staffCity,'staffPincode':staffPincode,'staffContactNumber':staffContactNumber,
+					'staffEmergencyNumber':staffEmergencyNumber,'staffGender':staffGender,
+					'totalNumberOfstaffs':totalNumberOfstaffs,'totalActivestaffs':totalActivestaffs,
+					'maleCount':maleCount,'femaleCount':femaleCount,'newstaffs':newstaffs}
+
+	common=commonDisplay(request)
+	activePlans=activaPlans(request)
+
+	finalContext={**common, **context,**activePlans} #append the dictionaries
+	return render(request,'staffSearch.html',context=finalContext)
