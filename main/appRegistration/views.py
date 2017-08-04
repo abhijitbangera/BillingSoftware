@@ -1,8 +1,7 @@
 from django.shortcuts import render
 from django.shortcuts import render_to_response
 from appRegistration.forms import gymDetailsForm,memberDetailsForm,gymPlansForm,\
-								memberActivatePlanForm, memberDetailsForm,staffDetailsForm,\
-								UserDetailsForm
+								memberActivatePlanForm, memberDetailsForm,staffDetailsForm
 from django.http import HttpResponseRedirect,HttpResponse
 from datetime import datetime, timedelta
 import datetime
@@ -29,6 +28,10 @@ def dashboard(request):
 	if not gymRegistered:
 		return HttpResponseRedirect("/client/register/")
 	# End
+	# Update status of users whose subscrition plans have expired
+	allmembers=memberDetails.objects.filter(memberPlandExpiryDate__lte=datetime.datetime.now(),memberStatus=1).update(memberStatus=0)
+	
+	#End
 	last30Days=datetime.datetime.now() + datetime.timedelta(days=-30)
 	print ('last30days is:',last30Days)
 	gymObj=gymDetails.objects.filter(gymUser_id=request.user.id).values()
@@ -547,7 +550,7 @@ def total_income(request):
 			thisMonthCollection=thisMonthCollection+price
 	writer.writerow(['', '','', ' ',' ',
 					'Total Income= ' + str(thisMonthCollection), '', ''])
-	return respons
+	return response
 
 def usersearch(request):
 	# Start: Ensure Gym is registered first
@@ -679,3 +682,56 @@ def staffsearch(request):
 
 	finalContext={**common, **context,**activePlans} #append the dictionaries
 	return render(request,'staffSearch.html',context=finalContext)
+
+def edituser(request):
+	# Start: Ensure Gym is registered first
+	User = get_user_model()
+	userId=User.id
+	gymRegistered= False
+	found=False
+	my_record=None
+	title='Member Search'
+	allGymNumbers=gymDetails.objects.all().values('gymUser_id')
+	for i in allGymNumbers:
+		if i['gymUser_id']==request.user.id:
+			gymRegistered=True
+	if not gymRegistered:
+		return HttpResponseRedirect("/client/register/")
+	# End
+	print (request.POST)
+	form = memberActivatePlanForm(request.POST or None)
+	if 'searchUser' in request.POST:
+		print ('???????????')
+		form = memberActivatePlanForm(request.POST or None)
+		if form.is_valid():
+			input=form.cleaned_data['searchUser']
+			print (input)
+			try:
+				my_record = memberDetails.objects.get(memberContactNumber=input)
+				form= memberDetailsForm(instance=my_record)
+				title='Edit or Delete Member'
+			except:
+				messages.error(request,'ERROR! Member not found.')
+	elif 'memberName' in request.POST:
+		try:
+			input=request.POST['memberContactNumber']
+		
+			my_record = memberDetails.objects.get(memberContactNumber=input)
+			form= memberDetailsForm(request.POST,instance=my_record)
+			if form.is_valid():
+				save_it=form.save(commit = False)
+				form.save()
+				messages.success(request,'Member details updated successfully.')
+				title='Edit or Delete Member'
+		except:
+			messages.error(request,'ERROR! Member contact number cannot be edited.')
+			title='Member Search'
+			
+
+	
+	context={'form':form, 'title':title}
+	common=commonDisplay(request)
+	activePlans=activaPlans(request)
+
+	finalContext={**common, **context,**activePlans} #append the dictionaries
+	return render(request,'edituser.html',context=finalContext)

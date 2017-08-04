@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block message %}
+	{% if messages %}
+		<div class="alert alert-warning alert-dismissible fade in" role="alert">
+	        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
+	        </button>
+			<ul class="messages">
+			    {% for message in messages %}
+			    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+			    {% endfor %}
+			</ul>
+	</div>
+	{% endif %}
+{% endblock %}
+
+{% block content %}
+<div class="col-md-6 col-sm-6 col-xs-12">
+  <div class="x_panel">
+    <div class="x_title">
+      <h2>{{title}}</h2>
+      
+      <div class="clearfix"></div>
+    </div>
+    <div class="x_content">
+      <br /> 
+      <p class="font-gray-dark">
+        Enter contact number below.
+      </p>
+      <form action="{% url 'edituser' %}" method="post">{% csrf_token %}
+        <div class="form-group">
+          <div class="col-md-7">
+            {{form.as_p}}
+      <input type="submit" value="submit">
+          </div>
+        </div>  
+      </form>                             
+    </div>
+  </div>
+</div>
+{% endblock %}

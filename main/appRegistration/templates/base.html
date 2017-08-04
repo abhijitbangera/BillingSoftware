@@ -37,7 +37,7 @@
         <div class="col-md-3 left_col">
           <div class="left_col scroll-view">
             <div class="navbar nav_title" style="border: 0;">
-              <a href="/" class="site_title"><i class="fa fa-paw"></i> <span>Billing Software</span></a>
+              <a href="/" class="site_title"><i class="fa fa-shield"></i> <span>Billing Software</span></a>
             </div>
 
             <div class="clearfix"></div>
@@ -62,13 +62,13 @@
               <div class="menu_section">
                 <h3>General</h3>
                 <ul class="nav side-menu">
-                  <li><a href="/dashboard/"><i class="fa fa-home"></i> Dashboard </span></a>
+                  <li><a href="{% url 'dashboard' %}"><i class="fa fa-home"></i> Dashboard </span></a>
 
                   </li>
-                  <li><a href="/member/register/"><i class="fa fa-edit"></i> Register Member </a>
+                  <li><a href="{% url 'memberRegistration' %}"><i class="fa fa-edit"></i> Register Member </a>
                     
                   </li>
-                  <li><a href="/client/activateplan/"><i class="fa fa-desktop"></i> Plan Renew/Upgrade </a>
+                  <li><a href="{% url 'clientActivatePlan' %}"><i class="fa fa-desktop"></i> Plan Renew/Upgrade </a>
 
                   </li>
                   <li><a><i class="fa fa-table"></i> Reports <span class="fa fa-chevron-down"></span></a>
@@ -82,19 +82,19 @@
                   </li>
                   <li><a><i class="fa fa-bar-chart-o"></i> Search <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                      <li><a href="{% url 'usersearch' %}">Search User</a></li>
+                      <li><a href="{% url 'usersearch' %}">Search Member</a></li>
                       <li><a href="{% url 'staffsearch' %}">Search Staff</a></li>
                     </ul>
                   </li>
-
+                  <li><a href="{% url 'edituser' %}"><i class="fa fa-eraser"></i> Edit/Delete Member </a>
                 </ul>
               </div>
               <div class="menu_section">
                 <h3>Admin Controls</h3>
                 <ul class="nav side-menu">                                  
-                  <li><a href="/client/register/"><i class="fa fa-line-chart"></i> Register Business </a></li>
-                  <li><a href="/staff/register/"><i class="fa fa-male"></i> Register Staff </a></li>
-                  <li><a href="/client/plans/"><i class="fa fa-sitemap"></i> Plans </a>
+                  <li><a href="{% url 'clientRegistration' %}"><i class="fa fa-line-chart"></i> Register Business </a></li>
+                  <li><a href="{% url 'staffRegistration' %}"><i class="fa fa-male"></i> Register Staff </a></li>
+                  <li><a href="{% url 'clientPlans' %}"><i class="fa fa-sitemap"></i> Plans </a>
                   </li>  
                 </ul>
               </div>
