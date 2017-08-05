@@ -766,29 +766,16 @@ def edituser(request):
 	finalContext={**common, **context,**activePlans} #append the dictionaries
 	return render(request,'edituser.html',context=finalContext)
 
-def deleteuser(request):
-	# Start: Ensure Gym is registered first
-	User = get_user_model()
-	userId=User.id
-	gymRegistered= False
-	found=False
-	my_record=None
-	title='Member Search'
-	allGymNumbers=gymDetails.objects.all().values('gymUser_id')
-	for i in allGymNumbers:
-		if i['gymUser_id']==request.user.id:
-			gymRegistered=True
-	if not gymRegistered:
-		return HttpResponseRedirect("/client/register/")
-	# End
-	form = memberActivatePlanForm(request.POST or None)
-	if form.valid():
-		input=request.POST['memberContactNumber']
-		memberDetails.objects.filter(memberContactNumber=input).delete()
-		messages.success(request,'Member DELETED successfully.')
-	context={'form':form, 'title':title}
+def clientEdit(request):
+	my_record = gymDetails.objects.get(gymUser_id=request.user.id)
+	form = gymDetailsForm(instance=my_record)
+	if request.POST:
+		print ('inside')
+		form= gymDetailsForm(request.POST,instance=my_record)
+		save_it=form.save(commit = False)
+		form.save()
+		messages.success(request,'Business details updated successfully.')
 	common=commonDisplay(request)
-	activePlans=activaPlans(request)
-
-	finalContext={**common, **context,**activePlans} #append the dictionaries
-	return render(request,'edituser.html',context=finalContext)
+	context={'form':form}
+	finalContext={**common, **context} #append the dictionaries
+	return render(request,'clientEdit.html',context=finalContext)

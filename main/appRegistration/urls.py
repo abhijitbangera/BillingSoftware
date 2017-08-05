@@ -20,7 +20,7 @@ urlpatterns = [
 				url(r'^usersearch/$',views.usersearch,name='usersearch'),
 				url(r'^staffsearch/$',views.staffsearch,name='staffsearch'),
 				url(r'^member/edit/$',views.edituser,name='edituser'),
-				url(r'^member/delete/$',views.deleteuser,name='deleteuser')
+				url(r'^client/edit/$', views.clientEdit, name='clientEdit'),
 
 
 			   ]

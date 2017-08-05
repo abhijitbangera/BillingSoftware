@@ -30,8 +30,7 @@ class gymDetails(models.Model):
 	gymPincode=models.IntegerField(max_length=9)
 	gymRegistrationDate=models.DateTimeField('Registration Date')
 	gymNumber=models.IntegerField(max_length=9,primary_key=True, null=False)
-	gymUsername=models.CharField(max_length=100)
-	gymPassword=models.CharField(max_length=100)
+	gymType=models.CharField(max_length=100)
 	gymUser=models.ForeignKey(User, unique=True)
 
 	def __str__(self):
@@ -43,6 +42,7 @@ class gymPlans(models.Model):
 	planPrice=models.IntegerField(max_length=9,blank=False, null=False)
 	planDescription=models.CharField(max_length=300)
 	planGymNumber=models.ForeignKey('gymDetails')
+	planStatus=models.BooleanField(default=True)
 
 	def __str__(self):
 		return str(self.planName+self.planGymNumber)

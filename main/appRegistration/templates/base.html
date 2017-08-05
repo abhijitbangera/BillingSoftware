@@ -94,7 +94,14 @@
                 <ul class="nav side-menu">                                  
                   <li><a href="{% url 'clientRegistration' %}"><i class="fa fa-line-chart"></i> Register Business </a></li>
                   <li><a href="{% url 'staffRegistration' %}"><i class="fa fa-male"></i> Register Staff </a></li>
-                  <li><a href="{% url 'clientPlans' %}"><i class="fa fa-sitemap"></i> Plans </a>
+                  <!-- <li><a href="{% url 'clientPlans' %}"><i class="fa fa-sitemap"></i> Plans </a> -->
+                  <li><a><i class="fa fa-table"></i> Plans <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li><a href="{% url 'clientPlans' %}"> Active New Plan</a></li>
+                      <li><a href="#">Deactivate Plan</a></li>
+                      <li><a href="#">Edit Plan</a></li>
+                      
+                    </ul>
                   </li>  
                 </ul>
               </div>
@@ -104,7 +111,7 @@
 
             <!-- /menu footer buttons -->
             <div class="sidebar-footer hidden-small">
-              <a data-toggle="tooltip" data-placement="top" title="Settings">
+              <a data-toggle="tooltip" data-placement="top" title="Edit" href="{% url 'clientEdit' %}">
                 <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
               </a>
               <a data-toggle="tooltip" data-placement="top" title="FullScreen" href="javascript: void(0)" onclick="popup('/')">

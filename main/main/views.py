@@ -23,7 +23,7 @@ def activaPlans(request):
 	for i in gymObj:
 		gymNumber= i['gymNumber']
 
-	Plans=gymPlans.objects.filter(planGymNumber_id=gymNumber).values()
+	Plans=gymPlans.objects.filter(planGymNumber_id=gymNumber, planStatus=1).values()
 	planNames=['None']
 	planDuration=['None']
 	planPrice=['None']
@@ -49,3 +49,4 @@ def activaPlans(request):
 	plans_as_dict=(plans_as_dict)
 	context={'plans_as_dict':plans_as_dict}
 	return context
+
