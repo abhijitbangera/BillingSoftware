@@ -19,7 +19,8 @@ urlpatterns = [
 				url(r'^export/csv5/$', views.total_income, name='total_income'),
 				url(r'^usersearch/$',views.usersearch,name='usersearch'),
 				url(r'^staffsearch/$',views.staffsearch,name='staffsearch'),
-				url(r'^member/edit/$',views.edituser,name='edituser')
+				url(r'^member/edit/$',views.edituser,name='edituser'),
+				url(r'^member/delete/$',views.deleteuser,name='deleteuser')
 
 
 			   ]

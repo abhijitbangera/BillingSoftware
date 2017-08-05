@@ -691,6 +691,7 @@ def edituser(request):
 	found=False
 	my_record=None
 	title='Member Search'
+	buttontext='Search'
 	allGymNumbers=gymDetails.objects.all().values('gymUser_id')
 	for i in allGymNumbers:
 		if i['gymUser_id']==request.user.id:
@@ -698,37 +699,93 @@ def edituser(request):
 	if not gymRegistered:
 		return HttpResponseRedirect("/client/register/")
 	# End
+	# Member stats
+	last30Days=datetime.datetime.now() + datetime.timedelta(days=-30)
+	print ('last30days is:',last30Days)
+	gymObj=gymDetails.objects.filter(gymUser_id=request.user.id).values()
+	for elements in gymObj:
+		gymNumber=elements['gymNumber']
+	totalNumberOfMembers=memberDetails.objects.filter(memberGymNumber_id=gymNumber).count()
+	totalActiveMembers=memberDetails.objects.filter(memberGymNumber_id=gymNumber, memberStatus=1).count()
+	newMembers=memberDetails.objects.filter(memberGymNumber_id=gymNumber, memberRegistrationDate__gte=datetime.datetime.now()-timedelta(days=30)).count()
+	maleCount=memberDetails.objects.filter(memberGender='M',memberGymNumber_id=gymNumber).count()
+	femaleCount=memberDetails.objects.filter(memberGender='F',memberGymNumber_id=gymNumber).count()	
+
+	# End
+	gymObj=gymDetails.objects.filter(gymUser_id=request.user.id).values()
+	for elements in gymObj:
+		gymNumber=elements['gymNumber']
 	print (request.POST)
 	form = memberActivatePlanForm(request.POST or None)
-	if 'searchUser' in request.POST:
+	if 'deleteuser' in request.POST:
+		input=request.POST['memberContactNumber']
+		my_record = memberDetails.objects.get(memberContactNumber=input,memberGymNumber_id=gymNumber)
+		form= memberDetailsForm(request.POST,instance=my_record)
+		if form.is_valid():
+			print ('deleting user')
+			
+			print ('input is:', input)
+			memberDetails.objects.filter(memberContactNumber=input,memberGymNumber_id=gymNumber).delete()
+			messages.success(request,'Member DELETED successfully.')
+	elif 'searchUser' in request.POST:
 		print ('???????????')
 		form = memberActivatePlanForm(request.POST or None)
 		if form.is_valid():
 			input=form.cleaned_data['searchUser']
 			print (input)
 			try:
-				my_record = memberDetails.objects.get(memberContactNumber=input)
+				my_record = memberDetails.objects.get(memberContactNumber=input,memberGymNumber_id=gymNumber)
 				form= memberDetailsForm(instance=my_record)
 				title='Edit or Delete Member'
+				buttontext='Update'
 			except:
 				messages.error(request,'ERROR! Member not found.')
 	elif 'memberName' in request.POST:
 		try:
 			input=request.POST['memberContactNumber']
 		
-			my_record = memberDetails.objects.get(memberContactNumber=input)
+			my_record = memberDetails.objects.get(memberContactNumber=input,memberGymNumber_id=gymNumber)
 			form= memberDetailsForm(request.POST,instance=my_record)
 			if form.is_valid():
 				save_it=form.save(commit = False)
 				form.save()
 				messages.success(request,'Member details updated successfully.')
 				title='Edit or Delete Member'
+
 		except:
 			messages.error(request,'ERROR! Member contact number cannot be edited.')
 			title='Member Search'
 			
 
 	
+	context={'form':form, 'title':title,'buttontext':buttontext,'totalNumberOfMembers':totalNumberOfMembers,'totalActiveMembers':totalActiveMembers,
+			'maleCount':maleCount,'femaleCount':femaleCount,'newMembers':newMembers}
+	common=commonDisplay(request)
+	activePlans=activaPlans(request)
+
+	finalContext={**common, **context,**activePlans} #append the dictionaries
+	return render(request,'edituser.html',context=finalContext)
+
+def deleteuser(request):
+	# Start: Ensure Gym is registered first
+	User = get_user_model()
+	userId=User.id
+	gymRegistered= False
+	found=False
+	my_record=None
+	title='Member Search'
+	allGymNumbers=gymDetails.objects.all().values('gymUser_id')
+	for i in allGymNumbers:
+		if i['gymUser_id']==request.user.id:
+			gymRegistered=True
+	if not gymRegistered:
+		return HttpResponseRedirect("/client/register/")
+	# End
+	form = memberActivatePlanForm(request.POST or None)
+	if form.valid():
+		input=request.POST['memberContactNumber']
+		memberDetails.objects.filter(memberContactNumber=input).delete()
+		messages.success(request,'Member DELETED successfully.')
 	context={'form':form, 'title':title}
 	common=commonDisplay(request)
 	activePlans=activaPlans(request)

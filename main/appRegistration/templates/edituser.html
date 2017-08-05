@@ -31,11 +31,66 @@
         <div class="form-group">
           <div class="col-md-7">
             {{form.as_p}}
-      <input type="submit" value="submit">
+          <input type="submit" value={{buttontext}}>
+          {% if buttontext == 'Update' %}
+          <input type="submit" name="deleteuser" value="Delete" onclick="clicked(event)">
+          {% endif %}
           </div>
         </div>  
       </form>                             
     </div>
   </div>
+
 </div>
+
+
+<div class="col-md-6 col-sm-6 col-xs-12">
+  <div class="x_panel">
+    <div class="x_title">
+      <h2>Member Stats </h2>
+      <!-- <ul class="nav navbar-right panel_toolbox">
+        <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+        </li>
+       
+        <li><a class="close-link"><i class="fa fa-close"></i></a>
+        </li>
+      </ul> -->
+      <div class="clearfix"></div>
+    </div>
+    <div class="x_content">
+    <table class="countries_list table table-striped">
+            <tbody>
+              <tr>
+                <td>Total Registered Members</td>
+                <td class="fs15 fw700 text-right">{{totalNumberOfMembers}}</td>
+              </tr>
+              <tr>
+                <td>Active Members</td>
+                <td class="fs15 fw700 text-right">{{totalActiveMembers}}</td>
+              </tr>
+              <tr>
+                <td>Total Male</td>
+                <td class="fs15 fw700 text-right">{{maleCount}}</td>
+              </tr>
+              <tr>
+                <td>Total Female</td>
+                <td class="fs15 fw700 text-right">{{femaleCount}}</td>
+              </tr>
+              <tr>
+                <td>New Members (last 30 days)</td>
+                <td class="fs15 fw700 text-right">{{newMembers}}</td>
+              </tr>
+            </tbody>
+          </table>
+    </div>
+  </div>
+
+</div>   
+
+<script>
+function clicked(e)
+{
+    if(!confirm('Are you sure you want to delete the member?'))e.preventDefault();
+}
+</script>
 {% endblock %}
