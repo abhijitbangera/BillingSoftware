@@ -25,7 +25,12 @@
     <div class="x_content">
       <br /> 
       <p class="font-gray-dark">
+      {% if buttontext == 'Update' %}
+        Edit your details and click on update. Note: Contact number cannot be edited.
+      {% else %}
         Enter contact number below.
+      {% endif %}
+
       </p>
       <form action="{% url 'edituser' %}" method="post">{% csrf_token %}
         <div class="form-group">

@@ -35,7 +35,7 @@
     <div class="container body">
       <div class="main_container">
         <div class="col-md-3 left_col">
-          <div class="left_col scroll-view">
+          <div class="left_col scroll-view" >
             <div class="navbar nav_title" style="border: 0;">
               <a href="/" class="site_title"><i class="fa fa-shield"></i> <span>Billing Software</span></a>
             </div>
@@ -48,7 +48,7 @@
                 <img src="{% static '/images/img.jpg' %}" alt="..." class="img-circle profile_img">
               </div>
               <div class="profile_info">
-                <span>{{user|title}}</span>
+                <span>Welcome, {{user|title}}</span>
                 <h2>{{gymName|upper}}</h2>
                 <h6>(Gym id: {{gymNumber}})</h6>
               </div>
@@ -93,16 +93,19 @@
                 <h3>Admin Controls</h3>
                 <ul class="nav side-menu">                                  
                   <li><a href="{% url 'clientRegistration' %}"><i class="fa fa-line-chart"></i> Register Business </a></li>
-                  <li><a href="{% url 'staffRegistration' %}"><i class="fa fa-male"></i> Register Staff </a></li>
-                  <!-- <li><a href="{% url 'clientPlans' %}"><i class="fa fa-sitemap"></i> Plans </a> -->
-                  <li><a><i class="fa fa-table"></i> Plans <span class="fa fa-chevron-down"></span></a>
+                  <li><a><i class="fa fa-table"></i> Subscription Plans <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                      <li><a href="{% url 'clientPlans' %}"> Active New Plan</a></li>
-                      <li><a href="#">Deactivate Plan</a></li>
-                      <li><a href="#">Edit Plan</a></li>
-                      
+                      <li><a href="{% url 'clientPlans' %}"> Create New Plan</a></li>
+                      <li><a href="{% url 'deactivePlan' %}">Activate/Deactivate Plan</a></li>     
                     </ul>
-                  </li>  
+                  </li> 
+                  
+                  <li><a><i class="fa fa-table"></i> My Staff <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li><a href="{% url 'staffRegistration' %}"> Register Staff</a></li>
+                      <li><a href="{% url 'deactiveStaff' %}">Activate/Deactivate/Edit Staff</a></li>     
+                    </ul>
+                  </li> 
                 </ul>
               </div>
 

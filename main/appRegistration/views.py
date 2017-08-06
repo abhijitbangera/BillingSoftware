@@ -8,7 +8,7 @@ import datetime
 from appRegistration.models import gymDetails, memberDetails,gymPlans,staffDetails
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import get_user_model
-from main.views import commonDisplay,activaPlans
+from main.views import commonDisplay,activaPlans,deactivaPlans
 from django.contrib import messages
 from django.db.models import Q
 import simplejson, csv
@@ -68,7 +68,7 @@ def dashboard(request):
 			print (price)
 			todaysCollection=todaysCollection+price
 
-	last30daysExpired=memberDetails.objects.filter(memberPlandExpiryDate__range=(last30Days,datetime.datetime.now()),memberGymNumber_id=gymNumber).values()
+	last30daysExpired=memberDetails.objects.filter(memberPlandExpiryDate__range=(last30Days,datetime.datetime.now()),memberGymNumber_id=gymNumber).values().order_by('memberPlandExpiryDate').reverse()
 	print ('LLLLLLLLLL')
 	memberNames=['None']
 	memberContactNumber=['None']
@@ -157,9 +157,13 @@ def memberRegistration(request):
 	
 	if request.POST:
 		form= memberDetailsForm(request.POST)
-		print ('inside post')
-		print (request.POST['selectedPlanName'])
-		print (request.POST['memberContactNumber'])
+		# print ('inside post')
+		try: 
+			print (request.POST['selectedPlanName'])
+		except: 
+			messages.error(request,'ERROR! Please select a Plan. If no plans are displayed, please register a plan first.')
+			return HttpResponseRedirect("/member/register/")
+		# print (request.POST['memberContactNumber'])
 
 		if form.is_valid():
 			checkAlreadyRegistered= memberDetails.objects.filter(memberGymNumber_id=gymNumber,
@@ -282,7 +286,9 @@ def clientPlans(request):
 	common=commonDisplay(request)
 	activePlans=activaPlans(request)
 	context={'form':form}
-	finalContext={**common, **context,**activePlans} #append the dictionaries
+	deactivePlans=deactivaPlans(request)
+
+	finalContext={**common, **context,**activePlans,**deactivePlans}  #append the dictionaries
 	return render(request,'clientPlans.html',context=finalContext)
 
 @login_required
@@ -303,7 +309,7 @@ def clientActivatePlan(request):
 	context={'form':form,'buttontext':'Submit'}
 
 	if form.is_valid():
-		input=form.cleaned_data['searchUser']
+		input=form.cleaned_data['Search']
 		print (input)
 		gymObj=gymDetails.objects.filter(gymUser_id=request.user.id).values()
 		for i in gymObj:
@@ -352,7 +358,7 @@ def clientActivatePlan(request):
 	finalContext={**common, **context,**activePlans} #append the dictionaries
 	return render(request,'gymPlans.html',context=finalContext)
 
-
+@login_required
 def export_users_csv(request):
 	# Start: Ensure Gym is registered first
 	User = get_user_model()
@@ -386,6 +392,7 @@ def export_users_csv(request):
 	    writer.writerow(user)
 	return response
 
+@login_required
 def export_monthly_report(request):
 	# Start: Ensure Gym is registered first
 	User = get_user_model()
@@ -421,6 +428,7 @@ def export_monthly_report(request):
 
 	return response
 
+@login_required
 def current_month_income(request):
 	# Start: Ensure Gym is registered first
 	User = get_user_model()
@@ -465,6 +473,7 @@ def current_month_income(request):
 
 	return response
 
+@login_required
 def last_month_income(request):
 	# Start: Ensure Gym is registered first
 	User = get_user_model()
@@ -510,6 +519,7 @@ def last_month_income(request):
 					'Total Income= ' + str(thisMonthCollection), '', ''])
 	return response
 
+@login_required
 def total_income(request):
 	# Start: Ensure Gym is registered first
 	User = get_user_model()
@@ -552,6 +562,7 @@ def total_income(request):
 					'Total Income= ' + str(thisMonthCollection), '', ''])
 	return response
 
+@login_required
 def usersearch(request):
 	# Start: Ensure Gym is registered first
 	User = get_user_model()
@@ -581,38 +592,41 @@ def usersearch(request):
 			'maleCount':maleCount,'femaleCount':femaleCount,'newMembers':newMembers}
 
 	if form.is_valid():
-		input=form.cleaned_data['searchUser']
+		input=form.cleaned_data['Search']
 		print (input)
 		gymObj=gymDetails.objects.filter(gymUser_id=request.user.id).values()
 		for i in gymObj:
 			gymNumber= i['gymNumber']
-		member=memberDetails.objects.filter(memberContactNumber=input, memberGymNumber_id=gymNumber).values()
-		if not member:
-			messages.error(request,'ERROR! Number not registered in system. Please check the entered number.')
-		for i in member:
-			name=i['memberName']
-			memberEmail=i['memberEmail']
-			memberAddress=i['memberAddress']
-			memberCity=i['memberCity']
-			memberPincode=i['memberPincode']
-			memberContactNumber=i['memberContactNumber']
-			memberEmergencyNumber=i['memberEmergencyNumber']
-			registrationDate=i['memberRegistrationDate']
-			status=i['memberStatus']
-			memberId=i['memberNumber']
-			memberGender=i['memberGender']
-			activeMemberPlan=i['memberPlan']
-			memberPlanActivationDate=i['memberPlanActivationDate']
-			memberPlandExpiryDate=i['memberPlandExpiryDate']	
-			buttontext='Update'		
+		try: 
+			member=memberDetails.objects.filter(memberContactNumber=input, memberGymNumber_id=gymNumber).values()
+			if not member:
+				messages.error(request,'ERROR! Number not registered in system. Please check the entered number.')
+			for i in member:
+				name=i['memberName']
+				memberEmail=i['memberEmail']
+				memberAddress=i['memberAddress']
+				memberCity=i['memberCity']
+				memberPincode=i['memberPincode']
+				memberContactNumber=i['memberContactNumber']
+				memberEmergencyNumber=i['memberEmergencyNumber']
+				registrationDate=i['memberRegistrationDate']
+				status=i['memberStatus']
+				memberId=i['memberNumber']
+				memberGender=i['memberGender']
+				activeMemberPlan=i['memberPlan']
+				memberPlanActivationDate=i['memberPlanActivationDate']
+				memberPlandExpiryDate=i['memberPlandExpiryDate']	
+				buttontext='Update'		
 
-			context={'form':form,'name':name,'memberEmail':memberEmail,'registrationDate':registrationDate,
-					'status':status,'memberId':memberId,'activeMemberPlan':activeMemberPlan,'memberPlanActivationDate':memberPlanActivationDate,
-					'memberAddress':memberAddress,'memberCity':memberCity,'memberPincode':memberPincode,'memberContactNumber':memberContactNumber,
-					'memberEmergencyNumber':memberEmergencyNumber,'memberGender':memberGender,
-					'memberPlandExpiryDate':memberPlandExpiryDate,'buttontext':buttontext,
-					'totalNumberOfMembers':totalNumberOfMembers,'totalActiveMembers':totalActiveMembers,
-					'maleCount':maleCount,'femaleCount':femaleCount,'newMembers':newMembers}
+				context={'form':form,'name':name,'memberEmail':memberEmail,'registrationDate':registrationDate,
+						'status':status,'memberId':memberId,'activeMemberPlan':activeMemberPlan,'memberPlanActivationDate':memberPlanActivationDate,
+						'memberAddress':memberAddress,'memberCity':memberCity,'memberPincode':memberPincode,'memberContactNumber':memberContactNumber,
+						'memberEmergencyNumber':memberEmergencyNumber,'memberGender':memberGender,
+						'memberPlandExpiryDate':memberPlandExpiryDate,'buttontext':buttontext,
+						'totalNumberOfMembers':totalNumberOfMembers,'totalActiveMembers':totalActiveMembers,
+						'maleCount':maleCount,'femaleCount':femaleCount,'newMembers':newMembers}
+		except:
+			messages.error(request,'ERROR! Please enter valid contact number only. You have entered invalid charactered.')
 
 	common=commonDisplay(request)
 	activePlans=activaPlans(request)
@@ -620,6 +634,7 @@ def usersearch(request):
 	finalContext={**common, **context,**activePlans} #append the dictionaries
 	return render(request,'searchUser.html',context=finalContext)
 
+@login_required
 def staffsearch(request):
 	# Start: Ensure Gym is registered first
 	User = get_user_model()
@@ -649,33 +664,36 @@ def staffsearch(request):
 			'maleCount':maleCount,'femaleCount':femaleCount,'newstaffs':newstaffs}
 
 	if form.is_valid():
-		input=form.cleaned_data['searchUser']
+		input=form.cleaned_data['Search']
 		print (input)
 		gymObj=gymDetails.objects.filter(gymUser_id=request.user.id).values()
 		for i in gymObj:
 			gymNumber= i['gymNumber']
-		staff=staffDetails.objects.filter(staffContactNumber=input, staffGymNumber_id=gymNumber).values()
-		if not staff:
-			messages.error(request,'ERROR! Number not registered in system. Please check the entered number.')
-		for i in staff:
-			name=i['staffName']
-			staffEmail=i['staffEmail']
-			staffAddress=i['staffAddress']
-			staffCity=i['staffCity']
-			staffPincode=i['staffPincode']
-			staffContactNumber=i['staffContactNumber']
-			staffEmergencyNumber=i['staffEmergencyNumber']
-			registrationDate=i['staffRegistrationDate']
-			status=i['staffStatus']
-			staffId=i['staffNumber']
-			staffGender=i['staffGender']
+		try:
+			staff=staffDetails.objects.filter(staffContactNumber=input, staffGymNumber_id=gymNumber).values()
+			if not staff:
+				messages.error(request,'ERROR! Number not registered in system. Please check the entered number.')
+			for i in staff:
+				name=i['staffName']
+				staffEmail=i['staffEmail']
+				staffAddress=i['staffAddress']
+				staffCity=i['staffCity']
+				staffPincode=i['staffPincode']
+				staffContactNumber=i['staffContactNumber']
+				staffEmergencyNumber=i['staffEmergencyNumber']
+				registrationDate=i['staffRegistrationDate']
+				status=i['staffStatus']
+				staffId=i['staffNumber']
+				staffGender=i['staffGender']
 
-			context={'form':form,'name':name,'staffEmail':staffEmail,'registrationDate':registrationDate,
-					'status':status,'staffId':staffId,
-					'staffAddress':staffAddress,'staffCity':staffCity,'staffPincode':staffPincode,'staffContactNumber':staffContactNumber,
-					'staffEmergencyNumber':staffEmergencyNumber,'staffGender':staffGender,
-					'totalNumberOfstaffs':totalNumberOfstaffs,'totalActivestaffs':totalActivestaffs,
-					'maleCount':maleCount,'femaleCount':femaleCount,'newstaffs':newstaffs}
+				context={'form':form,'name':name,'staffEmail':staffEmail,'registrationDate':registrationDate,
+						'status':status,'staffId':staffId,
+						'staffAddress':staffAddress,'staffCity':staffCity,'staffPincode':staffPincode,'staffContactNumber':staffContactNumber,
+						'staffEmergencyNumber':staffEmergencyNumber,'staffGender':staffGender,
+						'totalNumberOfstaffs':totalNumberOfstaffs,'totalActivestaffs':totalActivestaffs,
+						'maleCount':maleCount,'femaleCount':femaleCount,'newstaffs':newstaffs}
+		except:
+			messages.error(request,'ERROR! Please enter valid contact number only. You have entered invalid charactered.')
 
 	common=commonDisplay(request)
 	activePlans=activaPlans(request)
@@ -683,6 +701,7 @@ def staffsearch(request):
 	finalContext={**common, **context,**activePlans} #append the dictionaries
 	return render(request,'staffSearch.html',context=finalContext)
 
+@login_required
 def edituser(request):
 	# Start: Ensure Gym is registered first
 	User = get_user_model()
@@ -723,19 +742,20 @@ def edituser(request):
 		form= memberDetailsForm(request.POST,instance=my_record)
 		if form.is_valid():
 			print ('deleting user')
-			
+			form.fields['memberContactNumber'].widget.attrs['readonly'] = True
 			print ('input is:', input)
 			memberDetails.objects.filter(memberContactNumber=input,memberGymNumber_id=gymNumber).delete()
 			messages.success(request,'Member DELETED successfully.')
-	elif 'searchUser' in request.POST:
+	elif 'Search' in request.POST:
 		print ('???????????')
 		form = memberActivatePlanForm(request.POST or None)
 		if form.is_valid():
-			input=form.cleaned_data['searchUser']
+			input=form.cleaned_data['Search']
 			print (input)
 			try:
 				my_record = memberDetails.objects.get(memberContactNumber=input,memberGymNumber_id=gymNumber)
 				form= memberDetailsForm(instance=my_record)
+				form.fields['memberContactNumber'].widget.attrs['readonly'] = True
 				title='Edit or Delete Member'
 				buttontext='Update'
 			except:
@@ -749,6 +769,7 @@ def edituser(request):
 			if form.is_valid():
 				save_it=form.save(commit = False)
 				form.save()
+				form.fields['memberContactNumber'].widget.attrs['readonly'] = True
 				messages.success(request,'Member details updated successfully.')
 				title='Edit or Delete Member'
 
@@ -766,6 +787,7 @@ def edituser(request):
 	finalContext={**common, **context,**activePlans} #append the dictionaries
 	return render(request,'edituser.html',context=finalContext)
 
+@login_required
 def clientEdit(request):
 	my_record = gymDetails.objects.get(gymUser_id=request.user.id)
 	form = gymDetailsForm(instance=my_record)
@@ -779,3 +801,150 @@ def clientEdit(request):
 	context={'form':form}
 	finalContext={**common, **context} #append the dictionaries
 	return render(request,'clientEdit.html',context=finalContext)
+
+@login_required
+def deactivePlan(request):
+	# Start: Ensure Gym is registered first
+	User = get_user_model()
+	userId=User.id
+	gymRegistered= False
+	found=False
+	my_record=None
+	title='Plan Search'
+	buttontext='Search'
+	allGymNumbers=gymDetails.objects.all().values('gymUser_id')
+	for i in allGymNumbers:
+		if i['gymUser_id']==request.user.id:
+			gymRegistered=True
+	if not gymRegistered:
+		return HttpResponseRedirect("/client/register/")
+	# End
+
+	gymObj=gymDetails.objects.filter(gymUser_id=request.user.id).values()
+	for elements in gymObj:
+		gymNumber=elements['gymNumber']
+	print (request.POST)
+	form = memberActivatePlanForm(request.POST or None)
+	if 'Search' in request.POST:
+		print ('???????????')
+		print ('yes')
+
+		form = memberActivatePlanForm(request.POST or None)
+		if form.is_valid():
+			print ('inside form')
+			input=form.cleaned_data['Search']
+			print (input)
+			try:
+				my_record = gymPlans.objects.get(planName__iexact=input,planGymNumber_id=gymNumber)
+				print (my_record.id)
+				form= gymPlansForm(instance=my_record)
+				form.fields['planName'].widget.attrs['readonly'] = True
+				form.fields['planDuration'].widget.attrs['readonly'] = True
+				form.fields['planPrice'].widget.attrs['readonly'] = True
+				form.fields['planDescription'].widget.attrs['readonly'] = True
+				title='Deactivate Plan'
+				buttontext='Deactivate Plan'
+			except:
+				messages.error(request,'ERROR! Plan not found. Please check the plan name entered.')
+	elif 'deactivate' in request.POST:
+		try:
+			print
+			input=request.POST['planName']
+		
+			my_record = gymPlans.objects.get(planName__iexact=input,planGymNumber_id=gymNumber)
+			form= gymPlansForm(request.POST,instance=my_record)
+			if form.is_valid():
+				save_it=form.save(commit = False)
+				form.save()
+				form.fields['planName'].widget.attrs['readonly'] = True
+				form.fields['planDuration'].widget.attrs['readonly'] = True
+				form.fields['planPrice'].widget.attrs['readonly'] = True
+				form.fields['planDescription'].widget.attrs['readonly'] = True
+				messages.success(request,'Plan updated successfully.')
+				title='Deactivate Plan'
+				buttontext='Deactivate Plan'
+		except:
+			messages.error(request,'ERROR! Plan Name/Title cannot be edited. Please create a new plan.')
+			title='Member Search'			
+
+	
+	context={'form':form, 'title':title,'buttontext':buttontext}
+	common=commonDisplay(request)
+	activePlans=activaPlans(request)
+	deactivePlans=deactivaPlans(request)
+
+	finalContext={**common, **context,**activePlans,**deactivePlans} #append the dictionaries
+	return render(request,'deactivatePlan.html',context=finalContext)
+
+@login_required
+def deactiveStaff(request):
+	# Start: Ensure Gym is registered first
+	User = get_user_model()
+	userId=User.id
+	gymRegistered= False
+	found=False
+	my_record=None
+	title='Staff Search'
+	buttontext='Search'
+	allGymNumbers=gymDetails.objects.all().values('gymUser_id')
+	for i in allGymNumbers:
+		if i['gymUser_id']==request.user.id:
+			gymRegistered=True
+	if not gymRegistered:
+		return HttpResponseRedirect("/client/register/")
+	# End
+
+	gymObj=gymDetails.objects.filter(gymUser_id=request.user.id).values()
+	for elements in gymObj:
+		gymNumber=elements['gymNumber']
+	print (request.POST)
+	form = memberActivatePlanForm(request.POST or None)
+	if 'Search' in request.POST:
+		print ('???????????')
+		print ('yes')
+
+		form = memberActivatePlanForm(request.POST or None)
+		if form.is_valid():
+			print ('inside form')
+			input=form.cleaned_data['Search']
+			print (input)
+			try:
+				my_record = staffDetails.objects.get(staffContactNumber=input,staffGymNumber_id=gymNumber)
+				form= staffDetailsForm(instance=my_record)
+				form.fields['staffContactNumber'].widget.attrs['readonly'] = True
+				
+				title='Edit Staff Details'
+				buttontext="Update"
+			except:
+				messages.error(request,'ERROR! Plan not found. Please check the plan name entered.')
+	elif 'deactivate' in request.POST:
+		try:
+			print (request.POST)
+			input=request.POST['staffContactNumber']
+		
+			my_record = staffDetails.objects.get(staffContactNumber=input,staffGymNumber_id=gymNumber)
+			form= staffDetailsForm(request.POST,instance=my_record)
+			if form.is_valid():
+				save_it=form.save(commit = False)
+				form.fields['staffContactNumber'].widget.attrs['readonly'] = True
+				form.save()
+				# form.fields['planName'].widget.attrs['readonly'] = True
+				# form.fields['planDuration'].widget.attrs['readonly'] = True
+				# form.fields['planPrice'].widget.attrs['readonly'] = True
+				# form.fields['planDescription'].widget.attrs['readonly'] = True
+				messages.success(request,'Staff updated successfully.')
+				title='Edit Staff Details'
+				buttontext="Update"
+		except:
+			messages.error(request,'ERROR! Plan Name/Title cannot be edited. Please create a new plan.')
+			title='Staff Search'	
+			buttontext="Search"		
+
+	
+	context={'form':form, 'title':title,'buttontext':buttontext}
+	common=commonDisplay(request)
+	activePlans=activaPlans(request)
+	deactivePlans=deactivaPlans(request)
+
+	finalContext={**common, **context,**activePlans,**deactivePlans} #append the dictionaries
+	return render(request,'editStaff.html',context=finalContext)

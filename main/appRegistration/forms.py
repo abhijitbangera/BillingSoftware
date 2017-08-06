@@ -18,6 +18,7 @@ class memberDetailsForm(forms.ModelForm):
 
 
 class gymPlansForm(forms.ModelForm):
+
 	class Meta:
 		model= gymPlans
 		fields = '__all__'
@@ -25,13 +26,13 @@ class gymPlansForm(forms.ModelForm):
 
 
 class memberActivatePlanForm(forms.Form):
-    searchUser = forms.CharField(required=True)
+    Search = forms.CharField(required=True)
 
 	
 class staffDetailsForm(forms.ModelForm):
 	class Meta:
 		model= staffDetails
 		fields = '__all__'
-		exclude = ['staffStatus','staffNumber','staffRegistrationDate','staffGymNumber']
+		exclude = ['staffNumber','staffRegistrationDate','staffGymNumber']
 
 

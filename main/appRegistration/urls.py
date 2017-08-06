@@ -21,6 +21,8 @@ urlpatterns = [
 				url(r'^staffsearch/$',views.staffsearch,name='staffsearch'),
 				url(r'^member/edit/$',views.edituser,name='edituser'),
 				url(r'^client/edit/$', views.clientEdit, name='clientEdit'),
+				url(r'^client/plandeactivate/$', views.deactivePlan, name='deactivePlan'),
+				url(r'^client/editStaff/$', views.deactiveStaff, name='deactiveStaff'),
 
 
 			   ]
