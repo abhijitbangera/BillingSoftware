@@ -26,7 +26,7 @@
     <p class="font-gray-dark">
       To use any of the feature, you must first register your business in our system.
     </p>
-    <form action="/client/register/" method="post">{% csrf_token %}
+    <form action="/client/register/" method="post" enctype="multipart/form-data">{% csrf_token %}
       <div class="form-group">
         <div class="col-md-7">
           {{form.as_p}}

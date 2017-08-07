@@ -274,6 +274,7 @@ class gymDetails(models.Model):
 	gymNumber=models.IntegerField(max_length=9,primary_key=True, null=False)
 	BusinessType = (('gym', 'Gym'),('yoga', 'Yoga'),)
 	gymType=models.CharField('Category',max_length=100,choices=BusinessType)
+	gymImage=models.ImageField(upload_to = 'images/', default = 'images/img.jpg')
 	gymUser=models.ForeignKey(User, unique=True)
 
 	def __str__(self):

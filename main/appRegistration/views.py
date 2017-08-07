@@ -109,7 +109,7 @@ def clientRegistration(request):
 		latestGymNum=getLatestGymNum
 
 	if request.POST:
-		form= gymDetailsForm(request.POST)
+		form= gymDetailsForm(request.POST, request.FILES)
 		if form.is_valid():
 			save_it=form.save(commit = False)
 			save_it.gymRegistrationDate = datetime.datetime.now()
@@ -793,7 +793,7 @@ def clientEdit(request):
 	form = gymDetailsForm(instance=my_record)
 	if request.POST:
 		print ('inside')
-		form= gymDetailsForm(request.POST,instance=my_record)
+		form= gymDetailsForm(request.POST, request.FILES,instance=my_record)
 		save_it=form.save(commit = False)
 		form.save()
 		messages.success(request,'Business details updated successfully.')

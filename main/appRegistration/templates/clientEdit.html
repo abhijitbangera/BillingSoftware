@@ -23,7 +23,7 @@
   </div>
   <div class="x_content">
     <br /> 
-    <form action="/client/edit/" method="post">{% csrf_token %}
+    <form action="/client/edit/" method="post" enctype="multipart/form-data">{% csrf_token %}
       <div class="form-group">
         <div class="col-md-7">
           {{form.as_p}}

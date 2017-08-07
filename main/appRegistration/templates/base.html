@@ -9,7 +9,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Billing Software</title>
+    <title>Anixy.co</title>
 
     <!-- Bootstrap -->
     <link href="{% static '/css/bootstrap.min.css' %}" rel="stylesheet">
@@ -37,15 +37,15 @@
         <div class="col-md-3 left_col">
           <div class="left_col scroll-view" >
             <div class="navbar nav_title" style="border: 0;">
-              <a href="/" class="site_title"><i class="fa fa-shield"></i> <span>Billing Software</span></a>
+              <a href="/" class="site_title"><i class="fa fa-shield"></i> <span>ANIXY</span></a>
             </div>
 
             <div class="clearfix"></div>
 
             <!-- menu profile quick info -->
             <div class="profile clearfix">
-              <div class="profile_pic">
-                <img src="{% static '/images/img.jpg' %}" alt="..." class="img-circle profile_img">
+              <div class="profile_pic">             
+                <img src="{{ MEDIA_URL }}{{gymImage}}" alt="Logo" class="img-circle profile_img">
               </div>
               <div class="profile_info">
                 <span>Welcome, {{user|title}}</span>
@@ -80,7 +80,7 @@
                       <li><a href="{% url 'total_income' %}">Total Income</a></li>
                     </ul>
                   </li>
-                  <li><a><i class="fa fa-bar-chart-o"></i> Search <span class="fa fa-chevron-down"></span></a>
+                  <li><a><i class="fa fa-search"></i> Search <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       <li><a href="{% url 'usersearch' %}">Search Member</a></li>
                       <li><a href="{% url 'staffsearch' %}">Search Staff</a></li>
@@ -93,14 +93,14 @@
                 <h3>Admin Controls</h3>
                 <ul class="nav side-menu">                                  
                   <li><a href="{% url 'clientRegistration' %}"><i class="fa fa-line-chart"></i> Register Business </a></li>
-                  <li><a><i class="fa fa-table"></i> Subscription Plans <span class="fa fa-chevron-down"></span></a>
+                  <li><a><i class="fa fa-briefcase"></i> Subscription Plans <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       <li><a href="{% url 'clientPlans' %}"> Create New Plan</a></li>
                       <li><a href="{% url 'deactivePlan' %}">Activate/Deactivate Plan</a></li>     
                     </ul>
                   </li> 
                   
-                  <li><a><i class="fa fa-table"></i> My Staff <span class="fa fa-chevron-down"></span></a>
+                  <li><a><i class="fa fa-users"></i> My Staff <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       <li><a href="{% url 'staffRegistration' %}"> Register Staff</a></li>
                       <li><a href="{% url 'deactiveStaff' %}">Activate/Deactivate/Edit Staff</a></li>     
@@ -182,7 +182,7 @@
         <!-- footer content -->
         <footer>
           <div class="pull-right">
-             <a href="#">Billing Software</a>
+             <a href="#">Anixy</a>
           </div>
           <div class="clearfix"></div>
         </footer>

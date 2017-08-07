@@ -8,13 +8,16 @@ def commonDisplay(request):
 	print (userId)
 	gymName=''
 	gymNumber='#'
+	gymImage=['']
+	gymType=['']
 	gymObj=gymDetails.objects.filter(gymUser_id=request.user.id).values()
 	for i in gymObj:
 		gymName=i['gymName']
 		gymNumber=i['gymNumber']
 		gymType=i['gymType']
+		gymImage=i['gymImage']
 		print (gymName,gymNumber)
-	context={'user':user,'userId':userId,'gymName':gymName,'gymNumber':gymNumber,'gymType':gymType}
+	context={'user':user,'userId':userId,'gymName':gymName,'gymNumber':gymNumber,'gymImage':gymImage}
 	return context
 	# return render(request,'base.html',context=context)
 	# return user,userId,gymName,gymNumber
