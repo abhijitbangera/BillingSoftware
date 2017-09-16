@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block message %}
+	{% if messages %}
+		<div class="alert alert-warning alert-dismissible fade in" role="alert">
+	        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
+	        </button>
+			<ul class="messages">
+			    {% for message in messages %}
+			    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+			    {% endfor %}
+			</ul>
+	</div>
+	{% endif %}
+{% endblock %}
+
+{% block content %}
+<div class="col-md-6 col-sm-6 col-xs-12">
+<div class="x_panel">
+  <div class="x_title">
+    <h2>Billing Details</h2>
+    
+    <div class="clearfix"></div>
+  </div>
+  <div class="x_content">
+    <br/> 
+    	Total Number of active members in last 30 days: {{totalActiveMembers}}  <br/>  
+    	Amount charged per active member: Rs.{{amountPerMember}} <br/>   
+    	Total due amount: Rs. <b>{{billableAmount}}</b>  <br/> 
+    	<a href={{payment_link}}>Pay</a>
+    	<a href={{payment_link}}><button type="button" class="btn btn-round btn-success">Pay Now</button></a>
+  </div>
+</div>
+</div>
+
+
+<div class="col-md-6 col-sm-6 col-xs-12">
+	<div class="x_panel">
+	  <div class="x_title">
+	    <h2>Payment History </h2>
+	    <!-- <ul class="nav navbar-right panel_toolbox">
+	      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+	      </li>
+	     
+	      <li><a class="close-link"><i class="fa fa-close"></i></a>
+	      </li>
+	    </ul> -->
+	    <div class="clearfix"></div>
+	  </div>
+		<div class="x_content">
+	    <p class="text-muted font-13 m-b-30">
+	      Please find the plan details below:
+	    </p>
+
+	  </div>
+	</div>
+
+</div>      
+{% endblock %}
+

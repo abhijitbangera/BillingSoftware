@@ -24,6 +24,8 @@ urlpatterns = [
 				url(r'^client/edit/$', views.clientEdit, name='clientEdit'),
 				url(r'^client/plandeactivate/$', views.deactivePlan, name='deactivePlan'),
 				url(r'^client/editStaff/$', views.deactiveStaff, name='deactiveStaff'),
+				url(r'^client/payment/$', views.payment, name='payment'),
+				url(r'^client/billing/$', views.billing, name='billing'),
 
 
 			   ]

@@ -273,6 +273,8 @@ class gymDetails(models.Model):
 	gymRegistrationDate=models.DateTimeField('Registration Date')
 	gymNumber=models.IntegerField(max_length=9,primary_key=True, null=False)
 	BusinessType = (('gym', 'Gym'),('yoga', 'Yoga'),)
+	gymContactNumber=models.IntegerField('Contact Number',max_length=14)
+	gymEmail=models.EmailField('Email ID', max_length=100)
 	gymType=models.CharField('Category',max_length=100,choices=BusinessType)
 	gymImage=models.ImageField(upload_to = 'images/', default = 'images/img.jpg')
 	gymUser=models.ForeignKey(User, unique=True)

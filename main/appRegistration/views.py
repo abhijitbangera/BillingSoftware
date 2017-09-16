@@ -12,6 +12,13 @@ from main.views import commonDisplay,activaPlans,deactivaPlans
 from django.contrib import messages
 from django.db.models import Q
 import simplejson, csv
+from django.template.context_processors import csrf
+from django.views.decorators.csrf import csrf_protect, csrf_exempt
+import hashlib
+from django.template import Context, Template,RequestContext
+from instamojo_wrapper import Instamojo
+
+
 
 
 # Create your views here.
@@ -28,15 +35,20 @@ def dashboard(request):
 	if not gymRegistered:
 		return HttpResponseRedirect("/client/register/")
 	# End
-	# Update status of users whose subscrition plans have expired
-	allmembers=memberDetails.objects.filter(memberPlandExpiryDate__lte=datetime.datetime.now(),memberStatus=1).update(memberStatus=0)
-	
-	#End
 	last30Days=datetime.datetime.now() + datetime.timedelta(days=-30)
 	print ('last30days is:',last30Days)
 	gymObj=gymDetails.objects.filter(gymUser_id=request.user.id).values()
 	for elements in gymObj:
 		gymNumber=elements['gymNumber']
+	# Start: Calculate billing
+	today=datetime.datetime.now()
+	# Update status of users whose subscrition plans have expired
+	activeMembers=memberDetails.objects.filter(memberPlandExpiryDate__lte=datetime.datetime.now(),memberStatus=1).update(memberStatus=0)
+	print ('........')
+	print (activeMembers)
+	billableAmount=activeMembers * 60
+	#End
+	
 	totalNumberOfMembers=memberDetails.objects.filter(memberGymNumber_id=gymNumber).count()
 	totalActiveMembers=memberDetails.objects.filter(memberGymNumber_id=gymNumber, memberStatus=1).count()
 	newMembers=memberDetails.objects.filter(memberGymNumber_id=gymNumber, memberRegistrationDate__gte=datetime.datetime.now()-timedelta(days=30)).count()
@@ -948,3 +960,87 @@ def deactiveStaff(request):
 
 	finalContext={**common, **context,**activePlans,**deactivePlans} #append the dictionaries
 	return render(request,'editStaff.html',context=finalContext)
+
+def payment(request):
+	api = Instamojo(api_key='b01a80d566585ce4c10fd76e72ee052d',
+                auth_token='3d03b6076af55593df904d15f255a3e6',
+                endpoint='https://test.instamojo.com/api/1.1/')
+
+	# Create a new Payment Request
+	response = api.payment_request_create(
+	    amount='3499',
+	    purpose='FIFA 164',
+	    send_email=True,
+	    email="foo@example.com",
+	    buyer_name='abhi',
+	    phone='9886330471',
+    	redirect_url="http://127.0.0.1:8000/sucess/",	
+	    )
+	# print the long URL of the payment request.
+	print (response['payment_request']['longurl'])
+	# print the unique ID(or payment request ID)
+	print (response['payment_request']['id'])
+	context={}
+	common=commonDisplay(request)
+	activePlans=activaPlans(request)
+	deactivePlans=deactivaPlans(request)
+
+	finalContext={**common, **context,**activePlans,**deactivePlans} #append the dictionaries
+	return HttpResponseRedirect(response['payment_request']['longurl'])
+
+def billing(request):
+	api = Instamojo(api_key='b01a80d566585ce4c10fd76e72ee052d',
+                auth_token='3d03b6076af55593df904d15f255a3e6',
+                endpoint='https://test.instamojo.com/api/1.1/')
+
+	gymObj=gymDetails.objects.filter(gymUser_id=request.user.id).values()
+	for elements in gymObj:
+		gymNumber=elements['gymNumber']
+		gymContactNum=elements['gymContactNumber']
+		gymEmail=elements['gymEmail']
+	user = request.user.username
+	userId=request.user.id
+	print ('UserID is:',userId)
+	# Update status of users whose subscrition plans have expired
+	totalActiveMembers=memberDetails.objects.filter(memberGymNumber_id=gymNumber, memberStatus=1).count()
+	print ('........')
+	print (totalActiveMembers)
+	print ('Gym_'+str(gymNumber)+str(datetime.date.today()))
+	print (gymEmail)
+	print (user+'_id:'+str(userId))
+	print (gymContactNum)
+	amountPerMember=60
+	billableAmount=totalActiveMembers * amountPerMember
+	#End
+	#Create a new Payment Request
+	response = api.payment_request_create(
+	    amount=billableAmount,
+	    purpose='Gym_'+str(gymNumber)+'_'+str(datetime.date.today()),
+	    send_email=True,
+	    email=gymEmail,
+	    buyer_name=user+'_id:'+str(userId),
+	    # phone=gymContactNum,
+    	redirect_url="http://127.0.0.1:8000/sucess/",	
+	    )
+
+	# Create a new Payment Request
+	# response = api.payment_request_create(
+	#     amount=billableAmount,
+	#     purpose='Gym_'+str(gymNumber)+str(datetime.date.today()),
+	#     send_email=True,
+	#     email=gymEmail,
+	#     buyer_name=user+'_id:'+str(userId),
+	#     phone=gymContactNum,
+ #    	redirect_url="http://127.0.0.1:8000/sucess/",	
+	#     )
+	# print the long URL of the payment request.
+	print (response['payment_request']['longurl'])
+	payment_link=response['payment_request']['longurl']
+	context={'totalActiveMembers':totalActiveMembers,'billableAmount':billableAmount,'amountPerMember':amountPerMember,
+			'payment_link':payment_link}
+	common=commonDisplay(request)
+	activePlans=activaPlans(request)
+	deactivePlans=deactivaPlans(request)
+
+	finalContext={**common, **context,**activePlans,**deactivePlans} #append the dictionaries
+	return render(request,'billing.html',context=finalContext)
