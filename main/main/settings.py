@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '8c+etof)wtlxb1!e6)-#-g)0c%y2*31ip284r4*c#p06^tb7(p'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = []
 
@@ -134,3 +134,11 @@ EMAIL_HOST = 'localhost'
 DEFAULT_FROM_EMAIL = 'webmaster@localhost'
 ACCOUNT_ACTIVATION_DAYS = 0
 LOGIN_REDIRECT_URL="/"
+
+STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage' 
+
+# Heroku
+import dj_database_url
+db_from_env = dj_database_url.config()
+DATABASES['default'].update(db_from_env)
+DATABASES['default']['CONN_MAX_AGE'] = 500

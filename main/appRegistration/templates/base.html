@@ -116,14 +116,15 @@
 
             <!-- /menu footer buttons -->
             <div class="sidebar-footer hidden-small">
+              
+              <a data-toggle="tooltip" data-placement="top" title="Home" href="{% url 'dashboard' %}">
+                <span class="glyphicon glyphicon-home" aria-hidden="true"></span>
+              </a>
               <a data-toggle="tooltip" data-placement="top" title="Edit" href="{% url 'clientEdit' %}">
                 <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
               </a>
               <a data-toggle="tooltip" data-placement="top" title="FullScreen" href="javascript: void(0)" onclick="popup('/')">
                 <span class="glyphicon glyphicon-fullscreen" aria-hidden="true"></span>
-              </a>
-              <a data-toggle="tooltip" data-placement="top" title="Lock" href="{% url 'payment' %}">
-                <span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
               </a>
               <a data-toggle="tooltip" data-placement="top" title="Logout" href="/accounts/logout">
                 <span class="glyphicon glyphicon-off" aria-hidden="true"></span>

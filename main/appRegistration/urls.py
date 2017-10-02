@@ -12,7 +12,7 @@ urlpatterns = [
 				url(r'^client/activateplan/$', views.clientActivatePlan, name='clientActivatePlan'),
 				url(r'^member/register/$', views.memberRegistration, name='memberRegistration'),
 				url(r'^staff/register/$', views.staffRegistration, name='staffRegistration'),
-				url(r'^$', views.homepage),
+				url(r'^$', views.dashboard, name='dashboard'),
 				url(r'^export/csv/$', views.export_users_csv, name='export_users_csv'),
 				url(r'^export/csv2/$', views.export_monthly_report, name='export_monthly_report'),
 				url(r'^export/csv3/$', views.current_month_income, name='current_month_income'),
