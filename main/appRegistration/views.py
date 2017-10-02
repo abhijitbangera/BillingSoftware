@@ -19,7 +19,16 @@ from django.template import Context, Template,RequestContext
 from instamojo_wrapper import Instamojo
 
 
-
+def homepage(request):
+	if request.user.is_authenticated():
+		template="loggedin_base.html"
+		registered_user='yes'
+	else:
+		template="loggedout_base.html"
+		registered_user='no'
+	context={'registered_user':registered_user,}
+	print("not registered user")
+	return render(request, "index_check.html", context)
 
 # Create your views here.
 @login_required

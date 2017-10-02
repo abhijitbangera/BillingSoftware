@@ -130,5 +130,7 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, "static", "static_dirs"),
     )
 
+EMAIL_HOST = 'localhost'
+DEFAULT_FROM_EMAIL = 'webmaster@localhost'
 ACCOUNT_ACTIVATION_DAYS = 0
 LOGIN_REDIRECT_URL="/"

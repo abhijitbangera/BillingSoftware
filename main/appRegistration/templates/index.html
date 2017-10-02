@@ -1,1026 +1,642 @@
-
 {% load staticfiles %}
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <!-- Meta, title, CSS, favicons, etc. -->
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+<html dir="ltr" lang="en-US">
+<head>
 
-    <title>Gentelella Alela! | </title>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <meta name="author" content="SemiColonWeb" />
+  <link rel="icon" href="/static/images/features/bodyshapeplus_logo.png" type="image/gif" sizes="16x16">
+  <!-- Stylesheets
+  ============================================= -->
+  <link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700|Roboto:300,400,700" rel="stylesheet" type="text/css" />
+  <link rel="stylesheet" href="/static/css/bootstrap.css" type="text/css" />
+  <link rel="stylesheet" href="/static/style.css" type="text/css" />
 
-    <!-- Bootstrap -->
-    <link href="{% static '/css/bootstrap.min.css' %}" rel="stylesheet">
-    <!-- Font Awesome -->
-    <link href="{% static '/css/font-awesome.min.css' %}" rel="stylesheet">
-    <!-- NProgress -->
-    <link href="{% static '/vendors/nprogress/nprogress.css' %}" rel="stylesheet">
-    <!-- iCheck -->
-    <link href="{% static '/vendors/iCheck/skins/flat/green.css' %}" rel="stylesheet">
-	
-    <!-- bootstrap-progressbar -->
-    <link href="{% static '/vendors/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css' %}" rel="stylesheet">
-    <!-- JQVMap -->
-    <link href="{% static '/vendors/jqvmap/dist/jqvmap.min.css' %}" rel="stylesheet"/>
-    <!-- bootstrap-daterangepicker -->
-    <link href="{% static '/vendors/bootstrap-daterangepicker/daterangepicker.css' %}" rel="stylesheet">
+  <!-- One Page Module Specific Stylesheet -->
+  <link rel="stylesheet" href="/static/onepage.css" type="text/css" />
+  <!-- / -->
 
-    <!-- Custom Theme Style -->
-    <link href="{% static '/build/css/custom.min.css' %}" rel="stylesheet">
-  </head>
+  <link rel="stylesheet" href="/static/css/dark.css" type="text/css" />
+  <link rel="stylesheet" href="/static/css/font-icons.css" type="text/css" />
+  <link rel="stylesheet" href="/static/css/et-line.css" type="text/css" />
+  <link rel="stylesheet" href="/static/css/animate.css" type="text/css" />
+  <link rel="stylesheet" href="/static/css/magnific-popup.css" type="text/css" />
 
-  <body class="nav-md">
-    <div class="container body">
-      <div class="main_container">
-        <div class="col-md-3 left_col">
-          <div class="left_col scroll-view">
-            <div class="navbar nav_title" style="border: 0;">
-              <a href="index.html" class="site_title"><i class="fa fa-paw"></i> <span>Gentelella Alela!</span></a>
-            </div>
+  <link rel="stylesheet" href="/static/css/fonts.css" type="text/css" />
 
-            <div class="clearfix"></div>
+  <link rel="stylesheet" href="/static/css/responsive.css" type="text/css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!--[if lt IE 9]>
+    <script src="http://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script>
+  <![endif]-->
 
-            <!-- menu profile quick info -->
-            <div class="profile clearfix">
-              <div class="profile_pic">
-                <img src="{% static '/images/img.jpg' %}" alt="..." class="img-circle profile_img">
-              </div>
-              <div class="profile_info">
-                <span>Welcome,</span>
-                <h2>John Doe</h2>
-              </div>
-            </div>
-            <!-- /menu profile quick info -->
 
-            <br />
+  <!-- Document Title
+  ============================================= -->
+  <title>Bodyshape Plus</title>
 
-            <!-- sidebar menu -->
-            <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
-              <div class="menu_section">
-                <h3>General</h3>
-                <ul class="nav side-menu">
-                  <li><a><i class="fa fa-home"></i> Home <span class="fa fa-chevron-down"></span></a>
-                    <ul class="nav child_menu">
-                      <li><a href="index.html">Dashboard</a></li>
-                      <li><a href="index2.html">Dashboard2</a></li>
-                      <li><a href="index3.html">Dashboard3</a></li>
-                    </ul>
-                  </li>
-                  <li><a><i class="fa fa-edit"></i> Forms <span class="fa fa-chevron-down"></span></a>
-                    <ul class="nav child_menu">
-                      <li><a href="form.html">General Form</a></li>
-                      <li><a href="form_advanced.html">Advanced Components</a></li>
-                      <li><a href="form_validation.html">Form Validation</a></li>
-                      <li><a href="form_wizards.html">Form Wizard</a></li>
-                      <li><a href="form_upload.html">Form Upload</a></li>
-                      <li><a href="form_buttons.html">Form Buttons</a></li>
-                    </ul>
-                  </li>
-                  <li><a><i class="fa fa-desktop"></i> UI Elements <span class="fa fa-chevron-down"></span></a>
-                    <ul class="nav child_menu">
-                      <li><a href="general_elements.html">General Elements</a></li>
-                      <li><a href="media_gallery.html">Media Gallery</a></li>
-                      <li><a href="typography.html">Typography</a></li>
-                      <li><a href="icons.html">Icons</a></li>
-                      <li><a href="glyphicons.html">Glyphicons</a></li>
-                      <li><a href="widgets.html">Widgets</a></li>
-                      <li><a href="invoice.html">Invoice</a></li>
-                      <li><a href="inbox.html">Inbox</a></li>
-                      <li><a href="calendar.html">Calendar</a></li>
-                    </ul>
-                  </li>
-                  <li><a><i class="fa fa-table"></i> Tables <span class="fa fa-chevron-down"></span></a>
-                    <ul class="nav child_menu">
-                      <li><a href="tables.html">Tables</a></li>
-                      <li><a href="tables_dynamic.html">Table Dynamic</a></li>
-                    </ul>
-                  </li>
-                  <li><a><i class="fa fa-bar-chart-o"></i> Data Presentation <span class="fa fa-chevron-down"></span></a>
-                    <ul class="nav child_menu">
-                      <li><a href="chartjs.html">Chart JS</a></li>
-                      <li><a href="chartjs2.html">Chart JS2</a></li>
-                      <li><a href="morisjs.html">Moris JS</a></li>
-                      <li><a href="echarts.html">ECharts</a></li>
-                      <li><a href="other_charts.html">Other Charts</a></li>
-                    </ul>
-                  </li>
-                  <li><a><i class="fa fa-clone"></i>Layouts <span class="fa fa-chevron-down"></span></a>
-                    <ul class="nav child_menu">
-                      <li><a href="fixed_sidebar.html">Fixed Sidebar</a></li>
-                      <li><a href="fixed_footer.html">Fixed Footer</a></li>
-                    </ul>
-                  </li>
-                </ul>
-              </div>
-              <div class="menu_section">
-                <h3>Live On</h3>
-                <ul class="nav side-menu">
-                  <li><a><i class="fa fa-bug"></i> Additional Pages <span class="fa fa-chevron-down"></span></a>
-                    <ul class="nav child_menu">
-                      <li><a href="e_commerce.html">E-commerce</a></li>
-                      <li><a href="projects.html">Projects</a></li>
-                      <li><a href="project_detail.html">Project Detail</a></li>
-                      <li><a href="contacts.html">Contacts</a></li>
-                      <li><a href="profile.html">Profile</a></li>
-                    </ul>
-                  </li>
-                  <li><a><i class="fa fa-windows"></i> Extras <span class="fa fa-chevron-down"></span></a>
-                    <ul class="nav child_menu">
-                      <li><a href="page_403.html">403 Error</a></li>
-                      <li><a href="page_404.html">404 Error</a></li>
-                      <li><a href="page_500.html">500 Error</a></li>
-                      <li><a href="plain_page.html">Plain Page</a></li>
-                      <li><a href="login.html">Login Page</a></li>
-                      <li><a href="pricing_tables.html">Pricing Tables</a></li>
-                    </ul>
-                  </li>
-                  <li><a><i class="fa fa-sitemap"></i> Multilevel Menu <span class="fa fa-chevron-down"></span></a>
-                    <ul class="nav child_menu">
-                        <li><a href="#level1_1">Level One</a>
-                        <li><a>Level One<span class="fa fa-chevron-down"></span></a>
-                          <ul class="nav child_menu">
-                            <li class="sub_menu"><a href="level2.html">Level Two</a>
-                            </li>
-                            <li><a href="#level2_1">Level Two</a>
-                            </li>
-                            <li><a href="#level2_2">Level Two</a>
-                            </li>
-                          </ul>
-                        </li>
-                        <li><a href="#level1_2">Level One</a>
-                        </li>
-                    </ul>
-                  </li>                  
-                  <li><a href="javascript:void(0)"><i class="fa fa-laptop"></i> Landing Page <span class="label label-success pull-right">Coming Soon</span></a></li>
-                </ul>
-              </div>
+</head>
 
-            </div>
-            <!-- /sidebar menu -->
+<body class="stretched side-push-panel">
 
-            <!-- /menu footer buttons -->
-            <div class="sidebar-footer hidden-small">
-              <a data-toggle="tooltip" data-placement="top" title="Settings">
-                <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
-              </a>
-              <a data-toggle="tooltip" data-placement="top" title="FullScreen">
-                <span class="glyphicon glyphicon-fullscreen" aria-hidden="true"></span>
-              </a>
-              <a data-toggle="tooltip" data-placement="top" title="Lock">
-                <span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
-              </a>
-              <a data-toggle="tooltip" data-placement="top" title="Logout" href="login.html">
-                <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
-              </a>
-            </div>
-            <!-- /menu footer buttons -->
-          </div>
+<div class="body-overlay"></div>
+
+  <div id="side-panel" class="dark">
+
+    <div id="side-panel-trigger-close" class="side-panel-trigger"><a href="#"><i class="icon-line-cross"></i></a></div>
+
+    <div class="side-panel-wrap">
+
+      <div class="widget widget_links clearfix">
+
+        <h4>Bodyshape Plus</h4>
+
+        <div style="font-size: 14px; line-height: 1.7;">
+          <address style="line-height: 1.7;">
+            Neeladri Nagar, Bangalore <br>
+            Karnataka, India 560100<br>
+          </address>
+
+          <div class="clear topmargin-sm"></div>
+
+          <abbr title="Phone Number">Phone:</abbr> (91) 9886330471<br>
+          <abbr title="Email Address">Email:</abbr> info@bodyshapeplus.com
         </div>
 
-        <!-- top navigation -->
-        <div class="top_nav">
-          <div class="nav_menu">
-            <nav>
-              <div class="nav toggle">
-                <a id="menu_toggle"><i class="fa fa-bars"></i></a>
-              </div>
-
-              <ul class="nav navbar-nav navbar-right">
-                <li class="">
-                  <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                    <img src="images/img.jpg" alt="">John Doe
-                    <span class=" fa fa-angle-down"></span>
-                  </a>
-                  <ul class="dropdown-menu dropdown-usermenu pull-right">
-                    <li><a href="javascript:;"> Profile</a></li>
-                    <li>
-                      <a href="javascript:;">
-                        <span class="badge bg-red pull-right">50%</span>
-                        <span>Settings</span>
-                      </a>
-                    </li>
-                    <li><a href="javascript:;">Help</a></li>
-                    <li><a href="login.html"><i class="fa fa-sign-out pull-right"></i> Log Out</a></li>
-                  </ul>
-                </li>
-
-                <li role="presentation" class="dropdown">
-                  <a href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="false">
-                    <i class="fa fa-envelope-o"></i>
-                    <span class="badge bg-green">6</span>
-                  </a>
-                  <ul id="menu1" class="dropdown-menu list-unstyled msg_list" role="menu">
-                    <li>
-                      <a>
-                        <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
-                        <span>
-                          <span>John Smith</span>
-                          <span class="time">3 mins ago</span>
-                        </span>
-                        <span class="message">
-                          Film festivals used to be do-or-die moments for movie makers. They were where...
-                        </span>
-                      </a>
-                    </li>
-                    <li>
-                      <a>
-                        <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
-                        <span>
-                          <span>John Smith</span>
-                          <span class="time">3 mins ago</span>
-                        </span>
-                        <span class="message">
-                          Film festivals used to be do-or-die moments for movie makers. They were where...
-                        </span>
-                      </a>
-                    </li>
-                    <li>
-                      <a>
-                        <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
-                        <span>
-                          <span>John Smith</span>
-                          <span class="time">3 mins ago</span>
-                        </span>
-                        <span class="message">
-                          Film festivals used to be do-or-die moments for movie makers. They were where...
-                        </span>
-                      </a>
-                    </li>
-                    <li>
-                      <a>
-                        <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
-                        <span>
-                          <span>John Smith</span>
-                          <span class="time">3 mins ago</span>
-                        </span>
-                        <span class="message">
-                          Film festivals used to be do-or-die moments for movie makers. They were where...
-                        </span>
-                      </a>
-                    </li>
-                    <li>
-                      <div class="text-center">
-                        <a>
-                          <strong>See All Alerts</strong>
-                          <i class="fa fa-angle-right"></i>
-                        </a>
-                      </div>
-                    </li>
-                  </ul>
-                </li>
-              </ul>
-            </nav>
-          </div>
-        </div>
-        <!-- /top navigation -->
-
-        <!-- page content -->
-        <div class="right_col" role="main">
-          <!-- top tiles -->
-          <div class="row tile_count">
-            <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
-              <span class="count_top"><i class="fa fa-user"></i> Total Users</span>
-              <div class="count">2500</div>
-              <span class="count_bottom"><i class="green">4% </i> From last Week</span>
-            </div>
-            <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
-              <span class="count_top"><i class="fa fa-clock-o"></i> Average Time</span>
-              <div class="count">123.50</div>
-              <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>3% </i> From last Week</span>
-            </div>
-            <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
-              <span class="count_top"><i class="fa fa-user"></i> Total Males</span>
-              <div class="count green">2,500</div>
-              <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>34% </i> From last Week</span>
-            </div>
-            <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
-              <span class="count_top"><i class="fa fa-user"></i> Total Females</span>
-              <div class="count">4,567</div>
-              <span class="count_bottom"><i class="red"><i class="fa fa-sort-desc"></i>12% </i> From last Week</span>
-            </div>
-            <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
-              <span class="count_top"><i class="fa fa-user"></i> Total Collections</span>
-              <div class="count">2,315</div>
-              <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>34% </i> From last Week</span>
-            </div>
-            <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
-              <span class="count_top"><i class="fa fa-user"></i> Total Connections</span>
-              <div class="count">7,325</div>
-              <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>34% </i> From last Week</span>
-            </div>
-          </div>
-          <!-- /top tiles -->
-
-          <div class="row">
-            <div class="col-md-12 col-sm-12 col-xs-12">
-              <div class="dashboard_graph">
-
-                <div class="row x_title">
-                  <div class="col-md-6">
-                    <h3>Network Activities <small>Graph title sub-title</small></h3>
-                  </div>
-                  <div class="col-md-6">
-                    <div id="reportrange" class="pull-right" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc">
-                      <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>
-                      <span>December 30, 2014 - January 28, 2015</span> <b class="caret"></b>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="col-md-9 col-sm-9 col-xs-12">
-                  <div id="chart_plot_01" class="demo-placeholder"></div>
-                </div>
-                <div class="col-md-3 col-sm-3 col-xs-12 bg-white">
-                  <div class="x_title">
-                    <h2>Top Campaign Performance</h2>
-                    <div class="clearfix"></div>
-                  </div>
-
-                  <div class="col-md-12 col-sm-12 col-xs-6">
-                    <div>
-                      <p>Facebook Campaign</p>
-                      <div class="">
-                        <div class="progress progress_sm" style="width: 76%;">
-                          <div class="progress-bar bg-green" role="progressbar" data-transitiongoal="80"></div>
-                        </div>
-                      </div>
-                    </div>
-                    <div>
-                      <p>Twitter Campaign</p>
-                      <div class="">
-                        <div class="progress progress_sm" style="width: 76%;">
-                          <div class="progress-bar bg-green" role="progressbar" data-transitiongoal="60"></div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-md-12 col-sm-12 col-xs-6">
-                    <div>
-                      <p>Conventional Media</p>
-                      <div class="">
-                        <div class="progress progress_sm" style="width: 76%;">
-                          <div class="progress-bar bg-green" role="progressbar" data-transitiongoal="40"></div>
-                        </div>
-                      </div>
-                    </div>
-                    <div>
-                      <p>Bill boards</p>
-                      <div class="">
-                        <div class="progress progress_sm" style="width: 76%;">
-                          <div class="progress-bar bg-green" role="progressbar" data-transitiongoal="50"></div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                </div>
-
-                <div class="clearfix"></div>
-              </div>
-            </div>
-
-          </div>
-          <br />
-
-          <div class="row">
-
-
-            <div class="col-md-4 col-sm-4 col-xs-12">
-              <div class="x_panel tile fixed_height_320">
-                <div class="x_title">
-                  <h2>App Versions</h2>
-                  <ul class="nav navbar-right panel_toolbox">
-                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                    </li>
-                    <li class="dropdown">
-                      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
-                      <ul class="dropdown-menu" role="menu">
-                        <li><a href="#">Settings 1</a>
-                        </li>
-                        <li><a href="#">Settings 2</a>
-                        </li>
-                      </ul>
-                    </li>
-                    <li><a class="close-link"><i class="fa fa-close"></i></a>
-                    </li>
-                  </ul>
-                  <div class="clearfix"></div>
-                </div>
-                <div class="x_content">
-                  <h4>App Usage across versions</h4>
-                  <div class="widget_summary">
-                    <div class="w_left w_25">
-                      <span>0.1.5.2</span>
-                    </div>
-                    <div class="w_center w_55">
-                      <div class="progress">
-                        <div class="progress-bar bg-green" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 66%;">
-                          <span class="sr-only">60% Complete</span>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="w_right w_20">
-                      <span>123k</span>
-                    </div>
-                    <div class="clearfix"></div>
-                  </div>
-
-                  <div class="widget_summary">
-                    <div class="w_left w_25">
-                      <span>0.1.5.3</span>
-                    </div>
-                    <div class="w_center w_55">
-                      <div class="progress">
-                        <div class="progress-bar bg-green" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 45%;">
-                          <span class="sr-only">60% Complete</span>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="w_right w_20">
-                      <span>53k</span>
-                    </div>
-                    <div class="clearfix"></div>
-                  </div>
-                  <div class="widget_summary">
-                    <div class="w_left w_25">
-                      <span>0.1.5.4</span>
-                    </div>
-                    <div class="w_center w_55">
-                      <div class="progress">
-                        <div class="progress-bar bg-green" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 25%;">
-                          <span class="sr-only">60% Complete</span>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="w_right w_20">
-                      <span>23k</span>
-                    </div>
-                    <div class="clearfix"></div>
-                  </div>
-                  <div class="widget_summary">
-                    <div class="w_left w_25">
-                      <span>0.1.5.5</span>
-                    </div>
-                    <div class="w_center w_55">
-                      <div class="progress">
-                        <div class="progress-bar bg-green" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 5%;">
-                          <span class="sr-only">60% Complete</span>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="w_right w_20">
-                      <span>3k</span>
-                    </div>
-                    <div class="clearfix"></div>
-                  </div>
-                  <div class="widget_summary">
-                    <div class="w_left w_25">
-                      <span>0.1.5.6</span>
-                    </div>
-                    <div class="w_center w_55">
-                      <div class="progress">
-                        <div class="progress-bar bg-green" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 2%;">
-                          <span class="sr-only">60% Complete</span>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="w_right w_20">
-                      <span>1k</span>
-                    </div>
-                    <div class="clearfix"></div>
-                  </div>
-
-                </div>
-              </div>
-            </div>
-
-            <div class="col-md-4 col-sm-4 col-xs-12">
-              <div class="x_panel tile fixed_height_320 overflow_hidden">
-                <div class="x_title">
-                  <h2>Device Usage</h2>
-                  <ul class="nav navbar-right panel_toolbox">
-                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                    </li>
-                    <li class="dropdown">
-                      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
-                      <ul class="dropdown-menu" role="menu">
-                        <li><a href="#">Settings 1</a>
-                        </li>
-                        <li><a href="#">Settings 2</a>
-                        </li>
-                      </ul>
-                    </li>
-                    <li><a class="close-link"><i class="fa fa-close"></i></a>
-                    </li>
-                  </ul>
-                  <div class="clearfix"></div>
-                </div>
-                <div class="x_content">
-                  <table class="" style="width:100%">
-                    <tr>
-                      <th style="width:37%;">
-                        <p>Top 5</p>
-                      </th>
-                      <th>
-                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
-                          <p class="">Device</p>
-                        </div>
-                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
-                          <p class="">Progress</p>
-                        </div>
-                      </th>
-                    </tr>
-                    <tr>
-                      <td>
-                        <canvas class="canvasDoughnut" height="140" width="140" style="margin: 15px 10px 10px 0"></canvas>
-                      </td>
-                      <td>
-                        <table class="tile_info">
-                          <tr>
-                            <td>
-                              <p><i class="fa fa-square blue"></i>IOS </p>
-                            </td>
-                            <td>30%</td>
-                          </tr>
-                          <tr>
-                            <td>
-                              <p><i class="fa fa-square green"></i>Android </p>
-                            </td>
-                            <td>10%</td>
-                          </tr>
-                          <tr>
-                            <td>
-                              <p><i class="fa fa-square purple"></i>Blackberry </p>
-                            </td>
-                            <td>20%</td>
-                          </tr>
-                          <tr>
-                            <td>
-                              <p><i class="fa fa-square aero"></i>Symbian </p>
-                            </td>
-                            <td>15%</td>
-                          </tr>
-                          <tr>
-                            <td>
-                              <p><i class="fa fa-square red"></i>Others </p>
-                            </td>
-                            <td>30%</td>
-                          </tr>
-                        </table>
-                      </td>
-                    </tr>
-                  </table>
-                </div>
-              </div>
-            </div>
-
-
-            <div class="col-md-4 col-sm-4 col-xs-12">
-              <div class="x_panel tile fixed_height_320">
-                <div class="x_title">
-                  <h2>Quick Settings</h2>
-                  <ul class="nav navbar-right panel_toolbox">
-                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                    </li>
-                    <li class="dropdown">
-                      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
-                      <ul class="dropdown-menu" role="menu">
-                        <li><a href="#">Settings 1</a>
-                        </li>
-                        <li><a href="#">Settings 2</a>
-                        </li>
-                      </ul>
-                    </li>
-                    <li><a class="close-link"><i class="fa fa-close"></i></a>
-                    </li>
-                  </ul>
-                  <div class="clearfix"></div>
-                </div>
-                <div class="x_content">
-                  <div class="dashboard-widget-content">
-                    <ul class="quick-list">
-                      <li><i class="fa fa-calendar-o"></i><a href="#">Settings</a>
-                      </li>
-                      <li><i class="fa fa-bars"></i><a href="#">Subscription</a>
-                      </li>
-                      <li><i class="fa fa-bar-chart"></i><a href="#">Auto Renewal</a> </li>
-                      <li><i class="fa fa-line-chart"></i><a href="#">Achievements</a>
-                      </li>
-                      <li><i class="fa fa-bar-chart"></i><a href="#">Auto Renewal</a> </li>
-                      <li><i class="fa fa-line-chart"></i><a href="#">Achievements</a>
-                      </li>
-                      <li><i class="fa fa-area-chart"></i><a href="#">Logout</a>
-                      </li>
-                    </ul>
-
-                    <div class="sidebar-widget">
-                        <h4>Profile Completion</h4>
-                        <canvas width="150" height="80" id="chart_gauge_01" class="" style="width: 160px; height: 100px;"></canvas>
-                        <div class="goal-wrapper">
-                          <span id="gauge-text" class="gauge-value pull-left">0</span>
-                          <span class="gauge-value pull-left">%</span>
-                          <span id="goal-text" class="goal-value pull-right">100%</span>
-                        </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-          </div>
-
-
-          <div class="row">
-            <div class="col-md-4 col-sm-4 col-xs-12">
-              <div class="x_panel">
-                <div class="x_title">
-                  <h2>Recent Activities <small>Sessions</small></h2>
-                  <ul class="nav navbar-right panel_toolbox">
-                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                    </li>
-                    <li class="dropdown">
-                      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
-                      <ul class="dropdown-menu" role="menu">
-                        <li><a href="#">Settings 1</a>
-                        </li>
-                        <li><a href="#">Settings 2</a>
-                        </li>
-                      </ul>
-                    </li>
-                    <li><a class="close-link"><i class="fa fa-close"></i></a>
-                    </li>
-                  </ul>
-                  <div class="clearfix"></div>
-                </div>
-                <div class="x_content">
-                  <div class="dashboard-widget-content">
-
-                    <ul class="list-unstyled timeline widget">
-                      <li>
-                        <div class="block">
-                          <div class="block_content">
-                            <h2 class="title">
-                                              <a>Who Needs Sundance When You’ve Got&nbsp;Crowdfunding?</a>
-                                          </h2>
-                            <div class="byline">
-                              <span>13 hours ago</span> by <a>Jane Smith</a>
-                            </div>
-                            <p class="excerpt">Film festivals used to be do-or-die moments for movie makers. They were where you met the producers that could fund your project, and if the buyers liked your flick, they’d pay to Fast-forward and… <a>Read&nbsp;More</a>
-                            </p>
-                          </div>
-                        </div>
-                      </li>
-                      <li>
-                        <div class="block">
-                          <div class="block_content">
-                            <h2 class="title">
-                                              <a>Who Needs Sundance When You’ve Got&nbsp;Crowdfunding?</a>
-                                          </h2>
-                            <div class="byline">
-                              <span>13 hours ago</span> by <a>Jane Smith</a>
-                            </div>
-                            <p class="excerpt">Film festivals used to be do-or-die moments for movie makers. They were where you met the producers that could fund your project, and if the buyers liked your flick, they’d pay to Fast-forward and… <a>Read&nbsp;More</a>
-                            </p>
-                          </div>
-                        </div>
-                      </li>
-                      <li>
-                        <div class="block">
-                          <div class="block_content">
-                            <h2 class="title">
-                                              <a>Who Needs Sundance When You’ve Got&nbsp;Crowdfunding?</a>
-                                          </h2>
-                            <div class="byline">
-                              <span>13 hours ago</span> by <a>Jane Smith</a>
-                            </div>
-                            <p class="excerpt">Film festivals used to be do-or-die moments for movie makers. They were where you met the producers that could fund your project, and if the buyers liked your flick, they’d pay to Fast-forward and… <a>Read&nbsp;More</a>
-                            </p>
-                          </div>
-                        </div>
-                      </li>
-                      <li>
-                        <div class="block">
-                          <div class="block_content">
-                            <h2 class="title">
-                                              <a>Who Needs Sundance When You’ve Got&nbsp;Crowdfunding?</a>
-                                          </h2>
-                            <div class="byline">
-                              <span>13 hours ago</span> by <a>Jane Smith</a>
-                            </div>
-                            <p class="excerpt">Film festivals used to be do-or-die moments for movie makers. They were where you met the producers that could fund your project, and if the buyers liked your flick, they’d pay to Fast-forward and… <a>Read&nbsp;More</a>
-                            </p>
-                          </div>
-                        </div>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-
-            <div class="col-md-8 col-sm-8 col-xs-12">
-
-
-
-              <div class="row">
-
-                <div class="col-md-12 col-sm-12 col-xs-12">
-                  <div class="x_panel">
-                    <div class="x_title">
-                      <h2>Visitors location <small>geo-presentation</small></h2>
-                      <ul class="nav navbar-right panel_toolbox">
-                        <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                        </li>
-                        <li class="dropdown">
-                          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
-                          <ul class="dropdown-menu" role="menu">
-                            <li><a href="#">Settings 1</a>
-                            </li>
-                            <li><a href="#">Settings 2</a>
-                            </li>
-                          </ul>
-                        </li>
-                        <li><a class="close-link"><i class="fa fa-close"></i></a>
-                        </li>
-                      </ul>
-                      <div class="clearfix"></div>
-                    </div>
-                    <div class="x_content">
-                      <div class="dashboard-widget-content">
-                        <div class="col-md-4 hidden-small">
-                          <h2 class="line_30">125.7k Views from 60 countries</h2>
-
-                          <table class="countries_list">
-                            <tbody>
-                              <tr>
-                                <td>United States</td>
-                                <td class="fs15 fw700 text-right">33%</td>
-                              </tr>
-                              <tr>
-                                <td>France</td>
-                                <td class="fs15 fw700 text-right">27%</td>
-                              </tr>
-                              <tr>
-                                <td>Germany</td>
-                                <td class="fs15 fw700 text-right">16%</td>
-                              </tr>
-                              <tr>
-                                <td>Spain</td>
-                                <td class="fs15 fw700 text-right">11%</td>
-                              </tr>
-                              <tr>
-                                <td>Britain</td>
-                                <td class="fs15 fw700 text-right">10%</td>
-                              </tr>
-                            </tbody>
-                          </table>
-                        </div>
-                        <div id="world-map-gdp" class="col-md-8 col-sm-12 col-xs-12" style="height:230px;"></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-              </div>
-              <div class="row">
-
-
-                <!-- Start to do list -->
-                <div class="col-md-6 col-sm-6 col-xs-12">
-                  <div class="x_panel">
-                    <div class="x_title">
-                      <h2>To Do List <small>Sample tasks</small></h2>
-                      <ul class="nav navbar-right panel_toolbox">
-                        <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                        </li>
-                        <li class="dropdown">
-                          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
-                          <ul class="dropdown-menu" role="menu">
-                            <li><a href="#">Settings 1</a>
-                            </li>
-                            <li><a href="#">Settings 2</a>
-                            </li>
-                          </ul>
-                        </li>
-                        <li><a class="close-link"><i class="fa fa-close"></i></a>
-                        </li>
-                      </ul>
-                      <div class="clearfix"></div>
-                    </div>
-                    <div class="x_content">
-
-                      <div class="">
-                        <ul class="to_do">
-                          <li>
-                            <p>
-                              <input type="checkbox" class="flat"> Schedule meeting with new client </p>
-                          </li>
-                          <li>
-                            <p>
-                              <input type="checkbox" class="flat"> Create email address for new intern</p>
-                          </li>
-                          <li>
-                            <p>
-                              <input type="checkbox" class="flat"> Have IT fix the network printer</p>
-                          </li>
-                          <li>
-                            <p>
-                              <input type="checkbox" class="flat"> Copy backups to offsite location</p>
-                          </li>
-                          <li>
-                            <p>
-                              <input type="checkbox" class="flat"> Food truck fixie locavors mcsweeney</p>
-                          </li>
-                          <li>
-                            <p>
-                              <input type="checkbox" class="flat"> Food truck fixie locavors mcsweeney</p>
-                          </li>
-                          <li>
-                            <p>
-                              <input type="checkbox" class="flat"> Create email address for new intern</p>
-                          </li>
-                          <li>
-                            <p>
-                              <input type="checkbox" class="flat"> Have IT fix the network printer</p>
-                          </li>
-                          <li>
-                            <p>
-                              <input type="checkbox" class="flat"> Copy backups to offsite location</p>
-                          </li>
-                        </ul>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <!-- End to do list -->
-                
-                <!-- start of weather widget -->
-                <div class="col-md-6 col-sm-6 col-xs-12">
-                  <div class="x_panel">
-                    <div class="x_title">
-                      <h2>Daily active users <small>Sessions</small></h2>
-                      <ul class="nav navbar-right panel_toolbox">
-                        <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                        </li>
-                        <li class="dropdown">
-                          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
-                          <ul class="dropdown-menu" role="menu">
-                            <li><a href="#">Settings 1</a>
-                            </li>
-                            <li><a href="#">Settings 2</a>
-                            </li>
-                          </ul>
-                        </li>
-                        <li><a class="close-link"><i class="fa fa-close"></i></a>
-                        </li>
-                      </ul>
-                      <div class="clearfix"></div>
-                    </div>
-                    <div class="x_content">
-                      <div class="row">
-                        <div class="col-sm-12">
-                          <div class="temperature"><b>Monday</b>, 07:30 AM
-                            <span>F</span>
-                            <span><b>C</b></span>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="row">
-                        <div class="col-sm-4">
-                          <div class="weather-icon">
-                            <canvas height="84" width="84" id="partly-cloudy-day"></canvas>
-                          </div>
-                        </div>
-                        <div class="col-sm-8">
-                          <div class="weather-text">
-                            <h2>Texas <br><i>Partly Cloudy Day</i></h2>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-sm-12">
-                        <div class="weather-text pull-right">
-                          <h3 class="degrees">23</h3>
-                        </div>
-                      </div>
-
-                      <div class="clearfix"></div>
-
-                      <div class="row weather-days">
-                        <div class="col-sm-2">
-                          <div class="daily-weather">
-                            <h2 class="day">Mon</h2>
-                            <h3 class="degrees">25</h3>
-                            <canvas id="clear-day" width="32" height="32"></canvas>
-                            <h5>15 <i>km/h</i></h5>
-                          </div>
-                        </div>
-                        <div class="col-sm-2">
-                          <div class="daily-weather">
-                            <h2 class="day">Tue</h2>
-                            <h3 class="degrees">25</h3>
-                            <canvas height="32" width="32" id="rain"></canvas>
-                            <h5>12 <i>km/h</i></h5>
-                          </div>
-                        </div>
-                        <div class="col-sm-2">
-                          <div class="daily-weather">
-                            <h2 class="day">Wed</h2>
-                            <h3 class="degrees">27</h3>
-                            <canvas height="32" width="32" id="snow"></canvas>
-                            <h5>14 <i>km/h</i></h5>
-                          </div>
-                        </div>
-                        <div class="col-sm-2">
-                          <div class="daily-weather">
-                            <h2 class="day">Thu</h2>
-                            <h3 class="degrees">28</h3>
-                            <canvas height="32" width="32" id="sleet"></canvas>
-                            <h5>15 <i>km/h</i></h5>
-                          </div>
-                        </div>
-                        <div class="col-sm-2">
-                          <div class="daily-weather">
-                            <h2 class="day">Fri</h2>
-                            <h3 class="degrees">28</h3>
-                            <canvas height="32" width="32" id="wind"></canvas>
-                            <h5>11 <i>km/h</i></h5>
-                          </div>
-                        </div>
-                        <div class="col-sm-2">
-                          <div class="daily-weather">
-                            <h2 class="day">Sat</h2>
-                            <h3 class="degrees">26</h3>
-                            <canvas height="32" width="32" id="cloudy"></canvas>
-                            <h5>10 <i>km/h</i></h5>
-                          </div>
-                        </div>
-                        <div class="clearfix"></div>
-                      </div>
-                    </div>
-                  </div>
-
-                </div>
-                <!-- end of weather widget -->
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- /page content -->
-
-        <!-- footer content -->
-        <footer>
-          <div class="pull-right">
-            Gentelella - Bootstrap Admin Template by <a href="https://colorlib.com">Colorlib</a>
-          </div>
-          <div class="clearfix"></div>
-        </footer>
-        <!-- /footer content -->
       </div>
+
+      <div class="widget quick-contact-widget clearfix">
+
+        <h4>Connect Socially</h4>
+
+        <a href="#" class="social-icon si-small si-colored si-facebook" title="Facebook">
+          <i class="icon-facebook"></i>
+          <i class="icon-facebook"></i>
+        </a>
+        <a href="#" class="social-icon si-small si-colored si-twitter" title="Twitter">
+          <i class="icon-twitter"></i>
+          <i class="icon-twitter"></i>
+        </a>
+        <!-- <a href="#" class="social-icon si-small si-colored si-github" title="Github">
+          <i class="icon-github"></i>
+          <i class="icon-github"></i>
+        </a> -->
+        <a href="#" class="social-icon si-small si-colored si-pinterest" title="Pinterest">
+          <i class="icon-pinterest"></i>
+          <i class="icon-pinterest"></i>
+        </a>
+        <!-- <a href="#" class="social-icon si-small si-colored si-forrst" title="Forrst">
+          <i class="icon-forrst"></i>
+          <i class="icon-forrst"></i>
+        </a> -->
+        <a href="#" class="social-icon si-small si-colored si-linkedin" title="LinkedIn">
+          <i class="icon-linkedin"></i>
+          <i class="icon-linkedin"></i>
+        </a>
+        <a href="#" class="social-icon si-small si-colored si-gplus" title="Google Plus">
+          <i class="icon-gplus"></i>
+          <i class="icon-gplus"></i>
+        </a>
+      <!--  <a href="#" class="social-icon si-small si-colored si-gplus" title="Google Plus">
+          <i class="icon-gplus"></i>
+          <i class="icon-gplus"></i>
+        </a>
+        <a href="#" class="social-icon si-small si-colored si-instagram" title="Instagram">
+          <i class="icon-instagram"></i>
+          <i class="icon-instagram"></i>
+        </a>
+        <a href="#" class="social-icon si-small si-colored si-flickr" title="Flickr">
+          <i class="icon-flickr"></i>
+          <i class="icon-flickr"></i>
+        </a>
+        <a href="#" class="social-icon si-small si-colored si-skype" title="Skype">
+          <i class="icon-skype"></i>
+          <i class="icon-skype"></i>
+        </a> -->
+
+      </div>
+
     </div>
 
-    <!-- jQuery -->
-    <script src="{% static '/vendors/jquery/dist/jquery.min.js' %}"></script>
-    <!-- Bootstrap -->
-    <script src="{% static '/vendors/bootstrap/dist/js/bootstrap.min.js' %}"></script>
-    <!-- FastClick -->
-    <script src="{% static '/vendors/fastclick/lib/fastclick.js' %}"></script>
-    <!-- NProgress -->
-    <script src="{% static '/vendors/nprogress/nprogress.js' %}"></script>
-    <!-- Chart.js -->
-    <script src="{% static '/vendors/Chart.js/dist/Chart.min.js' %}"></script>
-    <!-- gauge.js -->
-    <script src="{% static '/vendors/gauge.js/dist/gauge.min.js' %}"></script>
-    <!-- bootstrap-progressbar -->
-    <script src="{% static '/vendors/bootstrap-progressbar/bootstrap-progressbar.min.js' %}"></script>
-    <!-- iCheck -->
-    <script src="{% static '/vendors/iCheck/icheck.min.js' %}"></script>
-    <!-- Skycons -->
-    <script src="{% static '/vendors/skycons/skycons.js' %}"></script>
-    <!-- Flot -->
-    <script src="{% static '/vendors/Flot/jquery.flot.js' %}"></script>
-    <script src="{% static '/vendors/Flot/jquery.flot.pie.js' %}"></script>
-    <script src="{% static '/vendors/Flot/jquery.flot.time.js' %}"></script>
-    <script src="{% static '/vendors/Flot/jquery.flot.stack.js' %}"></script>
-    <script src="{% static '/vendors/Flot/jquery.flot.resize.js' %}"></script>
-    <!-- Flot plugins -->
-    <script src="{% static '/vendors/flot.orderbars/js/jquery.flot.orderBars.js' %}"></script>
-    <script src="{% static '/vendors/flot-spline/js/jquery.flot.spline.min.js' %}"></script>
-    <script src="{% static '/vendors/flot.curvedlines/curvedLines.js' %}"></script>
-    <!-- DateJS -->
-    <script src="{% static '/vendors/DateJS/build/date.js' %}"></script>
-    <!-- JQVMap -->
-    <script src="{% static '/vendors/jqvmap/dist/jquery.vmap.js' %}"></script>
-    <script src="{% static '/vendors/jqvmap/dist/maps/jquery.vmap.world.js' %}"></script>
-    <script src="{% static '/vendors/jqvmap/examples/js/jquery.vmap.sampledata.js' %}"></script>
-    <!-- bootstrap-daterangepicker -->
-    <script src="{% static '/vendors/moment/min/moment.min.js' %}"></script>
-    <script src="{% static '/vendors/bootstrap-daterangepicker/daterangepicker.js' %}../"></script>
+  </div>
 
-    <!-- Custom Theme Scripts -->
-    <script src="{% static '/build/js/custom.min.js' %}"></script>
-	
-  </body>
+  <!-- Document Wrapper
+  ============================================= -->
+  <div id="wrapper" class="clearfix">
+
+    <!-- Header
+    ============================================= -->
+    <header id="header" class="full-header static-sticky">
+
+      <div id="header-wrap">
+
+        <div class="container clearfix">
+
+          <div id="primary-menu-trigger"><i class="icon-reorder"></i></div>
+
+          <!-- Logo
+          ============================================= -->
+          <div id="logo">
+            <a href="index.html" class="standard-logo" data-dark-logo="/static/images/canvasone-dark.png"><img src="/static/images/features/bodyshapeplus_logo.png" alt="BodyShape Plus"></a>
+            <a href="index.html" class="retina-logo" data-dark-logo="/static/images/canvasone-dark@2x.png"><img src="/static/images/features/bodyshapeplus_logo.png" alt="Bodyshape Plus"></a>
+          </div><!-- #logo end -->
+
+          <!-- Primary Navigation
+          ============================================= -->
+          <nav id="primary-menu">
+
+            <ul class="one-page-menu" data-easing="easeInOutExpo" data-speed="1250" data-offset="65">
+              <li><a href="#" data-href="#wrapper"><div>Home</div></a></li>
+              <!-- <li><a href="#" data-href="#section-about" data-offset="60"><div>About</div></a></li> -->
+              <li><a href="#" data-href="#section-features"><div>Features</div></a></li>
+              <li><a href="#" data-href="#section-services"><div>What Do I Get?</div></a></li>
+        <!--      <li><a href="#" data-href="#section-blog"><div>Blog</div></a></li> -->
+              <li><a href="#" data-href="#section-contact"><div>Contact</div></a></li>
+            </ul>
+
+            <div id="side-panel-trigger" class="side-panel-trigger"><a href="#"><i class="icon-reorder"></i></a></div>
+
+          </nav><!-- #primary-menu end -->
+
+        </div>
+
+      </div>
+
+    </header><!-- #header end -->
+
+    <!-- Slider
+    ============================================= -->
+    <section id="slider" class="slider-parallax full-screen">
+
+      <div class="slider-parallax-inner">
+
+        <div class="col-md-7 col-sm-6 full-screen center nopadding" style="background: url('/static/images/page/bodyshape.jpg') center center no-repeat; background-size: cover;">
+          <div class="vertical-middle dark center clearfix" style="z-index: 2;">
+
+            <div class="emphasis-title nobottommargin">
+              <h1>
+                <span class="text-rotater nocolor" data-separator="|" data-rotate="fadeIn" data-speed="6000">
+                  <span class="t-rotate t700 font-body opm-medium-word">Fitness.|Health.|Shape.|Training.|Vision.</span>
+                </span>
+              </h1>
+            </div>
+
+          </div>
+          <div class="video-wrap" style="position: absolute; z-index:1; height:100%;">
+            <div class="video-overlay" style="background-color: rgba(0,0,0,0.2);"></div>
+          </div>
+        </div>
+
+        <div class="col-md-5 col-sm-6 full-screen" style="background-color: #F5F5F5;">
+          <div class="vertical-middle subscribe-widget" data-loader="button">
+            <div class="col-padding">
+              <div class="heading-block nobottomborder bottommargin-sm">
+                <center><h1 style="line-height: 1.4;font-size: 24px;">It's time to get in Shape</h1></center>
+                <center><span style="font-size:16px; top-margin: 20px;" class="t300">Weight tracker, body tracker, trainer, nutrionist, suppliment expert and lots more. We help you get fit.</span></center>
+              </div>
+              <div class="widget-subscribe-form-result"></div>
+              <a href="/accounts/login"><button type="submit" class="button button-dark button-3d button-rounded btn-block nomargin" value="submit"><i class="icon-ok"></i> Login </button></a><br><br>
+              <a href="/accounts/register"><button type="submit" class="button button-light button-3d button-rounded btn-block nomargin" value="submit"><i class="icon-pencil"></i> Register </button></a>
+              
+            </div>
+          </div>
+          <!-- <a href="#" data-scrollto="#section-about" data-easing="easeInOutExpo" data-speed="1250" data-offset="65" class="one-page-arrow"><i class="icon-angle-down infinite animated fadeInDown"></i></a> -->
+        </div>
+
+      </div>
+
+    </section><!-- #slider end -->
+
+    <!-- Content
+    ============================================= -->
+    <section id="content">
+
+      <div class="content-wrap nopadding">
+
+        
+
+        <div id="section-features" class="page-section notoppadding">
+
+          <div class="section nomargin">
+            <div class="container clearfix">
+              <div class="divcenter center" style="max-width: 900px;">
+                <h2 class="nobottommargin t300 ls1">Bodyshape Plus features a complete tool for you to attain your fitness target. Our unique product helps you by providing you with a weight and body tracker. Now its simple for you to keep tracks of your gains/loss.</h2>
+              </div>
+            </div>
+          </div>
+
+          <!-- Portfolio Items
+          ============================================= -->
+          <div id="portfolio" class="portfolio grid-container portfolio-nomargin portfolio-full portfolio-masonry mixed-masonry clearfix">
+
+            <article class="portfolio-item pf-media pf-icons wide">
+              <div class="portfolio-image">
+                <a href="#">
+                  <img src="/static/images/features/profile.jpg" alt="Open Imagination">
+                </a>
+                <div class="portfolio-overlay">
+                  <div class="portfolio-desc">
+                    <h3><a href="#">User Profile</a></h3>
+                    <!-- <span><a href="#">Media</a>, <a href="#">Icons</a></span> -->
+                  </div>
+                </div>
+              </div>
+            </article>
+
+            <article class="portfolio-item pf-uielements pf-media wide">
+              <div class="portfolio-image">
+                <a href="#">
+                  <img src="/static/images/features/progress tracker.jpg" alt="Console Activity">
+                </a>
+                <div class="portfolio-overlay">
+                  <div class="portfolio-desc">
+                    <h3><a href="#">Progress Graphs</a></h3>
+                    <!-- <span><a href="#">UI Elements</a>, <a href="#">Media</a></span> -->
+                  </div>
+                </div>
+              </div>
+            </article>
+
+            <article class="portfolio-item pf-graphics pf-uielements">
+              <div class="portfolio-image">
+                <a href="#">
+                  <img src="/static/images/features/tracker.jpg" alt="Mac Sunglasses">
+                </a>
+                <div class="portfolio-overlay">
+                  <div class="portfolio-desc">
+                    <h3><a href="#">Progress Tracker</a></h3>
+                    <!-- <span><a href="#">Graphics</a>, <a href="#">UI Elements</a></span> -->
+                  </div>
+                </div>
+              </div>
+            </article>
+
+            <article class="portfolio-item pf-illustrations">
+              <div class="portfolio-image">
+                <a href="#">
+                  <img src="/static/images/features/dashboard.jpg" alt="Locked Steel Gate">
+                </a>
+                <div class="portfolio-overlay">
+                  <div class="portfolio-desc">
+                    <h3><a href="#">Dashboard</a></h3>
+                    <!-- <span><a href="#">Illustrations</a></span> -->
+                  </div>
+                </div>
+              </div>
+            </article>
+
+            
+
+            <article class="portfolio-item pf-media pf-icons wide">
+              <div class="portfolio-image">
+                <a href="#">
+                  <img src="/static/images/features/profile2.jpg" alt="Open Imagination">
+                </a>
+                <div class="portfolio-overlay">
+                  <div class="portfolio-desc">
+                    <h3><a href="#">User Profile</a></h3>
+                    <!-- <span><a href="#">Media</a>, <a href="#">Icons</a></span> -->
+                  </div>
+                </div>
+              </div>
+            </article>
+
+            
+
+            <article class="portfolio-item pf-media pf-icons">
+              <div class="portfolio-image">
+                <a href="#">
+                  <img src="/static/images/features/trainers.jpg" alt="Open Imagination">
+                </a>
+                <div class="portfolio-overlay">
+                  <div class="portfolio-desc">
+                    <h3><a href="#">Trainers</a></h3>
+                    <!-- <span><a href="#">Media</a>, <a href="#">Icons</a></span> -->
+                  </div>
+                </div>
+              </div>
+            </article>
+
+            
+
+          </div><!-- #portfolio end -->
+
+          <!-- <div class="topmargin center"><a href="#" class="button button-border button-circle t600">View More Projects</a></div>
+
+        </div> -->
+
+        <div id="section-services" class="page-section notoppadding">
+
+          <div class="section nomargin">
+            <div class="container clearfix">
+              <div class="divcenter center" style="max-width: 900px;">
+                <h2 class="nobottommargin t300 ls1">What Do I Get?</h2>
+                Not only you get access to our unique fitness tracking tool, but with membership opt-in you get access to your one-on-one personal trainer. We guide, track and motivate you to attain your fitness target.
+              </div>
+            </div>
+          </div>
+
+          <div class="common-height clearfix">
+
+            <div class="col-md-4 hidden-xs" style="background: url('/static/images/services/13.jpg') center center no-repeat; background-size: cover;"></div>
+            <div class="col-md-8">
+              <div class="max-height">
+                <div class="row common-height grid-border clearfix">
+                  <div class="col-md-4 col-sm-6 col-padding">
+                    <div class="feature-box fbox-center fbox-dark fbox-plain fbox-small nobottomborder">
+                      <div class="fbox-icon">
+                        <a href="#"><i class="icon-et-mobile"></i></a>
+                      </div>
+                      <h3>Easy Accessibility</h3>
+                    </div>
+                  </div>
+                  <div class="col-md-4 col-sm-6 col-padding">
+                    <div class="feature-box fbox-center fbox-dark fbox-plain fbox-small nobottomborder">
+                      <div class="fbox-icon">
+                        <a href="#"><i class="icon-et-presentation"></i></a>
+                      </div>
+                      <h3>Progress Trackers</h3>
+                    </div>
+                  </div>
+                  <div class="col-md-4 col-sm-6 col-padding">
+                    <div class="feature-box fbox-center fbox-dark fbox-plain fbox-small nobottomborder">
+                      <div class="fbox-icon">
+                        <a href="#"><i class="icon-et-puzzle"></i></a>
+                      </div>
+                      <h3>Fitness Assessment and Nutritional Success</h3>
+                    </div>
+                  </div>
+                  <div class="col-md-4 col-sm-6 col-padding">
+                    <div class="feature-box fbox-center fbox-dark fbox-plain fbox-small nobottomborder">
+                      <div class="fbox-icon">
+                        <a href="#"><i class="icon-et-gears"></i></a>
+                      </div>
+                      <h3>Workouts</h3>
+                    </div>
+                  </div>
+                  <div class="col-md-4 col-sm-6 col-padding">
+                    <div class="feature-box fbox-center fbox-dark fbox-plain fbox-small nobottomborder">
+                      <div class="fbox-icon">
+                        <a href="#"><i class="icon-et-genius"></i></a>
+                      </div>
+                      <h3>Complete Transformation</h3>
+                    </div>
+                  </div>
+                  <div class="col-md-4 col-sm-6 col-padding">
+                    <div class="feature-box fbox-center fbox-dark fbox-plain fbox-small nobottomborder">
+                      <div class="fbox-icon">
+                        <a href="#"><i class="icon-et-hotairballoon"></i></a>
+                      </div>
+                      <h3>Knowledge Source</h3>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+        
+
+          <div class="section parallax nomargin dark" style="background-image: url('/static/images/page/testimonials.jpg'); padding: 150px 0;" data-stellar-background-ratio="0.3">
+
+            <div class="container clearfix">
+
+              <div class="col_two_fifth nobottommargin">&nbsp;</div>
+
+              <div class="col_three_fifth nobottommargin col_last">
+
+                <div class="fslider testimonial testimonial-full nobgcolor noborder noshadow nopadding" data-arrows="false">
+                  <div class="flexslider">
+                    <div class="slider-wrap">
+                      <div class="slide">
+                        <div class="testi-content">
+                          <p>I had the goal to be the best since day one.</p>
+                          <div class="testi-meta">
+                            Jay Cutler
+                            <span>Professional Bodybuilder</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="slide">
+                        <div class="testi-content">
+                          <p>Bodybuilding is much like any other sport. To be successful, you must dedicate yourself 100% to your training, diet and mental approach.</p>
+                          <div class="testi-meta">
+                            Arnold Schwarzenegger
+                            <span>Actor/Professional Bodybuilder</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="slide">
+                        <div class="testi-content">
+                          <p>Champions aren't made in the gyms. Champions are made from something they have deep inside them—a desire, a dream, a vision.</p>
+                          <div class="testi-meta">
+                            Muhammad Ali
+                            <span>Professional Boxer</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      
+
+        <div id="section-contact" class="page-section notoppadding">
+
+          <div class="row noleftmargin norightmargin bottommargin-lg common-height">
+            <div id="headquarters-map" class="col-md-8 col-sm-6 gmap hidden-xs"></div>
+            <div class="col-md-4 col-sm-6" style="background-color: #F5F5F5;">
+              <div class="col-padding max-height">
+                <h3 class="font-body t400 ls1">Our Office</h3>
+
+                <div style="font-size: 16px; line-height: 1.7;">
+                  <address style="line-height: 1.7;">
+                    <strong>India:</strong><br>
+                    Neeladri Nagar,<br>
+                    Bangalore 560100<br>
+                  </address>
+
+                  <div class="clear topmargin-sm"></div>
+
+                  
+
+                  <div class="clear topmargin"></div>
+
+                  <abbr title="Phone Number"><strong>Phone:</strong></abbr> (91) 9886330471<br>
+            
+                  <abbr title="Email Address"><strong>Email:</strong></abbr> info@bodyshapeplus.com
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+
+        <!--  <div class="container clearfix">
+
+            <div class="divcenter topmargin" style="max-width: 850px;">
+
+              <div class="contact-widget">
+
+                <div class="contact-form-result"></div>
+
+                <form class="nobottommargin" id="template-contactform" name="template-contactform" action="include/sendemail.php" method="post">
+
+                  <div class="form-process"></div>
+
+                  <div class="col_half">
+                    <input type="text" id="template-contactform-name" name="template-contactform-name" value="" class="sm-form-control border-form-control required" placeholder="Name" />
+                  </div>
+                  <div class="col_half col_last">
+                    <input type="email" id="template-contactform-email" name="template-contactform-email" value="" class="required email sm-form-control border-form-control" placeholder="Email Address" />
+                  </div>
+
+                  <div class="clear"></div>
+
+                  <div class="col_one_third">
+                    <input type="text" id="template-contactform-phone" name="template-contactform-phone" value="" class="sm-form-control border-form-control" placeholder="Phone" />
+                  </div>
+
+                  <div class="col_two_third col_last">
+                    <input type="text" id="template-contactform-subject" name="template-contactform-subject" value="" class="required sm-form-control border-form-control" placeholder="Subject" />
+                  </div>
+
+                  <div class="clear"></div>
+
+                  <div class="col_full">
+                    <textarea class="required sm-form-control border-form-control" id="template-contactform-message" name="template-contactform-message" rows="7" cols="30" placeholder="Your Message"></textarea>
+                  </div>
+
+                  <div class="col_full center">
+                    <button class="button button-border button-circle t500 noleftmargin topmargin-sm" type="submit" id="template-contactform-submit" name="template-contactform-submit" value="submit">Send Message</button>
+                    <br>
+                    <small style="display: block; font-size: 13px; margin-top: 15px;">We'll do our best to get back to you within 6-8 working hours.</small>
+                  </div>
+
+                  <div class="clear"></div>
+
+                  <div class="col_full hidden">
+                    <input type="text" id="template-contactform-botcheck" name="template-contactform-botcheck" value="" class="sm-form-control" />
+                  </div>
+
+                </form>
+
+              </div>
+
+            </div>
+
+          </div> -->
+
+        </div>
+
+      </div>
+
+    </section><!-- #content end -->
+
+    <!-- Footer
+    ============================================= -->
+    <footer id="footer" class="dark noborder">
+
+      <div id="copyrights">
+        <div class="container topmargin-sm center ls2 uppercase clearfix">
+          Copyright BodyShapePlus 2016 | All Rights Reserved
+
+          <div class="center topmargin-sm">
+            <a href="#" class="social-icon inline-block si-borderless si-small si-facebook" title="Facebook">
+              <i class="icon-facebook"></i>
+              <i class="icon-facebook"></i>
+            </a>
+            <a href="#" class="social-icon inline-block si-borderless si-small si-twitter" title="Twitter">
+              <i class="icon-twitter"></i>
+              <i class="icon-twitter"></i>
+            </a>
+            <!-- <a href="#" class="social-icon inline-block si-borderless si-small si-github" title="Github">
+              <i class="icon-github"></i>
+              <i class="icon-github"></i>
+            </a> -->
+            <a href="#" class="social-icon inline-block si-borderless si-small si-pinterest" title="Pinterest">
+              <i class="icon-pinterest"></i>
+              <i class="icon-pinterest"></i>
+            </a>
+            <a href="#" class="social-icon inline-block si-borderless si-small si-linkedin" title="LinkedIn">
+              <i class="icon-linkedin"></i>
+              <i class="icon-linkedin"></i>
+            </a>
+            <a href="#" class="social-icon inline-block si-borderless si-small si-gplus" title="Google Plus">
+              <i class="icon-gplus"></i>
+              <i class="icon-gplus"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+
+    </footer><!-- #footer end -->
+
+
+  </div><!-- #wrapper end -->
+
+  <!-- Go To Top
+  ============================================= -->
+  <div id="gotoTop" class="icon-angle-up"></div>
+
+  <!-- External JavaScripts
+  ============================================= -->
+  <script type="text/javascript" src="/static/js/jquery.js"></script>
+  <script type="text/javascript" src="/static/js/plugins.js"></script>
+
+  <!-- Google Map JavaScripts
+  ============================================= -->
+  <script type="text/javascript" src="https://maps.google.com/maps/api/js"></script>
+  <script type="text/javascript" src="/static/js/jquery.gmap.js"></script>
+
+  <!-- Footer Scripts
+  ============================================= -->
+  <script type="text/javascript" src="/static/js/functions.js"></script>
+
+  <script type="text/javascript">
+
+    jQuery(window).load(function(){
+
+      // Google Map
+      jQuery('#headquarters-map').gMap({
+        address: 'Neeladri Nagar, Bengaluru, Karnataka',
+        maptype: 'ROADMAP',
+        zoom: 14,
+        markers: [
+          {
+            address: "Neeladri Nagar, Bengaluru, Karnataka",
+            html: "Neeladri Nagar, Bengaluru, Karnataka",
+            icon: {
+              image: "/static/images/icons/map-icon-red.png",
+              iconsize: [32, 32],
+              iconanchor: [14,44]
+            }
+          }
+        ],
+        doubleclickzoom: false,
+        controls: {
+          panControl: false,
+          zoomControl: false,
+          mapTypeControl: false,
+          scaleControl: false,
+          streetViewControl: false,
+          overviewMapControl: false
+        },
+        styles: [{"featureType":"all","elementType":"labels.text.fill","stylers":[{"saturation":36},{"color":"#000000"},{"lightness":40}]},{"featureType":"all","elementType":"labels.text.stroke","stylers":[{"visibility":"on"},{"color":"#000000"},{"lightness":16}]},{"featureType":"all","elementType":"labels.icon","stylers":[{"visibility":"off"}]},{"featureType":"administrative","elementType":"geometry.fill","stylers":[{"color":"#000000"},{"lightness":20}]},{"featureType":"administrative","elementType":"geometry.stroke","stylers":[{"color":"#000000"},{"lightness":17},{"weight":1.2}]},{"featureType":"administrative","elementType":"labels","stylers":[{"visibility":"off"}]},{"featureType":"administrative.country","elementType":"all","stylers":[{"visibility":"simplified"}]},{"featureType":"administrative.country","elementType":"geometry","stylers":[{"visibility":"simplified"}]},{"featureType":"administrative.country","elementType":"labels.text","stylers":[{"visibility":"simplified"}]},{"featureType":"administrative.province","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"administrative.locality","elementType":"all","stylers":[{"visibility":"simplified"},{"saturation":"-100"},{"lightness":"30"}]},{"featureType":"administrative.neighborhood","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"administrative.land_parcel","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"landscape","elementType":"all","stylers":[{"visibility":"simplified"},{"gamma":"0.00"},{"lightness":"74"}]},{"featureType":"landscape","elementType":"geometry","stylers":[{"color":"#000000"},{"lightness":20}]},{"featureType":"landscape.man_made","elementType":"all","stylers":[{"lightness":"3"}]},{"featureType":"poi","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"poi","elementType":"geometry","stylers":[{"color":"#000000"},{"lightness":21}]},{"featureType":"road","elementType":"geometry","stylers":[{"visibility":"simplified"}]},{"featureType":"road.highway","elementType":"geometry.fill","stylers":[{"color":"#000000"},{"lightness":17}]},{"featureType":"road.highway","elementType":"geometry.stroke","stylers":[{"color":"#000000"},{"lightness":29},{"weight":0.2}]},{"featureType":"road.arterial","elementType":"geometry","stylers":[{"color":"#000000"},{"lightness":18}]},{"featureType":"road.local","elementType":"geometry","stylers":[{"color":"#000000"},{"lightness":16}]},{"featureType":"transit","elementType":"geometry","stylers":[{"color":"#000000"},{"lightness":19}]},{"featureType":"water","elementType":"geometry","stylers":[{"color":"#000000"},{"lightness":17}]}]
+      });
+
+    });
+
+  </script>
+
+</body>
 </html>

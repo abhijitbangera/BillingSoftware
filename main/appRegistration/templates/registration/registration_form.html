@@ -5,13 +5,12 @@
 	<div class="content-wrap">
 		<div class="container clearfix">
 			<div class="accordion accordion-lg divcenter nobottommargin clearfix" style="max-width: 550px;">
-
-				<div class="acctitle"><i class="acc-closed icon-lock3"></i><i class="acc-open icon-unlock"></i><h1>Client Login</h1></div>
+				<div class="acctitle"><i class="acc-closed icon-lock3"></i><i class="acc-open icon-unlock"></i><h1>Client Registration</h1></div>
 				<div class="acc_content clearfix">
 					<form id="login-form" name="login-form" class="nobottommargin" action="." method="post">
 					{% csrf_token %} 
 						{{ form.as_p }}
-						<input class="button button-3d button-black nomargin" type="submit" value="{% trans 'Submit' %}" />
+						<input style="width: 100%; margin: 0 auto;" class="col_full btn btn-round btn-primary btn-lg" type="submit" value="{% trans 'Submit' %}" />
 
 					</form>
 				</div>

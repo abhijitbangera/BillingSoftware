@@ -7,18 +7,17 @@
 			<div class="accordion accordion-lg divcenter nobottommargin clearfix" style="max-width: 550px;">
 
 				<div class="acctitle"><i class="acc-closed icon-lock3"></i><i class="acc-open icon-unlock"></i>Login to your Account</div>
-				<div class="acc_content clearfix">
+				<div class=" acc_content clearfix ">
 					<form id="login-form" name="login-form" class="nobottommargin" action="." method="post">
 					{% csrf_token %} 
 						{{ form.as_p }}
-						<input class="button button-3d button-black nomargin" type="submit" value="{% trans 'Log in' %}" />
+						<input style="width: 100%; margin: 0 auto;" class="col_full btn btn-round btn-primary btn-lg"  type="submit" value="{% trans 'Log in' %}" /><br>
 						<input type="hidden" name="next" value="{{ next }}" />
 
-						<div class="col_full nobottommargin">
-							
-							<a href="{% url 'auth_password_reset' %}" class="fright">Forgot Password?</a>
-						</div>
 					</form>
+				</div>
+				<div class="col_full nobottommargin">
+					<a href="{% url 'auth_password_reset' %}" class="fright">Forgot Password?</a>
 				</div>
 
 				<div><a href="{% url 'registration_register' %}">New Signup? Register for an Account</a></div>
